@@ -1,10 +1,10 @@
 import { Abertura } from "./components/sections/Abertura";
 import { NumerosDoMandato } from "./components/sections/NumerosDoMandato";
-import { CauseStory } from "./components/sections/CauseStory";
-import { CAUSES } from "./components/sections/causes";
 import { EcaDigital } from "./components/sections/EcaDigital";
 import { HospitalDeAmor } from "./components/sections/HospitalDeAmor";
 import { CausaAnimal } from "./components/sections/CausaAnimal";
+import { MutiraoCatarata } from "./components/sections/MutiraoCatarata";
+import { Infraestrutura } from "./components/sections/Infraestrutura";
 import { PiauiCuidado } from "./components/sections/PiauiCuidado";
 import { Missao } from "./components/sections/Missao";
 import { CallFinal } from "./components/sections/CallFinal";
@@ -25,8 +25,8 @@ function App() {
           <EcaDigital />
           <HospitalDeAmor />
           <CausaAnimal />
-          <CauseStory data={CAUSES[0]} />
-          <CauseStory data={CAUSES[1]} />
+          <MutiraoCatarata />
+          <Infraestrutura />
           <PiauiCuidado />
           <Missao />
           <CallFinal />

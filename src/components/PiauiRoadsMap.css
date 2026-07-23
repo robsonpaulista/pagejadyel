@@ -1,0 +1,75 @@
+.piaui-map {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.piaui-map__line {
+  margin: 0;
+  max-width: 28ch;
+  font-size: clamp(1rem, 0.92rem + 0.4vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.piaui-map__stage {
+  position: relative;
+  background: linear-gradient(180deg, #fcfaf7 0%, #f5f1ea 100%);
+  padding: clamp(0.65rem, 1.6svh, 1rem);
+  min-height: min(54svh, 30rem);
+}
+
+.piaui-map__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(48svh, 26rem);
+  margin-inline: auto;
+  overflow: visible;
+}
+
+.piaui-map__land {
+  fill: rgba(255, 255, 255, 0.55);
+}
+
+.piaui-map__delimiter path {
+  fill: rgba(217, 127, 31, 0.04);
+  stroke: rgba(35, 33, 28, 0.22);
+  stroke-width: 0.7;
+}
+
+.piaui-map__delimiter text {
+  fill: rgba(35, 33, 28, 0.42);
+  font-size: 5.8px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  pointer-events: none;
+}
+
+.piaui-map__outline {
+  stroke: rgba(35, 33, 28, 0.4);
+  stroke-width: 1.2;
+}
+
+.piaui-map__route {
+  stroke: #e0a82a;
+  stroke-width: 2.6;
+  filter: drop-shadow(0 0 2px rgba(224, 168, 42, 0.35));
+}
+
+.piaui-map__truck {
+  pointer-events: none;
+  will-change: transform;
+}
+
+.piaui-map__hint {
+  margin: 0.55rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 560;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  text-align: center;
+}

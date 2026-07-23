@@ -1,0 +1,500 @@
+/* Página da bandeira Mutirões de Catarata — 3 blocos */
+
+.catarata-page {
+  background: var(--cream);
+}
+
+.catarata-page > .section,
+.catarata-hero.section,
+.catarata-practice.section,
+.catarata-numbers.section {
+  box-sizing: border-box;
+  height: var(--panel-h);
+  min-height: var(--panel-h);
+  max-height: var(--panel-h);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.catarata-page > .section > .container {
+  width: 100%;
+  margin-block: auto;
+}
+
+.catarata-tag .section-tag__label {
+  color: var(--purple);
+}
+
+.catarata-tag--on-dark .section-tag__label {
+  color: rgba(246, 242, 234, 0.72);
+}
+
+.catarata-tag--on-dark .section-tag__num {
+  background: var(--purple);
+  color: var(--dark);
+}
+
+/* ---- Continuidade ---- */
+
+.catarata-continue-wrap {
+  margin-top: clamp(0.85rem, 2.2svh, 1.35rem);
+}
+
+.catarata-continue {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--text-tag);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--purple);
+  text-decoration: none;
+  animation: catarata-continue-breathe 2.8s var(--ease) infinite;
+}
+
+.catarata-continue:hover .catarata-continue__arrow {
+  transform: translateY(3px);
+}
+
+.catarata-continue__arrow {
+  display: grid;
+  place-items: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  line-height: 1;
+  transition: transform 0.2s var(--ease);
+  animation: catarata-continue-arrow 2.8s var(--ease) infinite;
+}
+
+@keyframes catarata-continue-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes catarata-continue-arrow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catarata-continue,
+  .catarata-continue__arrow {
+    animation: none;
+  }
+}
+
+/* ---- 1. Capa ---- */
+
+.catarata-hero {
+  padding-inline: 0;
+  padding-block: 0;
+  background: var(--white);
+  justify-content: stretch;
+  overflow: hidden;
+}
+
+.catarata-hero.section {
+  overflow: hidden;
+}
+
+.catarata-hero__stage {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+  height: 100%;
+  background: var(--white);
+}
+
+.catarata-hero__photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none !important;
+  object-fit: cover;
+  object-position: 55% 22%;
+  border: 0;
+}
+
+.catarata-hero__fade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.78) 40%,
+    #ffffff 72%
+  );
+}
+
+.catarata-hero__glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 42% 48% at 68% 48%,
+    rgba(138, 75, 214, 0.1) 0%,
+    transparent 70%
+  );
+}
+
+.catarata-hero__shell {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  max-width: calc(var(--max-width) + 2 * var(--gutter));
+  padding-block: clamp(1.5rem, 4svh, 2.75rem);
+  padding-inline: var(--gutter);
+}
+
+.catarata-hero__copy {
+  max-width: 34rem;
+}
+
+.catarata-hero__tag .section-tag__label {
+  color: var(--purple);
+}
+
+.catarata-hero__headline {
+  margin-top: var(--sp-4);
+  max-width: 12ch;
+  font-size: clamp(1.65rem, 1.2rem + 1.5vw, 2.35rem);
+}
+
+.catarata-hero__line {
+  display: inline;
+}
+
+.catarata-hero__lede {
+  max-width: 40ch;
+  margin-top: var(--sp-4);
+}
+
+.catarata-hero .catarata-continue-wrap {
+  margin-top: clamp(1.15rem, 2.8svh, 1.65rem);
+}
+
+@media (min-width: 960px) {
+  .catarata-hero__photo {
+    left: 36%;
+    width: 64%;
+    object-position: 48% 18%;
+  }
+
+  .catarata-hero__fade {
+    background: linear-gradient(
+      90deg,
+      #ffffff 0%,
+      #ffffff 34%,
+      rgba(255, 255, 255, 0.97) 42%,
+      rgba(255, 255, 255, 0.55) 54%,
+      rgba(255, 255, 255, 0.14) 64%,
+      rgba(255, 255, 255, 0) 74%
+    );
+  }
+
+  .catarata-hero__glow {
+    background: radial-gradient(
+      ellipse 30% 65% at 68% 48%,
+      rgba(138, 75, 214, 0.1) 0%,
+      transparent 72%
+    );
+  }
+
+  .catarata-hero__copy {
+    width: min(30rem, 46%);
+    max-width: 46%;
+  }
+}
+
+/* ---- 2. Na prática (branco) ---- */
+
+.catarata-practice {
+  background: var(--white);
+  color: var(--ink);
+  justify-content: center;
+  padding-block: clamp(1.15rem, 3svh, 2rem);
+}
+
+.catarata-practice__shell {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.9rem, 2.4svh, 1.35rem);
+  width: 100%;
+}
+
+.catarata-practice__title {
+  margin-top: var(--sp-3);
+  max-width: 14ch;
+  font-size: clamp(1.55rem, 1.2rem + 1.4vw, 2.35rem);
+}
+
+.catarata-practice__lede {
+  max-width: 46ch;
+  margin-top: var(--sp-3);
+}
+
+.catarata-path {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.catarata-path__arrow {
+  color: var(--purple);
+}
+
+.catarata-practice__pillars {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.catarata-practice__pillar {
+  padding: 0.85rem 0.95rem;
+  border-top: 3px solid var(--purple);
+  background: #f7f4fb;
+}
+
+.catarata-practice__pillar h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.catarata-practice__pillar p {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--ink-muted);
+}
+
+.catarata-highlights {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem 1.25rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.catarata-highlight__value {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--purple);
+}
+
+.catarata-highlight__label {
+  margin: 0.3rem 0 0;
+  max-width: 20ch;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink-muted);
+}
+
+@media (min-width: 720px) {
+  .catarata-practice__pillars {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .catarata-highlights {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---- 3. Números (preto) ---- */
+
+.catarata-numbers {
+  background: var(--dark);
+  color: var(--dark-ink);
+  justify-content: center;
+  padding-block: clamp(1.15rem, 3svh, 2rem);
+}
+
+.catarata-numbers__shell {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2.6svh, 1.5rem);
+  width: 100%;
+}
+
+.catarata-numbers__title {
+  margin-top: var(--sp-3);
+  max-width: 14ch;
+  color: var(--dark-ink);
+  font-size: clamp(1.45rem, 1.15rem + 1.2vw, 2.15rem);
+}
+
+.catarata-numbers .headline {
+  color: var(--dark-ink);
+}
+
+.catarata-numbers__lede {
+  max-width: 44ch;
+  margin-top: var(--sp-3);
+  color: var(--dark-ink);
+}
+
+.catarata-numbers__board {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+}
+
+.catarata-score__value {
+  margin: 0;
+  font-size: clamp(2.5rem, 1.8rem + 2.8vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  color: var(--purple);
+}
+
+.catarata-score__label {
+  margin: 0.4rem 0 0;
+  font-size: var(--text-lead);
+  font-weight: 700;
+  color: var(--dark-ink);
+}
+
+.catarata-score__updated {
+  margin: 0.35rem 0 0;
+  font-size: var(--text-tag);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(246, 242, 234, 0.5);
+}
+
+.catarata-numbers__impacts-label {
+  margin: 0 0 0.65rem;
+  font-size: var(--text-tag);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--purple);
+}
+
+.catarata-numbers__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.catarata-numbers__list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.catarata-numbers__list strong {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--dark-ink);
+}
+
+.catarata-numbers__list span {
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--dark-ink-muted);
+}
+
+.catarata-numbers__close {
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(246, 242, 234, 0.12);
+}
+
+.catarata-numbers__mandate {
+  margin: 0 0 0.75rem;
+  max-width: 42ch;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--dark-ink-muted);
+}
+
+.catarata-numbers__mandate strong {
+  color: var(--purple);
+  font-weight: 700;
+}
+
+.catarata-numbers__close-title {
+  margin: 0;
+  max-width: 22ch;
+  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.55rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--dark-ink);
+}
+
+.catarata-numbers__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.9rem;
+}
+
+.catarata-numbers .btn--solid {
+  background: var(--purple);
+  color: var(--dark);
+}
+
+.catarata-numbers .btn--outline {
+  border-color: rgba(246, 242, 234, 0.35);
+  color: var(--dark-ink);
+}
+
+@media (min-width: 720px) {
+  .catarata-numbers__board {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 1.5rem 2rem;
+    align-items: start;
+  }
+
+  .catarata-numbers__board > :first-child {
+    grid-column: 1 / -1;
+  }
+}
