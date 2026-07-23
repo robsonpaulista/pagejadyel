@@ -1,22 +1,25 @@
 import { motion, useInView, useReducedMotion } from "framer-motion";
+import { MapPin } from "lucide-react";
 import { useRef } from "react";
 import { Reveal } from "../Reveal";
 import {
   Button,
   Container,
   Highlight,
-  Media,
   Section,
   SectionTag,
 } from "../ui";
-import hospitalPhoto from "../../assets/hospital-de-amor.webp";
-import hospitalBarretos from "../../assets/hospital-amor-barretos.webp";
-import registroInstitucional from "../../assets/hospital-registro-institucional.webp";
-import articulacaoMandato from "../../assets/hospital-articulacao-mandato.webp";
-import anuncioConquista from "../../assets/hospital-anuncio-conquista.webp";
+import { useCountUp } from "../../hooks/useCountUp";
+import hospitalPhoto from "../../assets/hospital-jadyel.jpg";
 import "./HospitalDeAmor.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+/** Balanço institucional mais recente do Hospital de Amor. */
+const ATTENDANCES = 2_080_828;
+const PATIENTS = 613_202;
+const DAILY_AVG = 5_697;
+const MUNICIPALITIES = 2_712;
 
 const PILLARS = [
   {
@@ -30,27 +33,6 @@ const PILLARS = [
   {
     title: "Cuidar",
     body: "Acolhimento para o paciente e para toda a família.",
-  },
-] as const;
-
-const PROOF = [
-  {
-    caption: "Registro institucional",
-    src: registroInstitucional,
-    alt: "Publicação no Instagram com o registro institucional do Hospital de Amor",
-    href: "https://www.instagram.com/p/DZnfrOkI_sX/?hl=pt",
-  },
-  {
-    caption: "Articulação do mandato",
-    src: articulacaoMandato,
-    alt: "Visita ao Hospital de Amor em Barretos — articulação do mandato",
-    href: "https://www.instagram.com/p/DagRQ-WFcOH/?hl=pt&img_index=2",
-  },
-  {
-    caption: "Anúncio da conquista",
-    src: anuncioConquista,
-    alt: "Publicação no Instagram anunciando a conquista do Hospital de Amor no Piauí",
-    href: "https://www.instagram.com/p/DWbZ0A6CFfj/?hl=pt",
   },
 ] as const;
 
@@ -72,7 +54,7 @@ function HamorContinue({ href, label }: ContinueProps) {
   );
 }
 
-/** 1 — Abertura */
+/** 1 — Capa */
 function HospitalHero() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -80,12 +62,16 @@ function HospitalHero() {
   const show = reduceMotion || inView;
 
   return (
-    <Section className="hamor-hero" aria-labelledby="hamor-heading">
+    <Section
+      className="hamor-hero"
+      id="hospital-cta"
+      aria-labelledby="hamor-heading"
+    >
       <div className="hamor-hero__stage" ref={ref}>
         <motion.img
           className="hamor-hero__photo"
           src={hospitalPhoto}
-          alt="Unidade do Hospital de Amor — Instituto de Prevenção em Teresina"
+          alt="Jadyel Alencar com a bandeira do Hospital de Amor"
           initial={reduceMotion ? false : { opacity: 0, x: 48, scale: 1.04 }}
           animate={
             show
@@ -109,7 +95,7 @@ function HospitalHero() {
           transition={{ duration: 1, ease: EASE, delay: 0.3 }}
         />
 
-        <Container className="hamor-hero__inner">
+        <Container className="hamor-hero__shell">
           <div className="hamor-hero__copy">
             <motion.div
               initial={reduceMotion ? false : { opacity: 0, y: 12 }}
@@ -158,18 +144,38 @@ function HospitalHero() {
             >
               Uma conquista histórica para o Piauí: mais de R$ 60 milhões em
               investimentos para tornar realidade, em Teresina, uma unidade de
-              referência em prevenção e diagnóstico oncológico.
+              referência em prevenção e diagnóstico oncológico. Quando a
+              prevenção chega mais perto, diminuem a distância, a espera e o
+              medo de milhares de famílias.
+            </motion.p>
+
+            <motion.p
+              className="hamor-hero__site"
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: 0.55, ease: EASE, delay: 0.58 }}
+            >
+              <MapPin
+                className="hamor-hero__site-icon"
+                size={15}
+                strokeWidth={1.75}
+                aria-hidden="true"
+              />
+              <span>
+                Obras iniciando muito em breve na Avenida Ulisses Marques,
+                Avenida Presidente Kennedy.
+              </span>
             </motion.p>
 
             <motion.div
-              className="hamor-hero__cta highlight--pink"
               initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.65, ease: EASE, delay: 0.62 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.68 }}
             >
-              <Button href="#hospital-cta" arrow>
-                Conheça essa conquista
-              </Button>
+              <HamorContinue
+                href="#hospital-referencia"
+                label="Conheça a referência"
+              />
             </motion.div>
           </div>
         </Container>
@@ -191,143 +197,143 @@ function HospitalReference() {
       id="hospital-referencia"
       aria-labelledby="hamor-ref-heading"
     >
-      <div className="hamor-ref__stage" ref={ref}>
-        <div className="hamor-ref__media" aria-hidden="true">
-          <motion.img
-            className="hamor-ref__photo"
-            src={hospitalBarretos}
-            alt=""
-            initial={reduceMotion ? false : { opacity: 0 }}
-            animate={show ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.85, ease: EASE }}
+      <Container className="hamor-ref__inner">
+        <div className="hamor-ref__copy" ref={ref}>
+          <Reveal>
+            <SectionTag className="hamor-tag" label="Referência nacional" />
+            <h3 id="hamor-ref-heading" className="headline hamor-ref__title">
+              A maior referência em oncologia do Brasil mais perto dos{" "}
+              <Highlight color="pink">piauienses</Highlight>.
+            </h3>
+            <p className="lede hamor-ref__lede">
+              O Hospital de Amor construiu uma história reconhecida pelo
+              atendimento gratuito, pela tecnologia e pelo cuidado humanizado.
+              A chegada de uma unidade a Teresina aproxima das famílias
+              piauienses a prevenção e o diagnóstico precoce.
+            </p>
+          </Reveal>
+
+          <div className="hamor-ref__highlights">
+            {PILLARS.map((item, index) => (
+              <motion.article
+                key={item.title}
+                className="hamor-ref__item"
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                animate={
+                  show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }
+                }
+                transition={{
+                  duration: 0.5,
+                  ease: EASE,
+                  delay: reduceMotion ? 0 : 0.25 + index * 0.1,
+                }}
+              >
+                <h4>{item.title}</h4>
+                <p>{item.body}</p>
+              </motion.article>
+            ))}
+          </div>
+
+          <HamorContinue
+            href="#hospital-numeros"
+            label="Os números da causa"
           />
         </div>
-        <div className="hamor-ref__fade" aria-hidden="true" />
-        <div className="hamor-ref__glow" aria-hidden="true" />
-
-        <Container className="hamor-ref__inner">
-          <div className="hamor-ref__copy">
-            <Reveal>
-              <SectionTag className="hamor-tag" label="A referência" />
-              <h3 id="hamor-ref-heading" className="headline hamor-ref__title">
-                Uma referência do Brasil mais perto dos{" "}
-                <Highlight color="pink">piauienses</Highlight>.
-              </h3>
-              <p className="lede hamor-ref__lede">
-                O Hospital de Amor construiu uma história reconhecida pelo
-                atendimento gratuito, pela tecnologia e pelo cuidado humanizado.
-                A chegada de uma unidade a Teresina aproxima das famílias
-                piauienses a prevenção e o diagnóstico precoce.
-              </p>
-            </Reveal>
-
-            <div className="hamor-ref__highlights">
-              {PILLARS.map((item, index) => (
-                <motion.article
-                  key={item.title}
-                  className="hamor-ref__item"
-                  initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-                  animate={
-                    show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }
-                  }
-                  transition={{
-                    duration: 0.5,
-                    ease: EASE,
-                    delay: reduceMotion ? 0 : 0.25 + index * 0.1,
-                  }}
-                >
-                  <h4>{item.title}</h4>
-                  <p>{item.body}</p>
-                </motion.article>
-              ))}
-            </div>
-
-            <motion.p
-              className="hamor-ref__stat"
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.55, ease: EASE, delay: 0.55 }}
-            >
-              <span className="hamor-ref__stat-num">Mais de 6 mil</span>
-              <span className="hamor-ref__stat-label">
-                pacientes por dia atendidos gratuitamente pela instituição.
-              </span>
-            </motion.p>
-
-            <HamorContinue
-              href="#pacto-pelos-animais"
-              label="Próxima causa: Cuidado Animal"
-            />
-          </div>
-        </Container>
-      </div>
+      </Container>
     </Section>
   );
 }
 
-/** 3 — Encerramento humano + comprovação */
-function HospitalClose() {
+function AttendanceCounter() {
+  const reduceMotion = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.4 });
+  const count = useCountUp({
+    to: ATTENDANCES,
+    enabled: Boolean(inView || reduceMotion),
+    reduceMotion: Boolean(reduceMotion),
+    duration: 1800,
+  });
+
+  return (
+    <div className="hamor-score" ref={ref}>
+      <p className="hamor-score__value" aria-live="polite">
+        {count.toLocaleString("pt-BR")}
+      </p>
+      <p className="hamor-score__label">atendimentos no balanço mais recente</p>
+      <p className="hamor-score__updated">
+        Média de {DAILY_AVG.toLocaleString("pt-BR")} procedimentos por dia
+        — cerca de 4 por minuto
+      </p>
+    </div>
+  );
+}
+
+/** 3 — Números em fundo preto */
+function HospitalNumbers() {
   return (
     <Section
-      className="hamor-cta"
-      id="hospital-cta"
-      aria-labelledby="hamor-cta-heading"
+      className="hamor-numbers"
+      id="hospital-numeros"
+      aria-labelledby="hamor-numbers-heading"
     >
-      <Container className="hamor-cta__inner">
-        <div className="hamor-cta__copy">
+      <Container className="hamor-numbers__shell">
+        <div className="hamor-numbers__board">
           <Reveal>
-            <SectionTag className="hamor-tag" label="As famílias" />
-          </Reveal>
-          <Reveal delay={0.06}>
-            <h3 id="hamor-cta-heading" className="headline hamor-cta__title">
-              Mais perto do diagnóstico. Mais perto da{" "}
-              <Highlight color="pink">esperança</Highlight>.
+            <SectionTag
+              className="hamor-tag hamor-tag--on-dark"
+              label="Em números"
+            />
+            <h3
+              id="hamor-numbers-heading"
+              className="headline hamor-numbers__title"
+            >
+              O maior centro oncológico da América Latina,{" "}
+              <Highlight color="pink">100% pelo SUS</Highlight>.
             </h3>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="lede hamor-cta__lede">
-              Quando a prevenção chega mais perto, diminuem a distância, a espera
-              e o medo de milhares de famílias piauienses.
+            <p className="lede hamor-numbers__lede">
+              Antigo Hospital de Câncer de Barretos, o Hospital de Amor atende
+              gratuitamente e agora chega mais perto das famílias piauienses.
             </p>
           </Reveal>
+
+          <AttendanceCounter />
+
+          <div className="hamor-numbers__reach">
+            <p className="hamor-numbers__reach-label">Alcance e abrangência</p>
+            <dl className="hamor-score__meta">
+              <div>
+                <dt>Pacientes atendidos</dt>
+                <dd>{PATIENTS.toLocaleString("pt-BR")} pessoas</dd>
+              </div>
+              <div>
+                <dt>Cobertura</dt>
+                <dd>
+                  {MUNICIPALITIES.toLocaleString("pt-BR")} municípios — 48,7%
+                  das cidades do Brasil
+                </dd>
+              </div>
+              <div>
+                <dt>Atendimento</dt>
+                <dd>100% gratuito pelo SUS</dd>
+              </div>
+            </dl>
+          </div>
         </div>
 
-        <ul className="hamor-cta__proof">
-          {PROOF.map((item, index) => {
-            const photo = (
-              <Media
-                className="hamor-cta__proof-photo"
-                caption={item.caption}
-                src={"src" in item ? item.src : undefined}
-                alt={"alt" in item ? item.alt : undefined}
-              />
-            );
-
-            return (
-              <li key={item.caption}>
-                <Reveal delay={0.08 * index}>
-                  {"href" in item && item.href ? (
-                    <a
-                      className="hamor-cta__proof-link"
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {photo}
-                    </a>
-                  ) : (
-                    photo
-                  )}
-                </Reveal>
-              </li>
-            );
-          })}
-        </ul>
-
-        <HamorContinue
-          href="#hospital-referencia"
-          label="Conheça a referência"
-        />
+        <Reveal className="hamor-numbers__close">
+          <h4 className="hamor-numbers__close-title">
+            Uma referência nacional que agora se aproxima do Piauí.
+          </h4>
+          <p className="hamor-numbers__close-lede">
+            Prevenção e diagnóstico precoce mais perto de quem precisa.
+          </p>
+          <div className="hamor-numbers__actions">
+            <Button href="#pacto-pelos-animais" variant="solid" arrow>
+              Próxima causa: Cuidado Animal
+            </Button>
+          </div>
+        </Reveal>
       </Container>
     </Section>
   );
@@ -337,8 +343,8 @@ export function HospitalDeAmor() {
   return (
     <div id="hospital-de-amor" className="hamor-page">
       <HospitalHero />
-      <HospitalClose />
       <HospitalReference />
+      <HospitalNumbers />
     </div>
   );
 }

@@ -1,62 +1,88 @@
 /*
   01 — pôster editorial.
-  Camada 0: fotografia à direita.
-  Camada 1: texto + logomarca + número de urna à esquerda.
+  Mesmo padrão do ECA / Hospital de Amor:
+  stage full-bleed → foto absoluta à direita → fade → texto por cima.
 */
 
 .abertura {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
+  box-sizing: border-box;
+  height: var(--panel-h);
+  min-height: var(--panel-h);
+  max-height: var(--panel-h);
+  padding-inline: 0;
   padding-block: 0;
-  background: linear-gradient(180deg, #f6f5f3 0%, var(--cream) 100%);
+  background: #f6f5f3;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.abertura__stage {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: hidden;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  background: #f6f5f3;
+}
+
+.abertura__photo {
+  position: absolute;
+  inset: auto 0 0 auto;
+  z-index: 0;
+  width: min(92%, 34rem);
+  height: min(88%, calc(var(--panel-h) * 0.9));
+  max-width: none !important;
+  object-fit: contain;
+  object-position: bottom center;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.abertura__fade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(246, 245, 243, 0.2) 0%,
+    rgba(246, 245, 243, 0.72) 42%,
+    #f6f5f3 72%
+  );
 }
 
 .abertura__inner {
   position: relative;
+  z-index: 2;
   display: flex;
-  flex-direction: column;
-  /* 3.25rem = altura da barra fixa inferior */
-  min-height: calc(100svh - 3.25rem);
+  align-items: flex-end;
+  height: 100%;
+  min-height: 0;
+  max-width: calc(var(--max-width) + 2 * var(--gutter));
+  padding-block: clamp(2rem, 6svh, 3.5rem) clamp(2.25rem, 7svh, 4rem);
+  padding-inline: var(--gutter);
 }
-
-/* ---- Fotografia ---- */
-
-.abertura__figure {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  margin: 0;
-}
-
-.abertura__photo {
-  position: relative;
-  width: auto;
-  height: min(56svh, 30rem);
-  object-fit: contain;
-  object-position: bottom;
-  -webkit-mask-image: linear-gradient(180deg, #000 74%, transparent 94%);
-  mask-image: linear-gradient(180deg, #000 74%, transparent 94%);
-}
-
-/* ---- Texto ---- */
 
 .abertura__copy {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  padding-block: clamp(1.5rem, 4svh, 2.5rem) clamp(1.75rem, 5svh, 3rem);
+  max-width: 34rem;
 }
 
 .abertura__headline {
   max-width: 16ch;
-  margin-top: clamp(1.5rem, 5svh, 3rem);
+  margin-top: 0;
   font-size: var(--text-hero);
 }
 
-/* Mantém "Um só propósito:" sempre junto */
 .abertura__purpose {
   white-space: nowrap;
 }
@@ -65,11 +91,10 @@
   max-width: 42ch;
 }
 
-/* Logomarca + número de urna lado a lado */
 .abertura__brand {
   display: flex;
   align-items: flex-end;
-  gap: 0.75rem; /* ~12px: número cola na assinatura */
+  gap: 0.75rem;
   margin-top: clamp(1.5rem, 4svh, 2.5rem);
 }
 
@@ -88,7 +113,6 @@
   letter-spacing: -0.06em;
   color: var(--yellow);
   transform-origin: left bottom;
-  /* Presença contínua: fixa o número de urna na memória */
   animation: urn-presence 5.5s ease-in-out 1.4s infinite;
 }
 
@@ -122,13 +146,12 @@
 }
 
 .abertura__cta {
-  /* CTA principal: puxa o olhar antes do player */
   box-shadow: 0 8px 24px rgba(255, 190, 0, 0.22);
 }
 
 .abertura__cue {
   margin-top: auto;
-  margin-bottom: clamp(2.5rem, 7svh, 3.75rem);
+  margin-bottom: 0;
   padding-top: var(--sp-6);
   animation: cue-breathe 2.8s var(--ease) infinite;
 }
@@ -189,40 +212,44 @@
   }
 }
 
-/* ---- Tablet ---- */
-
-@media (min-width: 640px) {
-  .abertura__figure {
-    position: absolute;
-    right: -2vw;
-    bottom: -5svh;
-    justify-content: flex-end;
-  }
-
-  .abertura__photo {
-    height: min(90svh, 48rem);
-  }
-
-  .abertura__copy {
-    max-width: 56%;
-    padding-block: clamp(2rem, 6svh, 3.5rem) clamp(1.75rem, 5svh, 3rem);
-  }
-}
-
-/* ---- Desktop ---- */
+/* ---- Desktop: mesmo recorte do ECA / Hospital ---- */
 
 @media (min-width: 960px) {
+  /*
+    width:auto + right: empurra a pessoa de verdade.
+    (object-position:right + left% só criava vazio à esquerda)
+  */
   .abertura__photo {
-    height: min(98svh, 60rem);
+    left: auto;
+    right: 10%;
+    bottom: 0;
+    top: auto;
+    width: auto;
+    height: 94%;
+    object-fit: contain;
+    object-position: bottom center;
   }
 
-  .abertura__figure {
-    right: -2vw;
-    bottom: -6svh;
+  .abertura__fade {
+    background: linear-gradient(
+      90deg,
+      #f6f5f3 0%,
+      #f6f5f3 28%,
+      rgba(246, 245, 243, 0.75) 38%,
+      rgba(246, 245, 243, 0.35) 48%,
+      rgba(246, 245, 243, 0.1) 58%,
+      rgba(246, 245, 243, 0) 68%
+    );
+  }
+
+  .abertura__inner {
+    align-items: center;
+    padding-block: clamp(3rem, 8svh, 5rem);
   }
 
   .abertura__copy {
-    max-width: min(36rem, 52%);
+    width: min(28rem, 43%);
+    max-width: 43%;
   }
 
   .abertura__urn {

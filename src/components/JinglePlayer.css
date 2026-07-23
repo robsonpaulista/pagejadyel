@@ -89,7 +89,7 @@
   z-index: 60;
   left: var(--gutter);
   right: var(--gutter);
-  bottom: calc(3.25rem + 0.65rem);
+  bottom: 0.65rem;
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-template-areas:

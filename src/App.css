@@ -1,8 +1,8 @@
 .page {
   min-height: 100vh;
   background: var(--cream);
-  /* Espaço para a barra inferior fixa */
-  padding-bottom: 3.25rem;
+  /* Espaço para a barra superior fixa */
+  padding-top: var(--nav-h);
 }
 
 /* ---- Tipografia compartilhada dos painéis ---- */

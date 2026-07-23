@@ -15,6 +15,7 @@ import {
   Section,
   SectionTag,
 } from "../ui";
+import { useCountUp } from "../../hooks/useCountUp";
 import ecaDigitalPhoto from "../../assets/eca-digital.webp";
 import pressRepublicanos from "../../assets/press/republicanos-eca.webp";
 import pressVeja from "../../assets/press/veja-eca.webp";
@@ -22,6 +23,9 @@ import pressAci from "../../assets/press/aci-eca.webp";
 import "./EcaDigital.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+/** Exposição a conteúdos inadequados — Unico / Ipsos (2026). */
+const EXPOSURE_PCT = 57;
 
 const CHANGES = [
   {
@@ -130,8 +134,34 @@ function EcaHero() {
   const inView = useInView(ref, { once: true, amount: 0.35 });
   const show = reduceMotion || inView;
 
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.75", "end 0.55"],
+  });
+  const lineProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  const cardVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: reduceMotion ? 0 : 0.1 },
+    },
+  };
+
+  const partVariants: Variants = {
+    hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.45, ease: EASE },
+    },
+  };
+
   return (
-    <Section className="eca-hero" aria-labelledby="eca-heading">
+    <Section
+      className="eca-hero"
+      id="eca-pratica"
+      aria-labelledby="eca-heading"
+    >
       <div className="eca-hero__stage" ref={ref}>
         <motion.img
           className="eca-hero__photo"
@@ -160,7 +190,7 @@ function EcaHero() {
           transition={{ duration: 1, ease: EASE, delay: 0.35 }}
         />
 
-        <Container className="eca-hero__inner">
+        <Container className="eca-hero__shell">
           <div className="eca-hero__copy">
             <motion.div
               initial={reduceMotion ? false : { opacity: 0, y: 12 }}
@@ -204,119 +234,73 @@ function EcaHero() {
             >
               <p>
                 O ECA já garantia direitos e proteção para crianças e
-                adolescentes.
+                adolescentes. Com a nova lei, essa proteção foi fortalecida
+                também no ambiente digital.
               </p>
-              <p>
-                Com a nova lei, essa proteção foi fortalecida também no ambiente
-                digital.
-              </p>
-            </motion.div>
-
-            <motion.div
-              className="eca-hero__cta highlight--blue"
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.65, ease: EASE, delay: 0.62 }}
-            >
-              <Button href="#eca-pratica" arrow>
-                Entenda essa conquista
-              </Button>
             </motion.div>
           </div>
+
+          <div className="eca-hero__practice" aria-labelledby="eca-changes-heading">
+            <div className="eca-hero__practice-head">
+              <SectionTag label="Na prática" />
+              <h3 id="eca-changes-heading" className="eca-hero__practice-title">
+                O que mudou na prática
+              </h3>
+            </div>
+
+            <div className="eca-changes__track">
+              <div className="eca-changes__line" aria-hidden="true">
+                <motion.div
+                  className="eca-changes__line-draw"
+                  style={{ scaleX: lineProgress }}
+                />
+              </div>
+
+              <motion.div
+                className="eca-changes__grid"
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+              >
+                {CHANGES.map((item, index) => (
+                  <motion.article
+                    key={item.title}
+                    className="eca-card"
+                    variants={{
+                      hidden: {},
+                      visible: {
+                        transition: {
+                          staggerChildren: reduceMotion ? 0 : 0.06,
+                        },
+                      },
+                    }}
+                  >
+                    <motion.span
+                      className="eca-card__index"
+                      aria-hidden="true"
+                      variants={partVariants}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </motion.span>
+                    <motion.h4
+                      className="eca-card__title"
+                      variants={partVariants}
+                    >
+                      {item.title}
+                    </motion.h4>
+                    <motion.p className="eca-card__body" variants={partVariants}>
+                      {item.body}
+                    </motion.p>
+                  </motion.article>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+
+          <EcaContinue href="#eca-importa" label="Por que isso importa" />
         </Container>
       </div>
-    </Section>
-  );
-}
-
-function EcaChanges() {
-  const reduceMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start 0.75", "end 0.55"],
-  });
-  const lineProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
-  const cardVariants: Variants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: reduceMotion ? 0 : 0.12 },
-    },
-  };
-
-  const partVariants: Variants = {
-    hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.55, ease: EASE },
-    },
-  };
-
-  return (
-    <Section
-      ref={sectionRef}
-      className="eca-changes"
-      id="eca-pratica"
-      aria-labelledby="eca-changes-heading"
-    >
-      <Container>
-        <Reveal>
-          <SectionTag label="Na prática" />
-          <h3 id="eca-changes-heading" className="headline eca-block__title">
-            O que mudou na prática
-          </h3>
-        </Reveal>
-
-        <div className="eca-changes__track">
-          <div className="eca-changes__line" aria-hidden="true">
-            <motion.div
-              className="eca-changes__line-draw"
-              style={{ scaleX: lineProgress }}
-            />
-          </div>
-
-          <motion.div
-            className="eca-changes__grid"
-            variants={cardVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-          >
-            {CHANGES.map((item, index) => (
-              <motion.article
-                key={item.title}
-                className="eca-card"
-                variants={{
-                  hidden: {},
-                  visible: {
-                    transition: {
-                      staggerChildren: reduceMotion ? 0 : 0.08,
-                    },
-                  },
-                }}
-              >
-                <motion.span
-                  className="eca-card__index"
-                  aria-hidden="true"
-                  variants={partVariants}
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </motion.span>
-                <motion.h4 className="eca-card__title" variants={partVariants}>
-                  {item.title}
-                </motion.h4>
-                <motion.p className="eca-card__body" variants={partVariants}>
-                  {item.body}
-                </motion.p>
-              </motion.article>
-            ))}
-          </motion.div>
-        </div>
-
-        <EcaContinue href="#eca-importa" label="Por que isso importa" />
-      </Container>
     </Section>
   );
 }
@@ -514,7 +498,114 @@ function EcaMandate() {
           </ul>
         </div>
 
-        <EcaContinue href="#eca-cta" label="Encerramento" />
+        <EcaContinue href="#eca-numeros" label="Os números da causa" />
+      </Container>
+    </Section>
+  );
+}
+
+function ExposureCounter() {
+  const reduceMotion = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.4 });
+  const count = useCountUp({
+    to: EXPOSURE_PCT,
+    enabled: Boolean(inView || reduceMotion),
+    reduceMotion: Boolean(reduceMotion),
+  });
+
+  return (
+    <div className="eca-score" ref={ref}>
+      <p className="eca-score__value" aria-live="polite">
+        {count}%
+      </p>
+      <p className="eca-score__label">
+        dos jovens e adolescentes já foram expostos a conteúdos inadequados na
+        internet
+      </p>
+    </div>
+  );
+}
+
+/** Números em fundo preto */
+function EcaNumbers() {
+  return (
+    <Section
+      className="eca-numbers"
+      id="eca-numeros"
+      aria-labelledby="eca-numbers-heading"
+    >
+      <Container className="eca-numbers__shell">
+        <div className="eca-numbers__board">
+          <Reveal>
+            <SectionTag
+              className="eca-tag eca-tag--on-dark"
+              label="Em números"
+            />
+            <h3
+              id="eca-numbers-heading"
+              className="headline eca-numbers__title"
+            >
+              A proteção das crianças não termina fora da{" "}
+              <Highlight color="blue">tela</Highlight>.
+            </h3>
+            <p className="lede eca-numbers__lede">
+              O acesso cresce cedo — e os riscos também. Por isso a proteção
+              precisa acompanhar a infância no ambiente digital.
+            </p>
+          </Reveal>
+
+          <ExposureCounter />
+
+          <div className="eca-numbers__reach">
+            <p className="eca-numbers__reach-label">Exposição, conexão e acesso</p>
+            <dl className="eca-score__meta">
+              <div>
+                <dt>Situações ofensivas</dt>
+                <dd>
+                  Cerca de 1 em cada 5 crianças e adolescentes (9 a 17 anos) já
+                  passou por situações ofensivas ou humilhantes online
+                </dd>
+              </div>
+              <div>
+                <dt>Volume de conexão</dt>
+                <dd>
+                  93% da população de 9 a 17 anos no Brasil tem acesso à
+                  internet — cerca de 24,5 milhões de pessoas
+                </dd>
+              </div>
+              <div>
+                <dt>Acesso precoce</dt>
+                <dd>
+                  Entre crianças de 0 a 2 anos, o acesso saltou de 9% em 2015
+                  para 44% nos últimos anos
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <Reveal className="eca-numbers__close">
+          <p className="eca-numbers__sources">
+            Fontes: Unico / Ipsos (exposição a conteúdos inadequados); SaferNet
+            Brasil e pesquisas nacionais (situações ofensivas ou humilhantes);
+            TIC Kids Online Brasil 2024 — Cetic.br / NIC.br (acesso de 9 a 17
+            anos); Cetic.br (acesso de 0 a 2 anos).
+          </p>
+          <div className="eca-numbers__actions">
+            <Button
+              href="https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/lei/l15211.htm"
+              variant="solid"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver a lei completa
+            </Button>
+            <Button href="#hospital-de-amor" variant="outline" arrow>
+              Próxima causa: Hospital de Amor
+            </Button>
+          </div>
+        </Reveal>
       </Container>
     </Section>
   );
@@ -524,44 +615,9 @@ export function EcaDigital() {
   return (
     <div id="eca-digital" className="eca-page">
       <EcaHero />
-      <EcaChanges />
       <EcaWhy />
       <EcaMandate />
-
-      <Section className="eca-cta" id="eca-cta" aria-labelledby="eca-cta-heading">
-        <Container className="eca-cta__inner">
-          <div className="eca-cta__copy">
-            <Reveal>
-              <h3 id="eca-cta-heading" className="headline eca-cta__title">
-                A proteção das crianças não termina fora da{" "}
-                <Highlight color="blue">tela</Highlight>.
-              </h3>
-              <p className="lede eca-cta__lede">
-                O ECA Digital representa um novo passo para que famílias,
-                plataformas e poder público compartilhem essa responsabilidade.
-              </p>
-              <div className="eca-cta__actions">
-                <Button
-                  href="https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/lei/l15211.htm"
-                  variant="solid"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Ver a lei completa
-                </Button>
-                <Button
-                  href="#hospital-de-amor"
-                  variant="outline"
-                  arrow
-                  className="highlight--blue"
-                >
-                  Próxima causa: Hospital de Amor
-                </Button>
-              </div>
-            </Reveal>
-          </div>
-        </Container>
-      </Section>
+      <EcaNumbers />
     </div>
   );
 }

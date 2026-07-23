@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from "framer-motion";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import "./Button.css";
 
@@ -23,7 +24,9 @@ type ButtonAsLink = CommonProps &
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 export function Button(props: ButtonProps) {
-  const { children, variant = "outline", arrow = false, className, ...rest } = props;
+  const reduceMotion = useReducedMotion();
+  const { children, variant = "outline", arrow = false, className, ...rest } =
+    props;
   const classes = ["btn", `btn--${variant}`, className].filter(Boolean).join(" ");
   const content = (
     <>
@@ -36,12 +39,24 @@ export function Button(props: ButtonProps) {
     </>
   );
 
+  const motionProps = reduceMotion
+    ? {}
+    : {
+        whileHover: { scale: 1.03 },
+        whileTap: { scale: 0.97 },
+      };
+
   if ("href" in rest && rest.href !== undefined) {
     const { href, ...linkRest } = rest;
     return (
-      <a className={classes} href={href} {...linkRest}>
+      <motion.a
+        className={classes}
+        href={href}
+        {...motionProps}
+        {...linkRest}
+      >
         {content}
-      </a>
+      </motion.a>
     );
   }
 
@@ -51,8 +66,13 @@ export function Button(props: ButtonProps) {
   >;
 
   return (
-    <button className={classes} type="button" {...buttonRest}>
+    <motion.button
+      className={classes}
+      type="button"
+      {...motionProps}
+      {...buttonRest}
+    >
       {content}
-    </button>
+    </motion.button>
   );
 }

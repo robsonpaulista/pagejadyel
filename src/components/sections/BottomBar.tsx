@@ -55,8 +55,8 @@ export function BottomBar() {
         }
       },
       {
-        // Compensa a barra inferior e favorece o miolo da viewport
-        rootMargin: "-12% 0px -42% 0px",
+        // Compensa a barra superior e favorece o miolo da viewport
+        rootMargin: "-18% 0px -42% 0px",
         threshold: [0, 0.15, 0.35, 0.55, 0.75],
       },
     );
@@ -67,34 +67,36 @@ export function BottomBar() {
 
   return (
     <nav className="bottom-bar" aria-label="Navegação da campanha">
-      <ul className="bottom-bar__list">
-        {CAUSE_LINKS.map((cause, index) => {
-          const isActive = activeHref === cause.href;
+      <div className="bottom-bar__inner">
+        <ul className="bottom-bar__list">
+          {CAUSE_LINKS.map((cause, index) => {
+            const isActive = activeHref === cause.href;
 
-          return (
-            <li key={cause.href} className="bottom-bar__item">
-              {index > 0 ? (
-                <span className="bottom-bar__sep" aria-hidden="true">
-                  ·
-                </span>
-              ) : null}
-              <a
-                className={[
-                  "bottom-bar__link",
-                  isActive ? "bottom-bar__link--active" : null,
-                  isActive ? `bottom-bar__link--${cause.accent}` : null,
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-                href={cause.href}
-                aria-current={isActive ? "true" : undefined}
-              >
-                {cause.label}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+            return (
+              <li key={cause.href} className="bottom-bar__item">
+                {index > 0 ? (
+                  <span className="bottom-bar__sep" aria-hidden="true">
+                    ·
+                  </span>
+                ) : null}
+                <a
+                  className={[
+                    "bottom-bar__link",
+                    isActive ? "bottom-bar__link--active" : null,
+                    isActive ? `bottom-bar__link--${cause.accent}` : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  href={cause.href}
+                  aria-current={isActive ? "true" : undefined}
+                >
+                  {cause.label}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </nav>
   );
 }

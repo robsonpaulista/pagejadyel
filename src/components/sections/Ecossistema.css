@@ -37,12 +37,17 @@
 
 .eco__node {
   position: absolute;
+  transform: translate(-50%, -50%);
+  width: 7.5rem;
+}
+
+.eco__node-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--sp-2);
-  transform: translate(-50%, -50%);
-  width: 7.5rem;
+  width: 100%;
+  transform-origin: center center;
 }
 
 .eco__icon {

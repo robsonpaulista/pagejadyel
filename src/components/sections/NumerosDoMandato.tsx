@@ -155,16 +155,18 @@ function StatValue({
   return <>{count.toLocaleString("pt-BR")}</>;
 }
 
-/** Abertura */
+/** Abertura + leis: um mandato que entrega */
 function MandatoHero() {
+  const [openExtra, setOpenExtra] = useState(false);
+
   return (
     <Section
       className="nmand-hero"
       id="nmand-abertura"
       aria-labelledby="nmand-hero-heading"
     >
-      <Container>
-        <div className="nmand-hero__copy">
+      <Container className="nmand-hero__shell">
+        <div className="nmand-hero__intro">
           <Reveal>
             <SectionTag
               className="nmand-tag nmand-tag--ink"
@@ -179,15 +181,83 @@ function MandatoHero() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="lede nmand-hero__lede">
-              Do Piauí para as grandes decisões do Brasil. Um mandato presente
-              na proteção das crianças, na inclusão, no desenvolvimento
-              econômico e nas necessidades de quem vive no interior do estado.
+              Do Piauí para as grandes decisões do Brasil. Presente na proteção
+              das crianças, na inclusão, no desenvolvimento econômico e no
+              interior do estado — e com leis que saíram do papel.
             </p>
             <p className="nmand-hero__bio">
               Deputado federal pelo Piauí · Presidente da CDE · Relator do ECA
               Digital
             </p>
           </Reveal>
+        </div>
+
+        <div className="nmand-hero__proof">
+          <Reveal className="nmand-hero__featured">
+            <p className="nmand-hero__eyebrow">Principal conquista</p>
+            <div className="nmand-hero__featured-top">
+              <h3 className="nmand-hero__feature-title">ECA Digital</h3>
+              <span className="nmand-badge nmand-badge--law">Virou lei</span>
+            </div>
+            <p className="nmand-hero__ref">Lei 15.211/2025 · Relator</p>
+            <p className="nmand-hero__feature-body">
+              A lei que fortaleceu a proteção de crianças e adolescentes no
+              ambiente digital e estabeleceu novas responsabilidades para
+              plataformas e aplicativos.
+            </p>
+          </Reveal>
+
+          <div className="nmand-hero__wins">
+            {LAWS_SECONDARY.map((item, index) => (
+              <Reveal
+                key={item.title}
+                delay={0.05 * index}
+                className="nmand-hero__win"
+              >
+                <span
+                  className={`nmand-badge nmand-badge--${item.badgeTone}`}
+                >
+                  {item.badge}
+                </span>
+                <h4>{item.title}</h4>
+                <p>{item.ref}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
+        <div className="nmand-hero__foot">
+          <Reveal delay={0.1}>
+            <button
+              type="button"
+              className="nmand-laws__more"
+              aria-expanded={openExtra}
+              onClick={() => setOpenExtra((v) => !v)}
+            >
+              {openExtra
+                ? "Recolher produção legislativa"
+                : "Ver produção na Câmara"}
+              <span aria-hidden="true">{openExtra ? " ↑" : " →"}</span>
+            </button>
+            {openExtra ? (
+              <div className="nmand-laws__extra">
+                <p>
+                  A produção completa — proposições, relatorias e tramitações —
+                  está disponível nos sistemas da Câmara dos Deputados.
+                </p>
+                <Button
+                  href="https://www.camara.leg.br/deputados/220697"
+                  variant="outline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  arrow
+                >
+                  Abrir página na Câmara
+                </Button>
+              </div>
+            ) : null}
+          </Reveal>
+
           <MandatoContinue
             href="#nmand-producao"
             label="Ver a produção legislativa"
@@ -282,108 +352,13 @@ function MandatoProducao() {
           </p>
         </Reveal>
 
-        <MandatoContinue href="#nmand-leis" label="Quando o trabalho vira resultado" />
+        <MandatoContinue href="#nmand-espacos" label="Onde as grandes decisões acontecem" />
       </Container>
     </Section>
   );
 }
 
-/** 03 — Leis e aprovações */
-function MandatoLeis() {
-  const [openExtra, setOpenExtra] = useState(false);
-
-  return (
-    <Section
-      className="nmand-laws"
-      id="nmand-leis"
-      aria-labelledby="nmand-laws-heading"
-    >
-      <Container>
-        <Reveal>
-          <SectionTag
-            className="nmand-tag nmand-tag--ink"
-            label="Leis e aprovações"
-          />
-          <h3 id="nmand-laws-heading" className="headline nmand-laws__title">
-            Quando o trabalho vira{" "}
-            <Highlight color="yellow">resultado</Highlight>.
-          </h3>
-        </Reveal>
-
-        <Reveal className="nmand-laws__featured">
-          <p className="nmand-laws__eyebrow">Destaque principal</p>
-          <h4 className="nmand-laws__feature-title">ECA Digital</h4>
-          <p className="nmand-laws__ref">Lei 15.211/2025 · Relator</p>
-          <span className="nmand-badge nmand-badge--law">Virou lei</span>
-          <p className="lede nmand-laws__feature-body">
-            A lei que fortaleceu a proteção de crianças e adolescentes no
-            ambiente digital e estabeleceu novas responsabilidades para
-            plataformas e aplicativos.
-          </p>
-          <p className="nmand-laws__note">
-            Continuidade: PL 1971/2025 — aprofundamento da proteção da infância.
-          </p>
-        </Reveal>
-
-        <ul className="nmand-laws__list">
-          {LAWS_SECONDARY.map((item, index) => (
-            <Reveal key={item.title} delay={0.06 * index}>
-              <li className="nmand-laws__item">
-                <div className="nmand-laws__item-head">
-                  <h4>{item.title}</h4>
-                  <span
-                    className={`nmand-badge nmand-badge--${item.badgeTone}`}
-                  >
-                    {item.badge}
-                  </span>
-                </div>
-                <p>{item.ref}</p>
-              </li>
-            </Reveal>
-          ))}
-        </ul>
-
-        <Reveal delay={0.12}>
-          <button
-            type="button"
-            className="nmand-laws__more"
-            aria-expanded={openExtra}
-            onClick={() => setOpenExtra((v) => !v)}
-          >
-            {openExtra
-              ? "Recolher produção legislativa"
-              : "Ver toda a produção legislativa"}
-            <span aria-hidden="true">{openExtra ? " ↑" : " →"}</span>
-          </button>
-          {openExtra ? (
-            <div className="nmand-laws__extra">
-              <p>
-                A produção completa — proposições, relatorias e tramitações —
-                está disponível nos sistemas da Câmara dos Deputados.
-              </p>
-              <Button
-                href="https://www.camara.leg.br/deputados/220697"
-                variant="outline"
-                target="_blank"
-                rel="noopener noreferrer"
-                arrow
-              >
-                Abrir página na Câmara
-              </Button>
-            </div>
-          ) : null}
-        </Reveal>
-
-        <MandatoContinue
-          href="#nmand-espacos"
-          label="Onde as grandes decisões acontecem"
-        />
-      </Container>
-    </Section>
-  );
-}
-
-/** 04 — Espaços de decisão */
+/** 03 — Espaços de decisão */
 function MandatoEspacos() {
   return (
     <Section
@@ -413,19 +388,21 @@ function MandatoEspacos() {
           </article>
         </Reveal>
 
-        <ol className="nmand-spaces__path">
+        <div className="nmand-spaces__grid">
           {SPACES.map((item, index) => (
-            <Reveal key={item.title} delay={0.06 * index}>
-              <li className="nmand-spaces__node">
-                <span className="nmand-spaces__mark" aria-hidden="true" />
-                <div>
-                  <h4>{item.title}</h4>
-                  <p>{item.body}</p>
-                </div>
-              </li>
+            <Reveal
+              key={item.title}
+              delay={0.05 * index}
+              className="nmand-spaces__card"
+            >
+              <span className="nmand-spaces__card-index" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h4>{item.title}</h4>
+              <p>{item.body}</p>
             </Reveal>
           ))}
-        </ol>
+        </div>
 
         <MandatoContinue href="#nmand-marcas" label="As marcas do mandato" />
       </Container>
@@ -492,7 +469,7 @@ function MandatoMarcas() {
           </p>
           <div className="nmand-brands__actions">
             <Button href="#eca-digital" variant="solid" arrow>
-              Conhecer as causas
+              Próxima causa: ECA Digital
             </Button>
           </div>
         </Reveal>
@@ -506,7 +483,6 @@ export function NumerosDoMandato() {
     <div id="numeros-do-mandato" className="nmand-page">
       <MandatoHero />
       <MandatoProducao />
-      <MandatoLeis />
       <MandatoEspacos />
       <MandatoMarcas />
     </div>

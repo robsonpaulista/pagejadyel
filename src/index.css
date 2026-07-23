@@ -49,6 +49,9 @@
   --section-y: clamp(4rem, 10vw, 7rem);
   --gutter: clamp(1.25rem, 4vw, 4rem);
   --max-width: 1200px;
+  --nav-h: 3.25rem;
+  /* Uma “página” de conteúdo abaixo do menu fixo */
+  --panel-h: calc(100svh - var(--nav-h));
 
   --radius: 16px;
   --radius-pill: 999px;
@@ -67,7 +70,13 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-bottom: 4.5rem;
+  scroll-padding-top: var(--nav-h);
+  scroll-snap-type: y proximity;
+}
+
+.abertura.section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 body {

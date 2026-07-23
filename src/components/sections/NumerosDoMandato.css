@@ -1,7 +1,27 @@
-/* Página Números do Mandato — narrativa editorial em 5 blocos */
+/* Página Números do Mandato — narrativa editorial */
 
 .nmand-page {
   background: var(--cream);
+}
+
+/* Cada bloco = uma página de viewport (abaixo do menu) */
+.nmand-page > .section {
+  box-sizing: border-box;
+  height: var(--panel-h);
+  min-height: var(--panel-h);
+  max-height: var(--panel-h);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.nmand-page > .section > .container {
+  width: 100%;
 }
 
 .nmand-tag--ink .section-tag__label {
@@ -71,34 +91,215 @@
   }
 }
 
-/* ---- Abertura ---- */
+/* ---- Abertura + leis (uma composição) ---- */
 
 .nmand-hero {
   background: var(--white);
 }
 
-.nmand-hero__copy {
+.nmand-page > .nmand-hero.section {
+  justify-content: stretch;
+}
+
+.nmand-hero__shell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1rem, 2.5svh, 1.5rem);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding-block: clamp(1rem, 2.8svh, 1.75rem);
+}
+
+.nmand-hero__intro {
   max-width: 40rem;
 }
 
 .nmand-hero__title {
-  margin-top: var(--sp-5);
+  margin-top: var(--sp-3);
   max-width: 14ch;
+  font-size: clamp(1.75rem, 1.25rem + 1.8vw, 2.6rem);
 }
 
 .nmand-hero__lede {
-  max-width: 42ch;
-  margin-top: var(--sp-4);
+  max-width: 44ch;
+  margin-top: var(--sp-3);
 }
 
 .nmand-hero__bio {
-  margin-top: var(--sp-4);
-  max-width: 40ch;
+  margin-top: var(--sp-3);
+  max-width: 44ch;
   font-size: var(--text-caption);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink-soft);
+}
+
+.nmand-hero__proof {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(0.85rem, 2svh, 1.25rem);
+  min-height: 0;
+}
+
+.nmand-hero__featured {
+  padding: clamp(0.9rem, 2svh, 1.25rem);
+  border-top: 3px solid var(--yellow);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 190, 0, 0.1) 0%,
+    rgba(255, 190, 0, 0.02) 55%,
+    transparent 100%
+  );
+}
+
+.nmand-hero__eyebrow {
+  margin: 0 0 0.4rem;
+  font-size: var(--text-tag);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.nmand-hero__featured-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 0.85rem;
+}
+
+.nmand-hero__feature-title {
+  margin: 0;
+  font-size: clamp(1.45rem, 1.15rem + 1.2vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.nmand-hero__ref {
+  margin: 0.35rem 0 0;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.nmand-hero__feature-body {
+  margin: 0.65rem 0 0;
+  max-width: 40ch;
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.nmand-hero__wins {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem 0.85rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nmand-hero__win {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.nmand-hero__win h4 {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.nmand-hero__win p {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink-muted);
+}
+
+.nmand-hero__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+}
+
+.nmand-hero .nmand-continue-wrap {
+  margin-top: 0;
+}
+
+.nmand-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.22rem 0.5rem;
+  border: 1px solid var(--hairline);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.nmand-badge--law {
+  border-color: rgba(255, 190, 0, 0.55);
+  color: #8a6800;
+  background: rgba(255, 190, 0, 0.12);
+}
+
+.nmand-badge--ok {
+  border-color: rgba(35, 33, 28, 0.2);
+  color: var(--ink-soft);
+}
+
+.nmand-laws__more {
+  font-size: var(--text-tag);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.nmand-laws__extra {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
+  max-width: 40ch;
+}
+
+.nmand-laws__extra p {
+  margin: 0;
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--ink-muted);
+}
+
+@media (min-width: 900px) {
+  .nmand-hero__proof {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
+  .nmand-hero__wins {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1rem;
+  }
 }
 
 /* ---- 02 Produção (fundo escuro) ---- */
@@ -214,156 +415,7 @@
   }
 }
 
-/* ---- 03 Leis ---- */
-
-.nmand-laws {
-  background: var(--white);
-}
-
-.nmand-laws__title {
-  margin-top: var(--sp-5);
-  max-width: 14ch;
-}
-
-.nmand-laws__featured {
-  margin-top: var(--sp-6);
-  max-width: 40rem;
-}
-
-.nmand-laws__eyebrow {
-  margin: 0 0 var(--sp-2);
-  font-size: var(--text-tag);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.nmand-laws__feature-title {
-  margin: 0;
-  font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-
-.nmand-laws__ref {
-  margin: var(--sp-2) 0 var(--sp-3);
-  font-size: var(--text-caption);
-  font-weight: 600;
-  color: var(--ink-muted);
-}
-
-.nmand-laws__feature-body {
-  margin-top: var(--sp-4);
-  max-width: 40ch;
-}
-
-.nmand-laws__note {
-  margin-top: var(--sp-3);
-  max-width: 38ch;
-  font-size: var(--text-caption);
-  font-weight: 500;
-  color: var(--ink-soft);
-}
-
-.nmand-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.28rem 0.55rem;
-  border: 1px solid var(--hairline);
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-.nmand-badge--law {
-  border-color: rgba(255, 190, 0, 0.55);
-  color: #8a6800;
-  background: rgba(255, 190, 0, 0.12);
-}
-
-.nmand-badge--ok {
-  border-color: rgba(35, 33, 28, 0.2);
-  color: var(--ink-soft);
-}
-
-.nmand-laws__list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  margin: var(--sp-6) 0 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--hairline);
-}
-
-.nmand-laws__item {
-  padding: var(--sp-4) 0;
-  border-bottom: 1px solid var(--hairline);
-}
-
-.nmand-laws__item-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--sp-2);
-}
-
-.nmand-laws__item h4 {
-  margin: 0;
-  max-width: 28ch;
-  font-size: var(--text-lead);
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  color: var(--ink);
-}
-
-.nmand-laws__item p {
-  margin: var(--sp-2) 0 0;
-  max-width: 42ch;
-  font-size: var(--text-caption);
-  font-weight: 500;
-  color: var(--ink-muted);
-}
-
-.nmand-laws__more {
-  margin-top: var(--sp-5);
-  font-size: var(--text-tag);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-.nmand-laws__extra {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--sp-4);
-  margin-top: var(--sp-4);
-  max-width: 40ch;
-}
-
-.nmand-laws__extra p {
-  margin: 0;
-  font-size: var(--text-body);
-  font-weight: 500;
-  line-height: 1.55;
-  color: var(--ink-muted);
-}
-
-@media (min-width: 960px) {
-  .nmand-laws__list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 var(--sp-6);
-  }
-}
-
-/* ---- 04 Espaços ---- */
+/* ---- Espaços ---- */
 
 .nmand-spaces {
   background: #f3f2ef;
@@ -375,8 +427,8 @@
 }
 
 .nmand-spaces__lead {
-  margin-top: var(--sp-6);
-  padding-bottom: var(--sp-5);
+  margin-top: clamp(0.85rem, 2svh, 1.25rem);
+  padding-bottom: clamp(0.75rem, 2svh, 1.1rem);
   border-bottom: 1px solid var(--hairline);
 }
 
@@ -394,68 +446,60 @@
   max-width: 42ch;
 }
 
-.nmand-spaces__path {
+.nmand-spaces__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
-  margin: var(--sp-5) 0 0;
-  padding: 0;
-  list-style: none;
+  gap: 0.75rem;
+  margin: clamp(0.85rem, 2.2svh, 1.25rem) 0 0;
 }
 
-.nmand-spaces__node {
-  display: grid;
-  grid-template-columns: 2.5rem minmax(0, 1fr);
-  gap: var(--sp-3);
-  padding: var(--sp-4) 0;
-  border-bottom: 1px solid var(--hairline);
+.nmand-spaces__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  height: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  background: var(--white);
+  border-top: 3px solid var(--yellow);
 }
 
-.nmand-spaces__index {
-  font-size: var(--text-tag);
+.nmand-spaces__card-index {
+  font-size: 0.7rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: var(--yellow);
 }
 
-.nmand-spaces__mark {
-  margin-top: 0.45rem;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  background: var(--yellow);
-}
-
-.nmand-spaces__node h4 {
+.nmand-spaces__card h4 {
   margin: 0;
-  font-size: var(--text-lead);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
   color: var(--ink);
 }
 
-.nmand-spaces__node p {
-  margin: 0.35rem 0 0;
-  max-width: 40ch;
-  font-size: var(--text-caption);
+.nmand-spaces__card p {
+  margin: 0;
+  font-size: 0.8rem;
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.4;
   color: var(--ink-muted);
 }
 
-@media (min-width: 960px) {
-  .nmand-spaces__path {
-    position: relative;
+@media (min-width: 640px) {
+  .nmand-spaces__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
   }
+}
 
-  .nmand-spaces__path::before {
-    content: "";
-    position: absolute;
-    left: 0.85rem;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    width: 1px;
-    background: rgba(255, 190, 0, 0.45);
+@media (min-width: 960px) {
+  .nmand-spaces__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
   }
 }
 
@@ -469,7 +513,11 @@
 .nmand-brands__title {
   margin-top: var(--sp-5);
   max-width: 14ch;
-  color: var(--dark-ink);
+  color: #ffffff;
+}
+
+.nmand-brands .headline.nmand-brands__title {
+  color: #ffffff;
 }
 
 .nmand-brands__list {

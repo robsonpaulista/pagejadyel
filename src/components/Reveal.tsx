@@ -8,7 +8,7 @@ type RevealProps = {
 };
 
 const variants: Variants = {
-  hidden: { opacity: 0, y: 14 },
+  hidden: { opacity: 0, y: 18 },
   visible: { opacity: 1, y: 0 },
 };
 
