@@ -2,11 +2,20 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 import "./Section.css";
 
+type MotionConflictKeys =
+  | "onDrag"
+  | "onDragStart"
+  | "onDragEnd"
+  | "onAnimationStart";
+
 type SectionProps = {
   children: ReactNode;
   id?: string;
   className?: string;
-} & Omit<HTMLAttributes<HTMLElement>, "className" | "children" | "id">;
+} & Omit<
+  HTMLAttributes<HTMLElement>,
+  "className" | "children" | "id" | MotionConflictKeys
+>;
 
 const sectionVariants: Variants = {
   hidden: { opacity: 0, y: 18 },

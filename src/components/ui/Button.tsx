@@ -4,6 +4,13 @@ import "./Button.css";
 
 type ButtonVariant = "outline" | "solid";
 
+/** Conflitos entre handlers do React e do Framer Motion. */
+type MotionConflictKeys =
+  | "onDrag"
+  | "onDragStart"
+  | "onDragEnd"
+  | "onAnimationStart";
+
 type CommonProps = {
   children: ReactNode;
   variant?: ButtonVariant;
@@ -12,12 +19,18 @@ type CommonProps = {
 };
 
 type ButtonAsButton = CommonProps &
-  Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children"> & {
+  Omit<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    "className" | "children" | MotionConflictKeys
+  > & {
     href?: undefined;
   };
 
 type ButtonAsLink = CommonProps &
-  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "className" | "children"> & {
+  Omit<
+    AnchorHTMLAttributes<HTMLAnchorElement>,
+    "className" | "children" | MotionConflictKeys
+  > & {
     href: string;
   };
 
@@ -62,7 +75,7 @@ export function Button(props: ButtonProps) {
 
   const buttonRest = rest as Omit<
     ButtonHTMLAttributes<HTMLButtonElement>,
-    "className" | "children"
+    "className" | "children" | MotionConflictKeys
   >;
 
   return (
