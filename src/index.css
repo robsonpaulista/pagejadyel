@@ -1,0 +1,123 @@
+/*
+  Identidade da referência
+  - Fundo branco, tipografia geométrica (Plus Jakarta Sans)
+  - Um acento por causa: pink, orange, blue, amber, purple
+  - Amarelo reservado para conversão
+  - Breakpoints: 640 / 960
+*/
+
+:root {
+  --cream: #ffffff;
+  --cream-deep: #f5f4f1;
+  --white: #ffffff;
+  --ink: #23211c;
+  --ink-soft: #55524b;
+  --ink-muted: #4a4742;
+  --hairline: rgba(35, 33, 28, 0.12);
+
+  /* Acentos por causa */
+  --pink: #e73168;
+  --orange: #f0932b;
+  --blue: #2f7ee0;
+  --amber: #d97f1f;
+  --purple: #8a4bd6;
+  /* Amarelo institucional do mandato: a cor principal da identidade */
+  --yellow: #ffbe00;
+
+  --dark: #16140f;
+  --dark-ink: #f6f2ea;
+  --dark-ink-muted: rgba(246, 242, 234, 0.65);
+
+  /* Tipografia */
+  --text-tag: 0.75rem;
+  --text-caption: 0.8125rem;
+  --text-body: 1rem;
+  --text-lead: 1.125rem;
+  --text-headline: clamp(1.75rem, 1.1rem + 2.8vw, 2.75rem);
+  --text-hero: clamp(2.25rem, 1.4rem + 3.8vw, 3.75rem);
+  --text-name: clamp(2.75rem, 1.8rem + 4.5vw, 5rem);
+
+  /* Espaço */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2.5rem;
+  --sp-7: 4rem;
+
+  --section-y: clamp(4rem, 10vw, 7rem);
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --max-width: 1200px;
+
+  --radius: 16px;
+  --radius-pill: 999px;
+
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-bottom: 4.5rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+a {
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

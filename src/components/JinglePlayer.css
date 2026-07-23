@@ -1,0 +1,275 @@
+/* Host invisível do YouTube IFrame API */
+.jingle-host {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- Convite na home (sem som) ---- */
+
+.jingle-invite {
+  margin-top: 0;
+}
+
+.jingle-invite__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.4rem 0.85rem 0.4rem 0.4rem;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink-soft);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s var(--ease),
+    background 0.2s var(--ease),
+    color 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.jingle-invite__btn:hover,
+.jingle-invite__btn:focus-visible {
+  border-color: var(--yellow);
+  background: rgba(255, 190, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.jingle-invite__btn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.jingle-invite__icon {
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  background: var(--cream-deep);
+  color: var(--ink-soft);
+  flex-shrink: 0;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.jingle-invite__btn:hover .jingle-invite__icon,
+.jingle-invite__btn:focus-visible .jingle-invite__icon {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.jingle-invite__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  line-height: 1.25;
+}
+
+.jingle-invite__copy strong {
+  font-size: var(--text-caption);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.jingle-invite__copy small {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+/* ---- Barra compacta (após o primeiro clique) ---- */
+
+.jingle-bar {
+  position: fixed;
+  z-index: 60;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: calc(3.25rem + 0.65rem);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    "play body more"
+    "extras extras extras";
+  align-items: center;
+  column-gap: 0.65rem;
+  row-gap: 0;
+  max-width: 26rem;
+  margin-inline: auto;
+  padding: 0.55rem 0.65rem 0.55rem 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.15rem;
+  background: rgba(22, 20, 15, 0.94);
+  color: var(--dark-ink);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(22, 20, 15, 0.18);
+}
+
+.jingle-bar--expanded {
+  row-gap: 0.55rem;
+  padding-bottom: 0.7rem;
+}
+
+.jingle-bar__play {
+  grid-area: play;
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  color: var(--ink);
+  background: var(--yellow);
+  cursor: pointer;
+  transition: transform 0.15s var(--ease);
+}
+
+.jingle-bar__play:hover {
+  transform: scale(1.05);
+}
+
+.jingle-bar__body {
+  grid-area: body;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.jingle-bar__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.jingle-bar__title {
+  font-size: var(--text-caption);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jingle-bar__index {
+  font-size: 0.6875rem;
+  color: rgba(246, 242, 234, 0.78);
+  font-weight: 500;
+}
+
+.jingle-bar__progress {
+  display: block;
+  width: 100%;
+}
+
+.jingle-bar__progress input[type="range"] {
+  width: 100%;
+  height: 3px;
+  appearance: none;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--yellow) 0%,
+    var(--yellow) var(--prog, 0%),
+    rgba(255, 255, 255, 0.18) var(--prog, 0%),
+    rgba(255, 255, 255, 0.18) 100%
+  );
+  outline: none;
+  cursor: pointer;
+}
+
+.jingle-bar__progress input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--dark-ink);
+  border: 2px solid var(--yellow);
+}
+
+.jingle-bar__more {
+  grid-area: more;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--dark-ink-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+
+.jingle-bar__more:hover,
+.jingle-bar__more[aria-expanded="true"] {
+  color: var(--yellow);
+  border-color: rgba(255, 190, 0, 0.45);
+}
+
+.jingle-bar__extras {
+  grid-area: extras;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding-left: 0.15rem;
+}
+
+.jingle-bar__mute {
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  color: var(--dark-ink);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+}
+
+.jingle-bar__volume {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 8rem;
+}
+
+.jingle-bar__volume input[type="range"] {
+  width: 100%;
+  height: 3px;
+  appearance: none;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--yellow) 0%,
+    var(--yellow) var(--vol, 70%),
+    rgba(255, 255, 255, 0.2) var(--vol, 70%),
+    rgba(255, 255, 255, 0.2) 100%
+  );
+  outline: none;
+  cursor: pointer;
+}
+
+.jingle-bar__volume input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--dark-ink);
+  border: 2px solid var(--yellow);
+}
+
+@media (min-width: 640px) {
+  .jingle-bar {
+    left: auto;
+    right: var(--gutter);
+    margin-inline: 0;
+    max-width: 22rem;
+  }
+}

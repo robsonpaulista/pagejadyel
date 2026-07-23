@@ -1,0 +1,27 @@
+.highlight {
+  font-style: normal;
+}
+
+.highlight--pink {
+  color: var(--pink);
+}
+
+.highlight--orange {
+  color: var(--orange);
+}
+
+.highlight--blue {
+  color: var(--blue);
+}
+
+.highlight--amber {
+  color: var(--amber);
+}
+
+.highlight--purple {
+  color: var(--purple);
+}
+
+.highlight--yellow {
+  color: var(--yellow);
+}

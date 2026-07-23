@@ -1,0 +1,34 @@
+/* 11 — retrato + mensagem de continuidade */
+.missao__inner {
+  align-items: center;
+}
+
+.missao__media-col,
+.missao__copy {
+  grid-column: 1 / -1;
+}
+
+.missao__media {
+  aspect-ratio: 4 / 3;
+}
+
+.missao__headline {
+  max-width: 24ch;
+  margin-top: var(--sp-5);
+  font-size: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+}
+
+@media (min-width: 960px) {
+  .missao__media-col {
+    grid-column: 1 / span 5;
+  }
+
+  .missao__copy {
+    grid-column: 7 / -1;
+  }
+
+  .missao__media {
+    aspect-ratio: 4 / 5;
+    max-width: 26rem;
+  }
+}

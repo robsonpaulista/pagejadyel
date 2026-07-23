@@ -1,0 +1,44 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: 2.5rem;
+  padding: 0.6rem 1.35rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-tag);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition:
+    background 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+
+/* Outline herda a cor da causa via currentColor */
+.btn--outline {
+  border: 1.5px solid currentColor;
+  background: transparent;
+}
+
+.btn--outline:hover {
+  background: rgba(35, 33, 28, 0.05);
+}
+
+.btn--solid {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.btn--solid:hover {
+  background: #f5b70e;
+}
+
+.btn__arrow {
+  transition: transform 0.2s var(--ease);
+}
+
+.btn:hover .btn__arrow {
+  transform: translateX(3px);
+}

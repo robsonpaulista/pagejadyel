@@ -1,0 +1,555 @@
+/* Página Números do Mandato — narrativa editorial em 5 blocos */
+
+.nmand-page {
+  background: var(--cream);
+}
+
+.nmand-tag--ink .section-tag__label {
+  color: var(--ink-soft);
+}
+
+.nmand-tag--on-dark .section-tag__num {
+  background: var(--yellow);
+  color: var(--dark);
+}
+
+.nmand-tag--on-dark .section-tag__label {
+  color: rgba(246, 242, 234, 0.72);
+}
+
+/* ---- Continuidade ---- */
+
+.nmand-continue-wrap {
+  margin-top: var(--sp-6);
+}
+
+.nmand-continue {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--text-tag);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nmand-stats .nmand-continue,
+.nmand-brands .nmand-continue {
+  color: var(--yellow);
+}
+
+.nmand-continue__arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  line-height: 1;
+  animation: nmand-continue-arrow 2.8s var(--ease) infinite;
+}
+
+.nmand-continue:hover .nmand-continue__arrow {
+  transform: translateY(2px);
+}
+
+@keyframes nmand-continue-arrow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nmand-continue__arrow {
+    animation: none;
+  }
+}
+
+/* ---- Abertura ---- */
+
+.nmand-hero {
+  background: var(--white);
+}
+
+.nmand-hero__copy {
+  max-width: 40rem;
+}
+
+.nmand-hero__title {
+  margin-top: var(--sp-5);
+  max-width: 14ch;
+}
+
+.nmand-hero__lede {
+  max-width: 42ch;
+  margin-top: var(--sp-4);
+}
+
+.nmand-hero__bio {
+  margin-top: var(--sp-4);
+  max-width: 40ch;
+  font-size: var(--text-caption);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---- 02 Produção (fundo escuro) ---- */
+
+.nmand-stats {
+  background: var(--dark);
+  color: var(--dark-ink);
+}
+
+.nmand-stats__title {
+  margin-top: var(--sp-5);
+  max-width: 14ch;
+  color: var(--dark-ink);
+}
+
+.nmand-stats .lede,
+.nmand-stats .headline {
+  color: var(--dark-ink);
+}
+
+.nmand-stats__strip {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: var(--sp-6);
+  border-top: 1px solid rgba(246, 242, 234, 0.14);
+  border-bottom: 1px solid rgba(246, 242, 234, 0.14);
+}
+
+.nmand-stat {
+  position: relative;
+  padding: var(--sp-5) 0;
+  border-bottom: 1px solid rgba(246, 242, 234, 0.1);
+}
+
+.nmand-stat:last-child {
+  border-bottom: 0;
+}
+
+.nmand-stat__value {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: clamp(2.5rem, 1.6rem + 3.5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: var(--yellow);
+}
+
+.nmand-stat__tip-btn {
+  margin-top: 0.35rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 1px solid rgba(255, 190, 0, 0.55);
+  border-radius: 50%;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--yellow);
+  line-height: 1;
+}
+
+.nmand-stat__label {
+  margin: var(--sp-3) 0 0;
+  font-size: var(--text-lead);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--dark-ink);
+}
+
+.nmand-stat__meta,
+.nmand-stat__tip {
+  margin: var(--sp-2) 0 0;
+  max-width: 28ch;
+  font-size: var(--text-caption);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--dark-ink-muted);
+}
+
+.nmand-stats__presence {
+  margin-top: var(--sp-5);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--dark-ink-muted);
+}
+
+.nmand-stats__presence strong {
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+@media (min-width: 720px) {
+  .nmand-stats__strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .nmand-stat {
+    padding: var(--sp-5) var(--sp-4);
+    border-bottom: 0;
+    border-right: 1px solid rgba(246, 242, 234, 0.12);
+  }
+
+  .nmand-stat:first-child {
+    padding-left: 0;
+  }
+
+  .nmand-stat:last-child {
+    border-right: 0;
+    padding-right: 0;
+  }
+}
+
+/* ---- 03 Leis ---- */
+
+.nmand-laws {
+  background: var(--white);
+}
+
+.nmand-laws__title {
+  margin-top: var(--sp-5);
+  max-width: 14ch;
+}
+
+.nmand-laws__featured {
+  margin-top: var(--sp-6);
+  max-width: 40rem;
+}
+
+.nmand-laws__eyebrow {
+  margin: 0 0 var(--sp-2);
+  font-size: var(--text-tag);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.nmand-laws__feature-title {
+  margin: 0;
+  font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.nmand-laws__ref {
+  margin: var(--sp-2) 0 var(--sp-3);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.nmand-laws__feature-body {
+  margin-top: var(--sp-4);
+  max-width: 40ch;
+}
+
+.nmand-laws__note {
+  margin-top: var(--sp-3);
+  max-width: 38ch;
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.nmand-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.55rem;
+  border: 1px solid var(--hairline);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.nmand-badge--law {
+  border-color: rgba(255, 190, 0, 0.55);
+  color: #8a6800;
+  background: rgba(255, 190, 0, 0.12);
+}
+
+.nmand-badge--ok {
+  border-color: rgba(35, 33, 28, 0.2);
+  color: var(--ink-soft);
+}
+
+.nmand-laws__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: var(--sp-6) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+
+.nmand-laws__item {
+  padding: var(--sp-4) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.nmand-laws__item-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-2);
+}
+
+.nmand-laws__item h4 {
+  margin: 0;
+  max-width: 28ch;
+  font-size: var(--text-lead);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.nmand-laws__item p {
+  margin: var(--sp-2) 0 0;
+  max-width: 42ch;
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+
+.nmand-laws__more {
+  margin-top: var(--sp-5);
+  font-size: var(--text-tag);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.nmand-laws__extra {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  margin-top: var(--sp-4);
+  max-width: 40ch;
+}
+
+.nmand-laws__extra p {
+  margin: 0;
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--ink-muted);
+}
+
+@media (min-width: 960px) {
+  .nmand-laws__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 var(--sp-6);
+  }
+}
+
+/* ---- 04 Espaços ---- */
+
+.nmand-spaces {
+  background: #f3f2ef;
+}
+
+.nmand-spaces__title {
+  margin-top: var(--sp-5);
+  max-width: 16ch;
+}
+
+.nmand-spaces__lead {
+  margin-top: var(--sp-6);
+  padding-bottom: var(--sp-5);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.nmand-spaces__lead h4 {
+  margin: 0;
+  max-width: 20ch;
+  font-size: clamp(1.35rem, 1.05rem + 1.1vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+.nmand-spaces__lead .lede {
+  margin-top: var(--sp-3);
+  max-width: 42ch;
+}
+
+.nmand-spaces__path {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: var(--sp-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nmand-spaces__node {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: var(--sp-3);
+  padding: var(--sp-4) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.nmand-spaces__index {
+  font-size: var(--text-tag);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--yellow);
+}
+
+.nmand-spaces__mark {
+  margin-top: 0.45rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--yellow);
+}
+
+.nmand-spaces__node h4 {
+  margin: 0;
+  font-size: var(--text-lead);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.nmand-spaces__node p {
+  margin: 0.35rem 0 0;
+  max-width: 40ch;
+  font-size: var(--text-caption);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+
+@media (min-width: 960px) {
+  .nmand-spaces__path {
+    position: relative;
+  }
+
+  .nmand-spaces__path::before {
+    content: "";
+    position: absolute;
+    left: 0.85rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+    background: rgba(255, 190, 0, 0.45);
+  }
+}
+
+/* ---- 05 Marcas (escuro + amarelo) ---- */
+
+.nmand-brands {
+  background: var(--dark);
+  color: var(--dark-ink);
+}
+
+.nmand-brands__title {
+  margin-top: var(--sp-5);
+  max-width: 14ch;
+  color: var(--dark-ink);
+}
+
+.nmand-brands__list {
+  margin: var(--sp-6) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(246, 242, 234, 0.14);
+}
+
+.nmand-brands__item {
+  border-bottom: 1px solid rgba(246, 242, 234, 0.14);
+}
+
+.nmand-brands__trigger {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "name chev"
+    "lead chev";
+  column-gap: var(--sp-4);
+  row-gap: 0.2rem;
+  width: 100%;
+  padding: var(--sp-4) 0;
+  text-align: left;
+  color: var(--dark-ink);
+}
+
+.nmand-brands__name {
+  grid-area: name;
+  font-size: var(--text-lead);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.nmand-brands__lead {
+  grid-area: lead;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--yellow);
+}
+
+.nmand-brands__chevron {
+  grid-area: chev;
+  align-self: center;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--yellow);
+}
+
+.nmand-brands__trigger.is-open .nmand-brands__name {
+  color: var(--yellow);
+}
+
+.nmand-brands__body {
+  margin: 0 0 var(--sp-4);
+  max-width: 42ch;
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--dark-ink-muted);
+}
+
+.nmand-brands__closer {
+  margin-top: var(--sp-6);
+  max-width: 36ch;
+  font-size: clamp(1.15rem, 1rem + 0.7vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  color: var(--dark-ink);
+}
+
+.nmand-brands__actions {
+  margin-top: var(--sp-5);
+}
+
+@media (min-width: 960px) {
+  .nmand-brands__trigger {
+    grid-template-columns: minmax(12rem, 0.9fr) minmax(0, 1.2fr) auto;
+    grid-template-areas: "name lead chev";
+    align-items: baseline;
+  }
+}

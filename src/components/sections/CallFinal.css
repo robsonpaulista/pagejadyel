@@ -1,0 +1,175 @@
+/*
+  12 — peça publicitária de fechamento.
+  Coluna de conteúdo à esquerda; fotografia à direita ocupando a altura útil,
+  com o corpo levemente cortado pela base para criar profundidade.
+*/
+
+.call-final {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--section-y) 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 255, 255, 0.9) 0%, transparent 60%),
+    linear-gradient(180deg, #f6f5f3 0%, var(--cream) 100%);
+  text-align: center;
+}
+
+.call-final__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+  gap: var(--sp-6);
+}
+
+/* ---- Coluna de conteúdo ---- */
+
+.call-final__copy {
+  padding-bottom: var(--section-y);
+}
+
+.call-final__headline {
+  max-width: 18ch;
+  margin-inline: auto;
+  margin-top: var(--sp-6);
+  font-size: clamp(1.5rem, 1rem + 2.2vw, 2.25rem);
+}
+
+.call-final__lockup {
+  margin-top: var(--sp-6);
+}
+
+.call-final__actions {
+  margin-top: var(--sp-6);
+}
+
+.call-final__share {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-top: var(--sp-6);
+}
+
+.call-final__social {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+.call-final__social a {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1.5px solid var(--hairline);
+  border-radius: 50%;
+  font-size: var(--text-caption);
+  font-weight: 700;
+  color: var(--ink-soft);
+  transition:
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+
+.call-final__social a:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+/* ---- Fotografia ---- */
+
+.call-final__figure {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0;
+  /* Ponto focal no rosto: a foto entra antes do texto no mobile */
+  order: -1;
+}
+
+/* Luz branca muito suave atrás da pessoa: integra sem parecer recorte */
+.call-final__figure::before {
+  content: "";
+  position: absolute;
+  inset: -8% -14%;
+  background: radial-gradient(
+    ellipse 62% 55% at 50% 38%,
+    rgba(255, 255, 255, 0.85) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* "10" gigante em outline, quase invisível, só profundidade */
+.call-final__ten {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(11rem, 30vw, 22rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(35, 33, 28, 0.07);
+  user-select: none;
+  pointer-events: none;
+}
+
+.call-final__photo {
+  position: relative;
+  width: min(100%, 20rem);
+  height: auto;
+  /* Sombra discreta, sem peso */
+  filter: drop-shadow(0 18px 36px rgba(22, 20, 15, 0.12));
+  /* Fade da base para o layout absorver a fotografia */
+  -webkit-mask-image: linear-gradient(180deg, #000 82%, transparent 99%);
+  mask-image: linear-gradient(180deg, #000 82%, transparent 99%);
+}
+
+/* ---- Tablet: composição lado a lado, proporcionalmente menor ---- */
+
+@media (min-width: 640px) {
+  .call-final {
+    text-align: left;
+  }
+
+  .call-final__inner {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    column-gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .call-final__figure {
+    order: 0;
+    align-self: stretch;
+  }
+
+  .call-final__headline {
+    margin-inline: 0;
+  }
+
+  .call-final__share {
+    align-items: flex-start;
+  }
+
+  .call-final__photo {
+    width: min(100%, 24rem);
+    /* O corpo ultrapassa levemente a base da seção */
+    margin-bottom: -3%;
+  }
+}
+
+/* ---- Desktop: foto na altura útil da viewport ---- */
+
+@media (min-width: 960px) {
+  .call-final__inner {
+    min-height: min(88svh, 56rem);
+  }
+
+  .call-final__photo {
+    width: min(100%, 30rem);
+    max-height: 82svh;
+    object-fit: contain;
+    object-position: bottom;
+  }
+}

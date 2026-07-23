@@ -1,0 +1,27 @@
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.section-tag__num {
+  display: grid;
+  place-items: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding-inline: 0.4rem;
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.section-tag__label {
+  font-size: var(--text-tag);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}

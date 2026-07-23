@@ -1,0 +1,117 @@
+/* 05–09 — história de causa: copy + fotografia, lados alternados */
+.cause-story:nth-of-type(even) {
+  background: var(--white);
+}
+
+.cause-story__inner {
+  align-items: center;
+}
+
+.cause-story__copy,
+.cause-story__media-col {
+  grid-column: 1 / -1;
+}
+
+.cause-story__headline {
+  margin-top: var(--sp-5);
+}
+
+.cause-story__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.cause-story__body p {
+  margin: 0;
+}
+
+.cause-story__points {
+  margin-top: var(--sp-5);
+}
+
+.cause-story__points-title {
+  margin: 0 0 var(--sp-3);
+  font-size: var(--text-body);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cause-story__points ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cause-story__points li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.cause-story__points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--ink-muted);
+}
+
+.cause-story__points--pink li::before { background: var(--pink); }
+.cause-story__points--orange li::before { background: var(--orange); }
+.cause-story__points--blue li::before { background: var(--blue); }
+.cause-story__points--amber li::before { background: var(--amber); }
+.cause-story__points--purple li::before { background: var(--purple); }
+
+.cause-story__cta {
+  margin-top: var(--sp-6);
+}
+
+.cause-story__media {
+  aspect-ratio: 4 / 3;
+}
+
+.cause-story__thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
+}
+
+.cause-story__thumb {
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+}
+
+.cause-story__thumb .media__caption {
+  display: none;
+}
+
+@media (min-width: 960px) {
+  .cause-story__copy {
+    grid-column: 1 / span 5;
+  }
+
+  .cause-story__media-col {
+    grid-column: 7 / -1;
+  }
+
+  .cause-story--reverse .cause-story__copy {
+    grid-column: 8 / -1;
+    grid-row: 1;
+  }
+
+  .cause-story--reverse .cause-story__media-col {
+    grid-column: 1 / span 6;
+    grid-row: 1;
+  }
+}

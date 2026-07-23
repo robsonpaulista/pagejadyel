@@ -1,0 +1,4 @@
+.section {
+  padding-inline: var(--gutter);
+  padding-block: var(--section-y);
+}

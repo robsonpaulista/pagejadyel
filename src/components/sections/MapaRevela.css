@@ -1,0 +1,32 @@
+/* 03 — mapa à esquerda, mensagem à direita */
+.mapa-revela__inner {
+  align-items: center;
+}
+
+.mapa-revela__media-col,
+.mapa-revela__copy {
+  grid-column: 1 / -1;
+}
+
+.mapa-revela__media {
+  aspect-ratio: 4 / 5;
+  max-width: 26rem;
+}
+
+.mapa-revela__headline {
+  margin-top: var(--sp-5);
+}
+
+.mapa-revela__cue {
+  margin-top: var(--sp-6);
+}
+
+@media (min-width: 960px) {
+  .mapa-revela__media-col {
+    grid-column: 1 / span 5;
+  }
+
+  .mapa-revela__copy {
+    grid-column: 7 / -1;
+  }
+}

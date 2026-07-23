@@ -1,0 +1,27 @@
+/* Trava o scroll enquanto a revelação acontece */
+html.intro-locked,
+html.intro-locked body {
+  overflow: hidden;
+}
+
+.intro-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--yellow);
+  pointer-events: none;
+}
+
+.intro-splash__mark {
+  display: grid;
+  place-items: center;
+  will-change: transform, opacity;
+}
+
+.intro-splash__hands {
+  width: clamp(4.5rem, 12vw, 6.5rem);
+  height: auto;
+  color: #ffffff;
+}

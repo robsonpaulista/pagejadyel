@@ -1,0 +1,11 @@
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 2.5vw, 2rem);
+}

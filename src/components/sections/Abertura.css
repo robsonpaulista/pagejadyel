@@ -1,0 +1,231 @@
+/*
+  01 — pôster editorial.
+  Camada 0: fotografia à direita.
+  Camada 1: texto + logomarca + número de urna à esquerda.
+*/
+
+.abertura {
+  position: relative;
+  overflow: hidden;
+  padding-block: 0;
+  background: linear-gradient(180deg, #f6f5f3 0%, var(--cream) 100%);
+}
+
+.abertura__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* 3.25rem = altura da barra fixa inferior */
+  min-height: calc(100svh - 3.25rem);
+}
+
+/* ---- Fotografia ---- */
+
+.abertura__figure {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.abertura__photo {
+  position: relative;
+  width: auto;
+  height: min(56svh, 30rem);
+  object-fit: contain;
+  object-position: bottom;
+  -webkit-mask-image: linear-gradient(180deg, #000 74%, transparent 94%);
+  mask-image: linear-gradient(180deg, #000 74%, transparent 94%);
+}
+
+/* ---- Texto ---- */
+
+.abertura__copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-block: clamp(1.5rem, 4svh, 2.5rem) clamp(1.75rem, 5svh, 3rem);
+}
+
+.abertura__headline {
+  max-width: 16ch;
+  margin-top: clamp(1.5rem, 5svh, 3rem);
+  font-size: var(--text-hero);
+}
+
+/* Mantém "Um só propósito:" sempre junto */
+.abertura__purpose {
+  white-space: nowrap;
+}
+
+.abertura__copy .lede {
+  max-width: 42ch;
+}
+
+/* Logomarca + número de urna lado a lado */
+.abertura__brand {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem; /* ~12px: número cola na assinatura */
+  margin-top: clamp(1.5rem, 4svh, 2.5rem);
+}
+
+.abertura__lockup {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.abertura__urn {
+  flex-shrink: 0;
+  margin: 0;
+  padding-bottom: 0.05em;
+  font-size: clamp(3.25rem, 2.2rem + 4.5vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: var(--yellow);
+  transform-origin: left bottom;
+  /* Presença contínua: fixa o número de urna na memória */
+  animation: urn-presence 5.5s ease-in-out 1.4s infinite;
+}
+
+@keyframes urn-presence {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+    opacity: 0.92;
+  }
+  50% {
+    filter: drop-shadow(0 0 18px rgba(255, 190, 0, 0.35));
+    opacity: 1;
+  }
+}
+
+.abertura__slogan {
+  margin-top: var(--sp-4);
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.abertura__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+.abertura__cta {
+  /* CTA principal: puxa o olhar antes do player */
+  box-shadow: 0 8px 24px rgba(255, 190, 0, 0.22);
+}
+
+.abertura__cue {
+  margin-top: auto;
+  margin-bottom: clamp(2.5rem, 7svh, 3.75rem);
+  padding-top: var(--sp-6);
+  animation: cue-breathe 2.8s var(--ease) infinite;
+}
+
+.abertura__cue .cue__arrow {
+  position: relative;
+  animation: cue-arrow 2.8s var(--ease) infinite;
+}
+
+.abertura__cue .cue__arrow::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid rgba(35, 33, 28, 0.18);
+  animation: cue-ring 2.8s var(--ease) infinite;
+  pointer-events: none;
+}
+
+@keyframes cue-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes cue-arrow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+@keyframes cue-ring {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abertura__urn,
+  .abertura__cue,
+  .abertura__cue .cue__arrow,
+  .abertura__cue .cue__arrow::after {
+    animation: none;
+  }
+}
+
+/* ---- Tablet ---- */
+
+@media (min-width: 640px) {
+  .abertura__figure {
+    position: absolute;
+    right: -2vw;
+    bottom: -5svh;
+    justify-content: flex-end;
+  }
+
+  .abertura__photo {
+    height: min(90svh, 48rem);
+  }
+
+  .abertura__copy {
+    max-width: 56%;
+    padding-block: clamp(2rem, 6svh, 3.5rem) clamp(1.75rem, 5svh, 3rem);
+  }
+}
+
+/* ---- Desktop ---- */
+
+@media (min-width: 960px) {
+  .abertura__photo {
+    height: min(98svh, 60rem);
+  }
+
+  .abertura__figure {
+    right: -2vw;
+    bottom: -6svh;
+  }
+
+  .abertura__copy {
+    max-width: min(36rem, 52%);
+  }
+
+  .abertura__urn {
+    font-size: clamp(4.5rem, 3rem + 3vw, 6.25rem);
+  }
+}

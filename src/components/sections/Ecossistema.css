@@ -1,0 +1,99 @@
+/* 04 — diagrama circular: 5 causas em volta do 10 */
+.ecossistema {
+  background: var(--white);
+  text-align: center;
+}
+
+.ecossistema__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-6);
+}
+
+.eco {
+  position: relative;
+  width: min(32rem, 100%);
+  aspect-ratio: 1;
+}
+
+.eco__ring {
+  position: absolute;
+  inset: 14%;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+}
+
+.eco__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(3rem, 10vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--yellow);
+}
+
+.eco__node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  transform: translate(-50%, -50%);
+  width: 7.5rem;
+}
+
+.eco__icon {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  background: var(--white);
+}
+
+.eco__label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  line-height: 1.35;
+}
+
+.eco__node--top {
+  top: 7%;
+  left: 50%;
+}
+
+.eco__node--right-top {
+  top: 36%;
+  left: 88%;
+}
+
+.eco__node--right-bottom {
+  top: 82%;
+  left: 74%;
+}
+
+.eco__node--left-bottom {
+  top: 82%;
+  left: 26%;
+}
+
+.eco__node--left-top {
+  top: 36%;
+  left: 12%;
+}
+
+.ecossistema__caption {
+  max-width: 30ch;
+  font-size: var(--text-lead);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
