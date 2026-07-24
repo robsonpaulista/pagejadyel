@@ -10,6 +10,7 @@ import {
 import { MousePointer2 } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button, Container, Highlight, NameLockup } from "../ui";
+import { useIsDesktop } from "../../hooks/useIsDesktop";
 import { scrollToElement } from "../../lib/lenisBridge";
 import jadyelBandeira from "../../assets/jadyel-bandeira.webp";
 import "./Abertura.css";
@@ -157,6 +158,8 @@ function goToMandatoPage(onComplete?: () => void): void {
  */
 export function Abertura() {
   const reduceMotion = useReducedMotion();
+  const isDesktop = useIsDesktop();
+  const skipHandoff = Boolean(reduceMotion || !isDesktop);
   const trackRef = useRef<HTMLDivElement>(null);
   const openedRef = useRef(false);
   const handoffRef = useRef<"idle" | "out" | "in">("idle");
@@ -176,40 +179,40 @@ export function Abertura() {
   */
   const titlesOpacity = useTransform(
     scrollYProgress,
-    [0, 0.12, 0.4],
-    [1, 1, 0],
+    skipHandoff ? [0, 1] : [0, 0.12, 0.4],
+    skipHandoff ? [1, 1] : [1, 1, 0],
   );
   const ctaOpacity = useTransform(
     scrollYProgress,
-    [0, 0.1, 0.35],
-    [1, 1, 0],
+    skipHandoff ? [0, 1] : [0, 0.1, 0.35],
+    skipHandoff ? [1, 1] : [1, 1, 0],
   );
   const cueOpacity = useTransform(
     scrollYProgress,
-    [0, 0.06, 0.22],
-    [1, 1, 0],
+    skipHandoff ? [0, 1] : [0, 0.06, 0.22],
+    skipHandoff ? [1, 1] : [1, 1, 0],
   );
   const brandOpacity = useTransform(
     scrollYProgress,
-    [0, 0.3, 0.48],
-    [1, 1, 0],
+    skipHandoff ? [0, 1] : [0, 0.3, 0.48],
+    skipHandoff ? [1, 1] : [1, 1, 0],
   );
 
   const photoScale = useTransform(
     scrollYProgress,
-    reduceMotion ? [0, 1] : [0, 0.35, 0.55],
-    reduceMotion ? [1, 1] : [1, 1, 1.02],
+    skipHandoff ? [0, 1] : [0, 0.35, 0.55],
+    skipHandoff ? [1, 1] : [1, 1, 1.02],
   );
   const photoX = useTransform(
     scrollYProgress,
-    reduceMotion ? [0, 1] : [0, 0.35, 0.55],
-    reduceMotion ? [0, 0] : [0, 0, -14],
+    skipHandoff ? [0, 1] : [0, 0.35, 0.55],
+    skipHandoff ? [0, 0] : [0, 0, -14],
   );
 
   const bandHeight = useTransform(
     scrollYProgress,
-    reduceMotion ? [0, 1] : [0, 0.05, 0.55, 1],
-    reduceMotion
+    skipHandoff ? [0, 1] : [0, 0.05, 0.55, 1],
+    skipHandoff
       ? ["0%", "0%"]
       : ["0%", "12%", BAND_MAX, BAND_MAX],
   );
@@ -242,7 +245,7 @@ export function Abertura() {
   );
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    if (reduceMotion) return;
+    if (skipHandoff) return;
     if (progress >= 0.8 && !openedRef.current) {
       openedRef.current = true;
       setHandoff("out");
@@ -254,7 +257,7 @@ export function Abertura() {
   });
 
   useEffect(() => {
-    if (handoff !== "out") return;
+    if (skipHandoff || handoff !== "out") return;
 
     const timer = window.setTimeout(() => {
       goToMandatoPage(() => {
@@ -266,7 +269,7 @@ export function Abertura() {
     }, 300);
 
     return () => window.clearTimeout(timer);
-  }, [handoff]);
+  }, [handoff, skipHandoff]);
 
   useEffect(() => {
     if (handoff !== "in") return;
@@ -277,7 +280,7 @@ export function Abertura() {
   return (
     <div
       className={
-        reduceMotion
+        skipHandoff
           ? "abertura-track abertura-track--static"
           : "abertura-track"
       }
@@ -294,7 +297,7 @@ export function Abertura() {
             src={jadyelBandeira}
             alt="Jadyel Alencar sorrindo com a bandeira do Piauí sobre os ombros"
             style={
-              reduceMotion
+              skipHandoff
                 ? undefined
                 : { scale: photoScale, x: photoX }
             }
@@ -309,7 +312,7 @@ export function Abertura() {
             <div className="abertura__copy">
               <motion.div
                 style={
-                  reduceMotion ? undefined : { opacity: titlesOpacity }
+                  skipHandoff ? undefined : { opacity: titlesOpacity }
                 }
               >
                 <motion.h1
@@ -357,7 +360,7 @@ export function Abertura() {
                   delay: afterTitleDelay + 0.08,
                 }}
                 style={
-                  reduceMotion ? undefined : { opacity: brandOpacity }
+                  skipHandoff ? undefined : { opacity: brandOpacity }
                 }
               >
                 <NameLockup
@@ -372,7 +375,7 @@ export function Abertura() {
 
               <motion.div
                 style={
-                  reduceMotion ? undefined : { opacity: titlesOpacity }
+                  skipHandoff ? undefined : { opacity: titlesOpacity }
                 }
               >
                 <motion.p
@@ -398,7 +401,7 @@ export function Abertura() {
                   ease: EASE,
                   delay: afterTitleDelay + 0.2,
                 }}
-                style={reduceMotion ? undefined : { opacity: ctaOpacity }}
+                style={skipHandoff ? undefined : { opacity: ctaOpacity }}
               >
                 <Button
                   href="#hospital-de-amor"
@@ -414,7 +417,7 @@ export function Abertura() {
               <motion.a
                 className="cue abertura__cue"
                 href="#nmand-abertura"
-                style={reduceMotion ? undefined : { opacity: cueOpacity }}
+                style={skipHandoff ? undefined : { opacity: cueOpacity }}
               >
                 Role para conhecer as causas
                 <span className="cue__arrow">↓</span>
@@ -425,9 +428,9 @@ export function Abertura() {
           <motion.div
             className="abertura__cover"
             aria-hidden="true"
-            style={reduceMotion ? undefined : { height: bandHeight }}
+            style={skipHandoff ? undefined : { height: bandHeight }}
           >
-            {!reduceMotion ? (
+            {!skipHandoff ? (
               <div className="abertura__band">
                 <div className="abertura-previews">
                   <motion.p

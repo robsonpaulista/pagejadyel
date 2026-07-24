@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 import { MousePointer2 } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useIsDesktop } from "../hooks/useIsDesktop";
 import { scrollToElement } from "../lib/lenisBridge";
 import "./MiniScreensHandoff.css";
 
@@ -106,6 +107,7 @@ function jumpToId(targetId: string, onComplete?: () => void): void {
 
 /**
  * Faixa branca + mini telas + clique do mouse → fade → página alvo.
+ * Desktop only (≥768px); no mobile rende a seção estática.
  */
 export function MiniScreensHandoff({
   id,
@@ -120,6 +122,9 @@ export function MiniScreensHandoff({
   children,
 }: MiniScreensHandoffProps) {
   const reduceMotion = useReducedMotion();
+  const isDesktop = useIsDesktop();
+  const skipHandoff = Boolean(reduceMotion || !isDesktop);
+
   const trackRef = useRef<HTMLDivElement>(null);
   const openedRef = useRef(false);
   const handoffRef = useRef<"idle" | "out" | "in">("idle");
@@ -133,8 +138,8 @@ export function MiniScreensHandoff({
 
   const bandHeight = useTransform(
     scrollYProgress,
-    reduceMotion ? [0, 1] : [0, 0.05, 0.55, 1],
-    reduceMotion ? ["0%", "0%"] : ["0%", "12%", bandMax, bandMax],
+    skipHandoff ? [0, 1] : [0, 0.05, 0.55, 1],
+    skipHandoff ? ["0%", "0%"] : ["0%", "12%", bandMax, bandMax],
   );
   const labelOpacity = useTransform(
     scrollYProgress,
@@ -170,7 +175,7 @@ export function MiniScreensHandoff({
   );
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    if (reduceMotion) return;
+    if (skipHandoff) return;
     if (progress >= 0.8 && !openedRef.current) {
       openedRef.current = true;
       setHandoff("out");
@@ -181,14 +186,14 @@ export function MiniScreensHandoff({
   });
 
   useEffect(() => {
-    if (handoff !== "out") return;
+    if (skipHandoff || handoff !== "out") return;
     const timer = window.setTimeout(() => {
       jumpToId(targetId, () => {
         requestAnimationFrame(() => setHandoff("in"));
       });
     }, 300);
     return () => window.clearTimeout(timer);
-  }, [handoff, targetId]);
+  }, [handoff, targetId, skipHandoff]);
 
   useEffect(() => {
     if (handoff !== "in") return;
@@ -196,12 +201,17 @@ export function MiniScreensHandoff({
     return () => window.clearTimeout(timer);
   }, [handoff]);
 
-  if (reduceMotion) {
+  if (skipHandoff) {
     return (
       <section
         id={id}
         aria-labelledby={ariaLabelledBy}
-        className={["mini-handoff__pin", pinClassName, className]
+        className={[
+          "mini-handoff__pin",
+          "mini-handoff__pin--static",
+          pinClassName,
+          className,
+        ]
           .filter(Boolean)
           .join(" ")}
       >

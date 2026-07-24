@@ -489,3 +489,20 @@
     font-size: clamp(4.5rem, 3rem + 3vw, 6.25rem);
   }
 }
+
+/* Mobile: sem faixa, sem trilha de scrub */
+@media (max-width: 767px) {
+  .abertura-track {
+    height: auto;
+  }
+
+  .abertura--pinned {
+    position: relative;
+    top: auto;
+  }
+
+  .abertura__cover,
+  .abertura-handoff {
+    display: none !important;
+  }
+}

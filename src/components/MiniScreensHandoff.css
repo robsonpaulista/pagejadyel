@@ -24,6 +24,15 @@
   top: var(--nav-h);
 }
 
+/* Mobile / reduced-motion: seção normal, sem trilha de scrub */
+.mini-handoff__pin--static {
+  position: relative;
+  top: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 .mini-handoff__stage {
   position: relative;
   height: 100%;
@@ -227,5 +236,25 @@
       var(--gutter),
       calc((100% - var(--max-width)) / 2 + var(--gutter))
     );
+  }
+}
+
+/* Mobile: handoff desligado (JS também rende static; CSS é rede de segurança) */
+@media (max-width: 767px) {
+  .mini-handoff {
+    height: auto;
+  }
+
+  .mini-handoff__band,
+  .mini-handoff__fade {
+    display: none !important;
+  }
+
+  .mini-handoff__content {
+    position: relative;
+    inset: auto;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }
