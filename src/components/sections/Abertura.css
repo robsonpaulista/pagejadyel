@@ -7,7 +7,7 @@
 .abertura-track {
   position: relative;
   /* Scrub curto: sobe faixa + clique; o resto é handoff automático */
-  height: calc(var(--panel-h) + 85svh);
+  height: calc(var(--panel-h) + 68svh);
 }
 
 .abertura-track--static {
@@ -117,7 +117,7 @@
   width: 100%;
   height: 100%;
   min-height: 0;
-  max-width: calc(var(--max-width) + 2 * var(--gutter));
+  max-width: none;
   margin-inline: auto;
   padding: clamp(0.45rem, 2.5%, 1rem) var(--gutter)
     clamp(0.55rem, 3%, 1.25rem);
@@ -139,21 +139,25 @@
 .abertura-previews__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.35rem, 1.8cqh, 0.75rem);
+  gap: clamp(0.45rem, 1.8cqh, 0.9rem) clamp(0.55rem, 1.6cqi, 1rem);
   width: 100%;
   flex: 1;
   min-height: 0;
   height: 100%;
   max-width: none;
   align-items: stretch;
+  justify-items: stretch;
 }
 
 .abertura-preview {
   position: relative;
   overflow: hidden;
   border-radius: clamp(8px, 2cqh, 14px);
-  padding: clamp(0.45rem, 3cqh, 1rem) clamp(0.5rem, 2.5cqi, 0.9rem);
+  padding: clamp(0.45rem, 2.8cqh, 0.95rem) clamp(0.65rem, 3.8cqi, 1.15rem);
+  /* Preenche a célula e acompanha a faixa branca ao crescer */
+  width: 100%;
   height: 100%;
+  min-width: 0;
   min-height: 0;
   border: 1px solid rgba(35, 33, 28, 0.08);
   box-shadow: 0 8px 20px rgba(22, 20, 15, 0.07);
@@ -163,6 +167,59 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+}
+
+.abertura-preview--print {
+  padding: 0;
+  background: #eceae4;
+}
+
+.abertura-preview--print .abertura-preview__chrome {
+  position: absolute;
+  top: clamp(0.35rem, 2.2cqh, 0.55rem);
+  left: clamp(0.4rem, 2.5cqi, 0.65rem);
+  z-index: 2;
+  margin: 0;
+}
+
+.abertura-preview__print {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.abertura-preview__print img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transform: scale(1.01);
+}
+
+.abertura-preview__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 1.6rem 0.65rem 0.55rem;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(22, 20, 15, 0.55) 42%,
+    rgba(22, 20, 15, 0.88) 100%
+  );
+}
+
+.abertura-preview--print .abertura-preview__tag,
+.abertura-preview--print .abertura-preview__title {
+  color: #f6f2ea;
+}
+
+.abertura-preview--print .abertura-preview__title {
+  margin-top: 0.15rem;
+  font-size: clamp(0.7rem, 4.8cqh, 1.05rem);
 }
 
 .abertura-preview--light {
@@ -215,10 +272,10 @@
 
 .abertura-preview__title {
   margin: clamp(0.15rem, 1.5cqh, 0.4rem) 0 0;
-  font-size: clamp(0.7rem, 7.5cqh, 1.35rem);
+  font-size: clamp(0.75rem, 5.5cqh, 1.2rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1.12;
+  line-height: 1.15;
 }
 
 .abertura-preview__meta {
@@ -231,11 +288,16 @@
 }
 
 /* Cursor-seta ancorado no card que será aberto */
+.abertura-preview--print .abertura-preview__chrome span {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 1px rgba(22, 20, 15, 0.2);
+}
+
 .abertura-cursor {
   position: absolute;
   left: 54%;
   top: 58%;
-  z-index: 5;
+  z-index: 6;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -282,10 +344,7 @@
 
 @media (min-width: 960px) {
   .abertura-previews {
-    padding-inline: max(
-      var(--gutter),
-      calc((100% - var(--max-width)) / 2 + var(--gutter))
-    );
+    padding-inline: clamp(var(--gutter), 4vw, 3rem);
   }
 }
 

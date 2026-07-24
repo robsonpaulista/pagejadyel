@@ -18,6 +18,10 @@ export type MiniScreenPreview = {
   tag: string;
   title: string;
   meta: string;
+  /** Print real da tela (preview visual) */
+  image?: string;
+  /** object-position da imagem */
+  imagePosition?: string;
 };
 
 type MiniScreensHandoffProps = {
@@ -54,8 +58,8 @@ function PreviewCard({
   );
   const scale = useTransform(
     progress,
-    isActive ? [0, 0.68, 0.76, 0.82] : [0, 1],
-    isActive ? [1, 1, 0.93, 1] : [1, 1],
+    [0, 1],
+    [1, 1],
   );
 
   return (
@@ -63,6 +67,7 @@ function PreviewCard({
       className={[
         "mini-handoff__card",
         `mini-handoff__card--${preview.tone}`,
+        preview.image ? "mini-handoff__card--print" : null,
         isActive ? "mini-handoff__card--active" : null,
       ]
         .filter(Boolean)
@@ -75,9 +80,33 @@ function PreviewCard({
         <span />
         <span />
       </div>
-      <p className="mini-handoff__tag">{preview.tag}</p>
-      <p className="mini-handoff__title">{preview.title}</p>
-      <p className="mini-handoff__meta">{preview.meta}</p>
+      {preview.image ? (
+        <div className="mini-handoff__print">
+          <img
+            src={preview.image}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            style={
+              preview.imagePosition
+                ? { objectPosition: preview.imagePosition }
+                : undefined
+            }
+          />
+        </div>
+      ) : (
+        <>
+          <p className="mini-handoff__tag">{preview.tag}</p>
+          <p className="mini-handoff__title">{preview.title}</p>
+          <p className="mini-handoff__meta">{preview.meta}</p>
+        </>
+      )}
+      {preview.image ? (
+        <div className="mini-handoff__caption">
+          <p className="mini-handoff__tag">{preview.tag}</p>
+          <p className="mini-handoff__title">{preview.title}</p>
+        </div>
+      ) : null}
       {children}
     </motion.article>
   );
@@ -138,49 +167,49 @@ export function MiniScreensHandoff({
 
   const bandHeight = useTransform(
     scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.05, 0.55, 1],
+    skipHandoff ? [0, 1] : [0, 0.04, 0.4, 1],
     skipHandoff ? ["0%", "0%"] : ["0%", "12%", bandMax, bandMax],
   );
   const labelOpacity = useTransform(
     scrollYProgress,
-    [0.12, 0.28, 0.78, 0.88],
+    [0.1, 0.22, 0.7, 0.82],
     [0, 1, 1, 0],
   );
   const contentFade = useTransform(
     scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.15, 0.42],
+    skipHandoff ? [0, 1] : [0, 0.12, 0.36],
     skipHandoff ? [1, 1] : [1, 1, 0.22],
   );
 
   const cursorOpacity = useTransform(
     scrollYProgress,
-    [0.55, 0.62, 0.82, 0.9],
+    [0.42, 0.5, 0.74, 0.84],
     [0, 1, 1, 0],
   );
-  const cursorX = useTransform(scrollYProgress, [0.55, 0.68], [56, 0]);
+  const cursorX = useTransform(scrollYProgress, [0.42, 0.55], [56, 0]);
   const cursorY = useTransform(
     scrollYProgress,
-    [0.55, 0.68, 0.76, 0.8],
+    [0.42, 0.55, 0.63, 0.68],
     [40, 0, 12, 0],
   );
   const cursorScale = useTransform(
     scrollYProgress,
-    [0.68, 0.76, 0.8],
+    [0.55, 0.63, 0.68],
     [1, 0.78, 1],
   );
   const cursorHintOpacity = useTransform(
     scrollYProgress,
-    [0.58, 0.64, 0.76, 0.84],
+    [0.45, 0.52, 0.63, 0.74],
     [0, 1, 1, 0],
   );
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     if (skipRef.current) return;
-    if (progress >= 0.8 && !openedRef.current) {
+    if (progress >= 0.72 && !openedRef.current) {
       openedRef.current = true;
       setHandoff("out");
     }
-    if (progress < 0.68 && handoffRef.current === "idle") {
+    if (progress < 0.55 && handoffRef.current === "idle") {
       openedRef.current = false;
     }
   });

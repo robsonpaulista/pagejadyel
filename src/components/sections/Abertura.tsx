@@ -13,6 +13,8 @@ import { Button, Container, Highlight, NameLockup } from "../ui";
 import { useIsDesktop } from "../../hooks/useIsDesktop";
 import { scrollToElement } from "../../lib/lenisBridge";
 import { JingleInvite } from "../JinglePlayer";
+import { MANDATO_PREVIEWS } from "../miniScreenPreviews";
+import type { MiniScreenPreview } from "../MiniScreensHandoff";
 import jadyelBandeira from "../../assets/jadyel-bandeira.webp";
 import "./Abertura.css";
 
@@ -20,38 +22,6 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 /** Máximo da faixa branca — não passa desse ponto */
 const BAND_MAX = "30%";
-
-const MANDATO_PREVIEWS = [
-  {
-    id: "conquistas",
-    tone: "light" as const,
-    tag: "Jadyel Alencar",
-    title: "Um mandato que entrega",
-    meta: "Conquistas · ECA Digital",
-    href: "#nmand-abertura",
-  },
-  {
-    id: "producao",
-    tone: "dark" as const,
-    tag: "Produção",
-    title: "783 proposições",
-    meta: "51 de autoria · 82 relatadas",
-  },
-  {
-    id: "espacos",
-    tone: "light" as const,
-    tag: "Espaços",
-    title: "Grandes decisões",
-    meta: "Câmara · Comissões · Frentes",
-  },
-  {
-    id: "marcas",
-    tone: "dark" as const,
-    tag: "Marcas",
-    title: "Causas do mandato",
-    meta: "ECA · Animal · Saúde · Obras",
-  },
-] as const;
 
 const titleContainer: Variants = {
   hidden: {},
@@ -87,7 +57,7 @@ function PreviewCard({
   isActive,
   children,
 }: {
-  preview: (typeof MANDATO_PREVIEWS)[number];
+  preview: MiniScreenPreview;
   progress: MotionValue<number>;
   isActive: boolean;
   children?: ReactNode;
@@ -98,17 +68,14 @@ function PreviewCard({
     isActive ? [0, 1, 1, 0] : [0, 1, 0.45, 0],
   );
 
-  const scale = useTransform(
-    progress,
-    isActive ? [0, 0.68, 0.76, 0.82] : [0, 1],
-    isActive ? [1, 1, 0.93, 1] : [1, 1],
-  );
+  const scale = useTransform(progress, [0, 1], [1, 1]);
 
   return (
     <motion.article
       className={[
         "abertura-preview",
         `abertura-preview--${preview.tone}`,
+        preview.image ? "abertura-preview--print" : null,
         isActive ? "abertura-preview--active" : null,
       ]
         .filter(Boolean)
@@ -121,9 +88,33 @@ function PreviewCard({
         <span />
         <span />
       </div>
-      <p className="abertura-preview__tag">{preview.tag}</p>
-      <p className="abertura-preview__title">{preview.title}</p>
-      <p className="abertura-preview__meta">{preview.meta}</p>
+      {preview.image ? (
+        <>
+          <div className="abertura-preview__print">
+            <img
+              src={preview.image}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              style={
+                preview.imagePosition
+                  ? { objectPosition: preview.imagePosition }
+                  : undefined
+              }
+            />
+          </div>
+          <div className="abertura-preview__caption">
+            <p className="abertura-preview__tag">{preview.tag}</p>
+            <p className="abertura-preview__title">{preview.title}</p>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="abertura-preview__tag">{preview.tag}</p>
+          <p className="abertura-preview__title">{preview.title}</p>
+          <p className="abertura-preview__meta">{preview.meta}</p>
+        </>
+      )}
       {children}
     </motion.article>
   );
@@ -174,85 +165,85 @@ export function Abertura() {
   const skipEnter = Boolean(reduceMotion || skipHandoff);
 
   /*
-    0–0.55  faixa sobe até BAND_MAX + mini telas
-    0.55–0.8  mouse aponta e clica
-    ≥0.8     fade out → página real com fade in
+    0–0.4   faixa sobe até BAND_MAX + mini telas
+    0.4–0.72  mouse aponta e clica
+    ≥0.72     fade out → página real com fade in
   */
   const titlesOpacity = useTransform(
     scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.12, 0.4],
+    skipHandoff ? [0, 1] : [0, 0.1, 0.32],
     skipHandoff ? [1, 1] : [1, 1, 0],
   );
   const ctaOpacity = useTransform(
     scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.1, 0.35],
+    skipHandoff ? [0, 1] : [0, 0.08, 0.28],
     skipHandoff ? [1, 1] : [1, 1, 0],
   );
   const cueOpacity = useTransform(
     scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.06, 0.22],
+    skipHandoff ? [0, 1] : [0, 0.05, 0.18],
     skipHandoff ? [1, 1] : [1, 1, 0],
   );
   const brandOpacity = useTransform(
     scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.3, 0.48],
+    skipHandoff ? [0, 1] : [0, 0.24, 0.38],
     skipHandoff ? [1, 1] : [1, 1, 0],
   );
 
   const photoScale = useTransform(
     scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.35, 0.55],
+    skipHandoff ? [0, 1] : [0, 0.28, 0.4],
     skipHandoff ? [1, 1] : [1, 1, 1.02],
   );
   const photoX = useTransform(
     scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.35, 0.55],
+    skipHandoff ? [0, 1] : [0, 0.28, 0.4],
     skipHandoff ? [0, 0] : [0, 0, -14],
   );
 
   const bandHeight = useTransform(
     scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.05, 0.55, 1],
+    skipHandoff ? [0, 1] : [0, 0.04, 0.4, 1],
     skipHandoff
       ? ["0%", "0%"]
       : ["0%", "12%", BAND_MAX, BAND_MAX],
   );
   const previewsLabelOpacity = useTransform(
     scrollYProgress,
-    [0.12, 0.28, 0.78, 0.88],
+    [0.1, 0.22, 0.7, 0.82],
     [0, 1, 1, 0],
   );
 
   const cursorOpacity = useTransform(
     scrollYProgress,
-    [0.55, 0.62, 0.82, 0.9],
+    [0.42, 0.5, 0.74, 0.84],
     [0, 1, 1, 0],
   );
-  const cursorX = useTransform(scrollYProgress, [0.55, 0.68], [56, 0]);
+  const cursorX = useTransform(scrollYProgress, [0.42, 0.55], [56, 0]);
   const cursorY = useTransform(
     scrollYProgress,
-    [0.55, 0.68, 0.76, 0.8],
+    [0.42, 0.55, 0.63, 0.68],
     [40, 0, 12, 0],
   );
   const cursorScale = useTransform(
     scrollYProgress,
-    [0.68, 0.76, 0.8],
+    [0.55, 0.63, 0.68],
     [1, 0.78, 1],
   );
   const cursorHintOpacity = useTransform(
     scrollYProgress,
-    [0.58, 0.64, 0.76, 0.84],
+    [0.45, 0.52, 0.63, 0.74],
     [0, 1, 1, 0],
   );
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     if (skipRef.current) return;
-    if (progress >= 0.8 && !openedRef.current) {
+    if (progress >= 0.72 && !openedRef.current) {
       openedRef.current = true;
       setHandoff("out");
     }
     // Não cancela handoff no meio do fade/navegação
-    if (progress < 0.68 && handoffRef.current === "idle") {
+    if (progress < 0.55 && handoffRef.current === "idle") {
       openedRef.current = false;
     }
   });

@@ -1,0 +1,106 @@
+[
+  {
+    "selector": "#nmand-abertura",
+    "file": "mandato-conquistas.jpg"
+  },
+  {
+    "selector": "#nmand-producao",
+    "file": "mandato-producao.jpg"
+  },
+  {
+    "selector": "#nmand-espacos",
+    "file": "mandato-espacos.jpg"
+  },
+  {
+    "selector": "#nmand-marcas",
+    "file": "mandato-marcas.jpg"
+  },
+  {
+    "selector": "#eca-pratica",
+    "file": "eca-pratica.jpg"
+  },
+  {
+    "selector": "#eca-importa",
+    "file": "eca-importa.jpg"
+  },
+  {
+    "selector": "#eca-mandato",
+    "file": "eca-mandato.jpg"
+  },
+  {
+    "selector": "#eca-numeros",
+    "file": "eca-numeros.jpg"
+  },
+  {
+    "selector": "#hospital-cta",
+    "file": "hospital-capa.jpg"
+  },
+  {
+    "selector": "#hospital-referencia",
+    "file": "hospital-referencia.jpg"
+  },
+  {
+    "selector": "#hospital-numeros",
+    "file": "hospital-numeros.jpg"
+  },
+  {
+    "selector": "#animal-politica",
+    "file": "animal-politica.jpg"
+  },
+  {
+    "selector": "#animal-cuidado",
+    "file": "animal-cuidado.jpg"
+  },
+  {
+    "selector": "#animal-numeros",
+    "file": "animal-numeros.jpg"
+  },
+  {
+    "selector": "#catarata-abertura",
+    "file": "catarata-abertura.jpg"
+  },
+  {
+    "selector": "#catarata-impacto",
+    "file": "catarata-impacto.jpg"
+  },
+  {
+    "selector": "#catarata-vidas",
+    "file": "catarata-vidas.jpg"
+  },
+  {
+    "selector": "#infra-abertura",
+    "file": "infra-abertura.jpg"
+  },
+  {
+    "selector": "#infra-mapa",
+    "file": "infra-mapa.jpg"
+  },
+  {
+    "selector": "#infra-numeros",
+    "file": "infra-numeros.jpg"
+  },
+  {
+    "selector": "#participar",
+    "file": "call-participar.jpg"
+  },
+  {
+    "selector": "#hospital-numeros",
+    "file": "hospital-alcance.jpg"
+  },
+  {
+    "selector": "#animal-numeros",
+    "file": "animal-pacto.jpg"
+  },
+  {
+    "selector": "#catarata-impacto",
+    "file": "catarata-alcance.jpg"
+  },
+  {
+    "selector": "#participar",
+    "file": "call-urna.jpg"
+  },
+  {
+    "selector": "#participar",
+    "file": "call-compartilhar.jpg"
+  }
+]

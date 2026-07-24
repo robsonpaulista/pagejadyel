@@ -3,9 +3,8 @@ import { useId, useRef, useState } from "react";
 import { Reveal } from "../Reveal";
 import {
   MiniScreensHandoff,
-  type MiniScreenPreview,
 } from "../MiniScreensHandoff";
-import { ECA_PREVIEWS } from "../miniScreenPreviews";
+import { ECA_PREVIEWS, MANDATO_PREVIEWS } from "../miniScreenPreviews";
 import {
   Button,
   Container,
@@ -16,37 +15,6 @@ import { useCountUp } from "../../hooks/useCountUp";
 import "./NumerosDoMandato.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-
-const MANDATO_PREVIEWS: MiniScreenPreview[] = [
-  {
-    id: "conquistas",
-    tone: "light",
-    tag: "Jadyel Alencar",
-    title: "Um mandato que entrega",
-    meta: "Conquistas · ECA Digital",
-  },
-  {
-    id: "producao",
-    tone: "dark",
-    tag: "Produção",
-    title: "783 proposições",
-    meta: "51 de autoria · 82 relatadas",
-  },
-  {
-    id: "espacos",
-    tone: "light",
-    tag: "Espaços",
-    title: "Grandes decisões",
-    meta: "Câmara · Comissões · Frentes",
-  },
-  {
-    id: "marcas",
-    tone: "dark",
-    tag: "Marcas",
-    title: "Causas do mandato",
-    meta: "ECA · Animal · Saúde · Obras",
-  },
-];
 
 const STATS = [
   {
