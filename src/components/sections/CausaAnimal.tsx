@@ -5,11 +5,15 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 import { Reveal } from "../Reveal";
+import { MiniScreensHandoff } from "../MiniScreensHandoff";
+import {
+  ANIMAL_PREVIEWS,
+  CATARATA_PREVIEWS,
+} from "../miniScreenPreviews";
 import {
   Button,
   Container,
   Highlight,
-  Section,
   SectionTag,
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
@@ -80,24 +84,6 @@ const MANDATE_ROLE = [
   },
 ] as const;
 
-type ContinueProps = {
-  href: string;
-  label: string;
-};
-
-function AnimalContinue({ href, label }: ContinueProps) {
-  return (
-    <Reveal className="animal-continue-wrap">
-      <a href={href} className="animal-continue">
-        <span>{label}</span>
-        <span className="animal-continue__arrow" aria-hidden="true">
-          ↓
-        </span>
-      </a>
-    </Reveal>
-  );
-}
-
 function CastrationCounter() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -135,7 +121,7 @@ function CastrationCounter() {
   );
 }
 
-/** Seção 1 — Capa com foto */
+/** Seção 1 — Capa → Cuidado */
 function AnimalPolicy() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -143,9 +129,15 @@ function AnimalPolicy() {
   const show = reduceMotion || inView;
 
   return (
-    <Section
-      className="animal-policy"
+    <MiniScreensHandoff
       id="animal-politica"
+      targetId="animal-cuidado"
+      label="Causa Animal em quatro telas"
+      bandMax="30%"
+      previews={ANIMAL_PREVIEWS}
+      activeIndex={1}
+      pinClassName="animal-policy"
+      className="animal-policy-track"
       aria-labelledby="animal-policy-heading"
     >
       <div className="animal-policy__stage" ref={ref}>
@@ -214,20 +206,24 @@ function AnimalPolicy() {
               </Reveal>
             ))}
           </div>
-
-          <AnimalContinue href="#animal-cuidado" label="O cuidado na ponta" />
         </Container>
       </div>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
-/** Seção 2 — Textos em fundo branco */
+/** Seção 2 — Cuidado → Números */
 function AnimalCare() {
   return (
-    <Section
-      className="animal-care"
+    <MiniScreensHandoff
       id="animal-cuidado"
+      targetId="animal-numeros"
+      label="Causa Animal em quatro telas"
+      bandMax="30%"
+      previews={ANIMAL_PREVIEWS}
+      activeIndex={2}
+      pinClassName="animal-care"
+      className="animal-care-track"
       aria-labelledby="animal-care-heading"
     >
       <Container className="animal-care__shell">
@@ -256,19 +252,23 @@ function AnimalCare() {
             </Reveal>
           ))}
         </div>
-
-        <AnimalContinue href="#animal-numeros" label="Os números da causa" />
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
-/** Seção 3 — Números em fundo preto */
+/** Seção 3 — Números → Catarata */
 function AnimalNumbers() {
   return (
-    <Section
-      className="animal-numbers"
+    <MiniScreensHandoff
       id="animal-numeros"
+      targetId="catarata-abertura"
+      label="Próxima causa · Catarata"
+      bandMax="30%"
+      previews={CATARATA_PREVIEWS}
+      activeIndex={0}
+      pinClassName="animal-numbers"
+      className="animal-numbers-track"
       aria-labelledby="animal-numbers-heading"
     >
       <Container className="animal-numbers__shell">
@@ -318,13 +318,10 @@ function AnimalNumbers() {
             >
               Veja as ações realizadas
             </Button>
-            <Button href="#mutirao-da-catarata" variant="outline" arrow>
-              Próxima causa: Catarata
-            </Button>
           </div>
         </Reveal>
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 

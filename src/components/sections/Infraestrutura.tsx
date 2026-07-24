@@ -6,11 +6,14 @@ import {
 import { useRef } from "react";
 import { Reveal } from "../Reveal";
 import { PiauiRoadsMap } from "../PiauiRoadsMap";
+import { MiniScreensHandoff } from "../MiniScreensHandoff";
 import {
-  Button,
+  CALL_PREVIEWS,
+  INFRA_PREVIEWS,
+} from "../miniScreenPreviews";
+import {
   Container,
   Highlight,
-  Section,
   SectionTag,
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
@@ -40,24 +43,6 @@ const HIGHLIGHTS = [
   { value: "224", label: "municípios no mapa do cuidado" },
 ] as const;
 
-type ContinueProps = {
-  href: string;
-  label: string;
-};
-
-function InfraContinue({ href, label }: ContinueProps) {
-  return (
-    <Reveal className="infra-continue-wrap">
-      <a href={href} className="infra-continue">
-        <span>{label}</span>
-        <span className="infra-continue__arrow" aria-hidden="true">
-          ↓
-        </span>
-      </a>
-    </Reveal>
-  );
-}
-
 function SquareMetersCounter() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -80,7 +65,7 @@ function SquareMetersCounter() {
   );
 }
 
-/** 1 — Capa */
+/** 1 — Capa → Mapa */
 function InfraHero() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -88,9 +73,15 @@ function InfraHero() {
   const show = reduceMotion || inView;
 
   return (
-    <Section
-      className="infra-hero"
+    <MiniScreensHandoff
       id="infra-abertura"
+      targetId="infra-mapa"
+      label="Infraestrutura em quatro telas"
+      bandMax="30%"
+      previews={INFRA_PREVIEWS}
+      activeIndex={1}
+      pinClassName="infra-hero"
+      className="infra-hero-track"
       aria-labelledby="infra-heading"
     >
       <div className="infra-hero__stage" ref={ref}>
@@ -159,27 +150,25 @@ function InfraHero() {
               desenvolvimento a todas as regiões do Piauí — rua a rua, cidade a
               cidade.
             </motion.p>
-
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.68 }}
-            >
-              <InfraContinue href="#infra-mapa" label="Ver o mapa das obras" />
-            </motion.div>
           </div>
         </Container>
       </div>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
-/** 2 — Mapa das obras (branco) */
+/** 2 — Mapa → Números */
 function InfraMap() {
   return (
-    <Section
-      className="infra-map"
+    <MiniScreensHandoff
       id="infra-mapa"
+      targetId="infra-numeros"
+      label="Infraestrutura em quatro telas"
+      bandMax="30%"
+      previews={INFRA_PREVIEWS}
+      activeIndex={2}
+      pinClassName="infra-map"
+      className="infra-map-track"
       aria-labelledby="infra-map-heading"
     >
       <Container className="infra-map__shell">
@@ -191,8 +180,8 @@ function InfraMap() {
               <Highlight color="amber">caminho</Highlight>.
             </h3>
             <p className="lede infra-map__lede">
-              Um único caminho vivo atravessa o estado — a obra percorrendo o
-              Piauí de ponta a ponta.
+              De norte a sul, a obra liga as maiores cidades — as divisorias
+              municipais no mapa, o caminho abrindo o estado.
             </p>
           </Reveal>
 
@@ -213,19 +202,23 @@ function InfraMap() {
         <Reveal delay={0.1} className="infra-map__visual">
           <PiauiRoadsMap />
         </Reveal>
-
-        <InfraContinue href="#infra-numeros" label="Os números da causa" />
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
-/** 3 — Números (preto) */
+/** 3 — Números → Call final */
 function InfraNumbers() {
   return (
-    <Section
-      className="infra-numbers"
+    <MiniScreensHandoff
       id="infra-numeros"
+      targetId="participar"
+      label="Continuar a jornada"
+      bandMax="30%"
+      previews={CALL_PREVIEWS}
+      activeIndex={0}
+      pinClassName="infra-numbers"
+      className="infra-numbers-track"
       aria-labelledby="infra-numbers-heading"
     >
       <Container className="infra-numbers__shell">
@@ -272,14 +265,9 @@ function InfraNumbers() {
             Asfalto e paralelepípedo não são só obra: são dignidade chegando na
             porta de casa.
           </p>
-          <div className="infra-numbers__actions">
-            <Button href="#participar" variant="solid" arrow>
-              Continuar a jornada
-            </Button>
-          </div>
         </Reveal>
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 

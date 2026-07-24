@@ -21,9 +21,55 @@
   scroll-snap-stop: always;
 }
 
-.catarata-page > .section > .container {
+.catarata-page > .catarata-hero-track,
+.catarata-page > .catarata-practice-track,
+.catarata-page > .catarata-numbers-track {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+.catarata-page > .section > .container,
+.catarata-hero-track .catarata-hero__shell,
+.catarata-practice-track .catarata-practice__shell,
+.catarata-numbers-track .catarata-numbers__shell {
   width: 100%;
   margin-block: auto;
+}
+
+.catarata-hero.mini-handoff__pin {
+  background: var(--white);
+  overflow: hidden;
+  padding: 0;
+}
+
+.catarata-hero-track .catarata-hero__stage {
+  min-height: 100%;
+  height: 100%;
+}
+
+.catarata-practice.mini-handoff__pin {
+  background: var(--white);
+  padding: 0;
+  justify-content: stretch;
+}
+
+.catarata-numbers.mini-handoff__pin {
+  background: var(--dark);
+  color: var(--dark-ink);
+  padding: 0;
+  justify-content: stretch;
+}
+
+.catarata-practice-track .catarata-practice__shell,
+.catarata-numbers-track .catarata-numbers__shell {
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(1.15rem, 3svh, 2rem);
+  margin-block: 0;
 }
 
 .catarata-tag .section-tag__label {

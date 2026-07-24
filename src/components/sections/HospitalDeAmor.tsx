@@ -2,11 +2,14 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { useRef } from "react";
 import { Reveal } from "../Reveal";
+import { MiniScreensHandoff } from "../MiniScreensHandoff";
 import {
-  Button,
+  ANIMAL_PREVIEWS,
+  HOSPITAL_PREVIEWS,
+} from "../miniScreenPreviews";
+import {
   Container,
   Highlight,
-  Section,
   SectionTag,
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
@@ -36,25 +39,7 @@ const PILLARS = [
   },
 ] as const;
 
-type ContinueProps = {
-  href: string;
-  label: string;
-};
-
-function HamorContinue({ href, label }: ContinueProps) {
-  return (
-    <Reveal className="hamor-continue-wrap">
-      <a href={href} className="hamor-continue">
-        <span>{label}</span>
-        <span className="hamor-continue__arrow" aria-hidden="true">
-          ↓
-        </span>
-      </a>
-    </Reveal>
-  );
-}
-
-/** 1 — Capa */
+/** 1 — Capa → Referência */
 function HospitalHero() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -62,9 +47,15 @@ function HospitalHero() {
   const show = reduceMotion || inView;
 
   return (
-    <Section
-      className="hamor-hero"
+    <MiniScreensHandoff
       id="hospital-cta"
+      targetId="hospital-referencia"
+      label="Hospital de Amor em quatro telas"
+      bandMax="30%"
+      previews={HOSPITAL_PREVIEWS}
+      activeIndex={1}
+      pinClassName="hamor-hero"
+      className="hamor-hero-track"
       aria-labelledby="hamor-heading"
     >
       <div className="hamor-hero__stage" ref={ref}>
@@ -166,25 +157,14 @@ function HospitalHero() {
                 Avenida Presidente Kennedy.
               </span>
             </motion.p>
-
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.68 }}
-            >
-              <HamorContinue
-                href="#hospital-referencia"
-                label="Conheça a referência"
-              />
-            </motion.div>
           </div>
         </Container>
       </div>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
-/** 2 — Referência nacional + benefício para o Piauí */
+/** 2 — Referência → Números */
 function HospitalReference() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -192,9 +172,15 @@ function HospitalReference() {
   const show = reduceMotion || inView;
 
   return (
-    <Section
-      className="hamor-ref"
+    <MiniScreensHandoff
       id="hospital-referencia"
+      targetId="hospital-numeros"
+      label="Hospital de Amor em quatro telas"
+      bandMax="30%"
+      previews={HOSPITAL_PREVIEWS}
+      activeIndex={2}
+      pinClassName="hamor-ref"
+      className="hamor-ref-track"
       aria-labelledby="hamor-ref-heading"
     >
       <Container className="hamor-ref__inner">
@@ -233,14 +219,9 @@ function HospitalReference() {
               </motion.article>
             ))}
           </div>
-
-          <HamorContinue
-            href="#hospital-numeros"
-            label="Os números da causa"
-          />
         </div>
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
@@ -269,12 +250,18 @@ function AttendanceCounter() {
   );
 }
 
-/** 3 — Números em fundo preto */
+/** 3 — Números → Causa Animal */
 function HospitalNumbers() {
   return (
-    <Section
-      className="hamor-numbers"
+    <MiniScreensHandoff
       id="hospital-numeros"
+      targetId="animal-politica"
+      label="Próxima causa · Cuidado Animal"
+      bandMax="30%"
+      previews={ANIMAL_PREVIEWS}
+      activeIndex={0}
+      pinClassName="hamor-numbers"
+      className="hamor-numbers-track"
       aria-labelledby="hamor-numbers-heading"
     >
       <Container className="hamor-numbers__shell">
@@ -328,14 +315,9 @@ function HospitalNumbers() {
           <p className="hamor-numbers__close-lede">
             Prevenção e diagnóstico precoce mais perto de quem precisa.
           </p>
-          <div className="hamor-numbers__actions">
-            <Button href="#pacto-pelos-animais" variant="solid" arrow>
-              Próxima causa: Cuidado Animal
-            </Button>
-          </div>
         </Reveal>
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 

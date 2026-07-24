@@ -20,8 +20,62 @@
   scroll-snap-stop: always;
 }
 
-.nmand-page > .section > .container {
+.nmand-page > .nmand-hero-track,
+.nmand-page > .nmand-stats-track,
+.nmand-page > .nmand-spaces-track,
+.nmand-page > .nmand-brands-track {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+.nmand-page > .section > .container,
+.nmand-hero-track .nmand-hero__shell,
+.nmand-stats-track .nmand-stats__shell,
+.nmand-spaces-track .nmand-spaces__shell,
+.nmand-brands-track .nmand-brands__shell {
   width: 100%;
+}
+
+.nmand-hero.mini-handoff__pin,
+.nmand-stats.mini-handoff__pin,
+.nmand-spaces.mini-handoff__pin,
+.nmand-brands.mini-handoff__pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  padding: 0;
+}
+
+.nmand-hero.mini-handoff__pin {
+  background: var(--white);
+}
+
+.nmand-stats.mini-handoff__pin {
+  background: var(--dark);
+  color: var(--dark-ink);
+}
+
+.nmand-spaces.mini-handoff__pin {
+  background: #f3f2ef;
+}
+
+.nmand-brands.mini-handoff__pin {
+  background: var(--dark);
+  color: var(--dark-ink);
+}
+
+.nmand-stats-track .nmand-stats__shell,
+.nmand-spaces-track .nmand-spaces__shell,
+.nmand-brands-track .nmand-brands__shell,
+.nmand-hero-track .nmand-hero__shell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  min-height: 0;
+  padding-block: clamp(1rem, 2.8svh, 1.75rem);
+  box-sizing: border-box;
+  margin-block: 0;
 }
 
 .nmand-tag--ink .section-tag__label {
@@ -95,10 +149,6 @@
 
 .nmand-hero {
   background: var(--white);
-}
-
-.nmand-page > .nmand-hero.section {
-  justify-content: stretch;
 }
 
 .nmand-hero__shell {

@@ -22,9 +22,55 @@
   scroll-snap-stop: always;
 }
 
-.hamor-page > .section > .container {
+.hamor-page > .hamor-hero-track,
+.hamor-page > .hamor-ref-track,
+.hamor-page > .hamor-numbers-track {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+.hamor-page > .section > .container,
+.hamor-hero-track .hamor-hero__shell,
+.hamor-ref-track .hamor-ref__inner,
+.hamor-numbers-track .hamor-numbers__shell {
   width: 100%;
   margin-block: auto;
+}
+
+.hamor-hero.mini-handoff__pin {
+  background: var(--white);
+  overflow: hidden;
+  padding: 0;
+}
+
+.hamor-hero-track .hamor-hero__stage {
+  min-height: 100%;
+  height: 100%;
+}
+
+.hamor-ref.mini-handoff__pin {
+  background: var(--white);
+  padding: 0;
+  justify-content: stretch;
+}
+
+.hamor-numbers.mini-handoff__pin {
+  background: var(--dark);
+  color: var(--dark-ink);
+  padding: 0;
+  justify-content: stretch;
+}
+
+.hamor-ref-track .hamor-ref__inner,
+.hamor-numbers-track .hamor-numbers__shell {
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(1.15rem, 3svh, 2rem);
+  margin-block: 0;
 }
 
 .hamor-tag .section-tag__label {
@@ -169,20 +215,21 @@
 
 @media (min-width: 960px) {
   .hamor-hero__photo {
-    left: 36%;
-    width: 64%;
-    object-position: 48% 28%;
+    left: 28%;
+    width: 72%;
+    /* Empurra o sujeito à direita: o fade integra o rosa no texto, sem cobrir o rosto */
+    object-position: 68% 28%;
   }
 
   .hamor-hero__fade {
     background: linear-gradient(
       90deg,
       #ffffff 0%,
-      #ffffff 34%,
-      rgba(255, 255, 255, 0.97) 42%,
-      rgba(255, 255, 255, 0.55) 54%,
-      rgba(255, 255, 255, 0.14) 64%,
-      rgba(255, 255, 255, 0) 74%
+      #ffffff 30%,
+      rgba(255, 255, 255, 0.94) 36%,
+      rgba(255, 255, 255, 0.55) 42%,
+      rgba(255, 255, 255, 0.18) 48%,
+      rgba(255, 255, 255, 0) 54%
     );
   }
 

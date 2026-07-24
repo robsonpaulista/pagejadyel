@@ -2,16 +2,51 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useId, useRef, useState } from "react";
 import { Reveal } from "../Reveal";
 import {
+  MiniScreensHandoff,
+  type MiniScreenPreview,
+} from "../MiniScreensHandoff";
+import { ECA_PREVIEWS } from "../miniScreenPreviews";
+import {
   Button,
   Container,
   Highlight,
-  Section,
   SectionTag,
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
 import "./NumerosDoMandato.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+const MANDATO_PREVIEWS: MiniScreenPreview[] = [
+  {
+    id: "conquistas",
+    tone: "light",
+    tag: "Jadyel Alencar",
+    title: "Um mandato que entrega",
+    meta: "Conquistas · ECA Digital",
+  },
+  {
+    id: "producao",
+    tone: "dark",
+    tag: "Produção",
+    title: "783 proposições",
+    meta: "51 de autoria · 82 relatadas",
+  },
+  {
+    id: "espacos",
+    tone: "light",
+    tag: "Espaços",
+    title: "Grandes decisões",
+    meta: "Câmara · Comissões · Frentes",
+  },
+  {
+    id: "marcas",
+    tone: "dark",
+    tag: "Marcas",
+    title: "Causas do mandato",
+    meta: "ECA · Animal · Saúde · Obras",
+  },
+];
 
 const STATS = [
   {
@@ -120,24 +155,6 @@ const PILLARS = [
   },
 ] as const;
 
-type ContinueProps = {
-  href: string;
-  label: string;
-};
-
-function MandatoContinue({ href, label }: ContinueProps) {
-  return (
-    <Reveal className="nmand-continue-wrap">
-      <a href={href} className="nmand-continue">
-        <span>{label}</span>
-        <span className="nmand-continue__arrow" aria-hidden="true">
-          ↓
-        </span>
-      </a>
-    </Reveal>
-  );
-}
-
 function StatValue({
   value,
   enabled,
@@ -160,9 +177,15 @@ function MandatoHero() {
   const [openExtra, setOpenExtra] = useState(false);
 
   return (
-    <Section
-      className="nmand-hero"
+    <MiniScreensHandoff
       id="nmand-abertura"
+      targetId="nmand-producao"
+      label="O mandato em quatro telas"
+      bandMax="30%"
+      previews={MANDATO_PREVIEWS}
+      activeIndex={1}
+      pinClassName="nmand-hero"
+      className="nmand-hero-track"
       aria-labelledby="nmand-hero-heading"
     >
       <Container className="nmand-hero__shell">
@@ -257,14 +280,9 @@ function MandatoHero() {
               </div>
             ) : null}
           </Reveal>
-
-          <MandatoContinue
-            href="#nmand-producao"
-            label="Ver a produção legislativa"
-          />
         </div>
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
@@ -277,12 +295,18 @@ function MandatoProducao() {
   const [tipOpen, setTipOpen] = useState(false);
 
   return (
-    <Section
-      className="nmand-stats"
+    <MiniScreensHandoff
       id="nmand-producao"
+      targetId="nmand-espacos"
+      label="O mandato em quatro telas"
+      bandMax="30%"
+      previews={MANDATO_PREVIEWS}
+      activeIndex={2}
+      pinClassName="nmand-stats"
+      className="nmand-stats-track"
       aria-labelledby="nmand-stats-heading"
     >
-      <Container>
+      <Container className="nmand-stats__shell">
         <Reveal>
           <SectionTag
             className="nmand-tag nmand-tag--on-dark"
@@ -351,22 +375,26 @@ function MandatoProducao() {
             nominais
           </p>
         </Reveal>
-
-        <MandatoContinue href="#nmand-espacos" label="Onde as grandes decisões acontecem" />
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
 /** 03 — Espaços de decisão */
 function MandatoEspacos() {
   return (
-    <Section
-      className="nmand-spaces"
+    <MiniScreensHandoff
       id="nmand-espacos"
+      targetId="nmand-marcas"
+      label="O mandato em quatro telas"
+      bandMax="30%"
+      previews={MANDATO_PREVIEWS}
+      activeIndex={3}
+      pinClassName="nmand-spaces"
+      className="nmand-spaces-track"
       aria-labelledby="nmand-spaces-heading"
     >
-      <Container>
+      <Container className="nmand-spaces__shell">
         <Reveal>
           <SectionTag
             className="nmand-tag nmand-tag--ink"
@@ -403,24 +431,28 @@ function MandatoEspacos() {
             </Reveal>
           ))}
         </div>
-
-        <MandatoContinue href="#nmand-marcas" label="As marcas do mandato" />
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
-/** 05 — Marcas do mandato */
+/** 05 — Marcas do mandato → ECA Digital */
 function MandatoMarcas() {
   const [openId, setOpenId] = useState<string | null>(PILLARS[0].id);
 
   return (
-    <Section
-      className="nmand-brands"
+    <MiniScreensHandoff
       id="nmand-marcas"
+      targetId="eca-pratica"
+      label="Próxima causa · ECA Digital"
+      bandMax="30%"
+      previews={ECA_PREVIEWS}
+      activeIndex={0}
+      pinClassName="nmand-brands"
+      className="nmand-brands-track"
       aria-labelledby="nmand-brands-heading"
     >
-      <Container>
+      <Container className="nmand-brands__shell">
         <Reveal>
           <SectionTag
             className="nmand-tag nmand-tag--on-dark"
@@ -467,14 +499,9 @@ function MandatoMarcas() {
             transforma propostas em lei e ocupa espaços onde decisões importantes
             são tomadas.
           </p>
-          <div className="nmand-brands__actions">
-            <Button href="#eca-digital" variant="solid" arrow>
-              Próxima causa: ECA Digital
-            </Button>
-          </div>
         </Reveal>
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 

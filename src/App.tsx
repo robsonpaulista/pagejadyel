@@ -5,8 +5,6 @@ import { HospitalDeAmor } from "./components/sections/HospitalDeAmor";
 import { CausaAnimal } from "./components/sections/CausaAnimal";
 import { MutiraoCatarata } from "./components/sections/MutiraoCatarata";
 import { Infraestrutura } from "./components/sections/Infraestrutura";
-import { PiauiCuidado } from "./components/sections/PiauiCuidado";
-import { Missao } from "./components/sections/Missao";
 import { CallFinal } from "./components/sections/CallFinal";
 import { BottomBar } from "./components/sections/BottomBar";
 import { JinglePlayer } from "./components/JinglePlayer";
@@ -27,8 +25,6 @@ function App() {
           <CausaAnimal />
           <MutiraoCatarata />
           <Infraestrutura />
-          <PiauiCuidado />
-          <Missao />
           <CallFinal />
         </main>
         <JinglePlayer />

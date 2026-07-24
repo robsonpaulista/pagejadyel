@@ -8,11 +8,15 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 import { Reveal } from "../Reveal";
+import { MiniScreensHandoff } from "../MiniScreensHandoff";
+import {
+  ECA_PREVIEWS,
+  HOSPITAL_PREVIEWS,
+} from "../miniScreenPreviews";
 import {
   Button,
   Container,
   Highlight,
-  Section,
   SectionTag,
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
@@ -110,24 +114,6 @@ const PRESS = [
   },
 ] as const;
 
-type EcaContinueProps = {
-  href: string;
-  label: string;
-};
-
-function EcaContinue({ href, label }: EcaContinueProps) {
-  return (
-    <Reveal className="eca-continue-wrap">
-      <a href={href} className="eca-continue">
-        <span>{label}</span>
-        <span className="eca-continue__arrow" aria-hidden="true">
-          ↓
-        </span>
-      </a>
-    </Reveal>
-  );
-}
-
 function EcaHero() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -157,9 +143,15 @@ function EcaHero() {
   };
 
   return (
-    <Section
-      className="eca-hero"
+    <MiniScreensHandoff
       id="eca-pratica"
+      targetId="eca-importa"
+      label="ECA Digital em quatro telas"
+      bandMax="30%"
+      previews={ECA_PREVIEWS}
+      activeIndex={1}
+      pinClassName="eca-hero"
+      className="eca-hero-track"
       aria-labelledby="eca-heading"
     >
       <div className="eca-hero__stage" ref={ref}>
@@ -289,7 +281,8 @@ function EcaHero() {
                     >
                       {item.title}
                     </motion.h4>
-                    <motion.p className="eca-card__body" variants={partVariants}>
+                    <motion.p className="eca-card__body" variants={partVariants}
+                    >
                       {item.body}
                     </motion.p>
                   </motion.article>
@@ -297,11 +290,9 @@ function EcaHero() {
               </motion.div>
             </div>
           </div>
-
-          <EcaContinue href="#eca-importa" label="Por que isso importa" />
         </Container>
       </div>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
@@ -309,9 +300,15 @@ function EcaWhy() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <Section
-      className="eca-why"
+    <MiniScreensHandoff
       id="eca-importa"
+      targetId="eca-mandato"
+      label="ECA Digital em quatro telas"
+      bandMax="30%"
+      previews={ECA_PREVIEWS}
+      activeIndex={2}
+      pinClassName="eca-why"
+      className="eca-why-track"
       aria-labelledby="eca-why-heading"
     >
       <div className="eca-why__marks" aria-hidden="true">
@@ -366,141 +363,144 @@ function EcaWhy() {
             </Reveal>
           ))}
         </ol>
-
-        <EcaContinue href="#eca-mandato" label="Papel do mandato" />
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
 function EcaMandate() {
   const reduceMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.4 });
 
   return (
-    <Section
-      ref={sectionRef}
-      className="eca-mandate"
+    <MiniScreensHandoff
       id="eca-mandato"
+      targetId="eca-numeros"
+      label="ECA Digital em quatro telas"
+      bandMax="30%"
+      previews={ECA_PREVIEWS}
+      activeIndex={3}
+      pinClassName="eca-mandate"
+      className="eca-mandate-track"
       aria-labelledby="eca-mandate-heading"
     >
-      <Container className="eca-mandate__shell">
-        <div className="eca-mandate__top">
-          <Reveal>
-            <SectionTag label="O mandato" />
-            <h3 id="eca-mandate-heading" className="headline eca-block__title">
-              Papel do mandato
-            </h3>
-          </Reveal>
+      <div ref={sectionRef} className="eca-mandate__shell-wrap">
+        <Container className="eca-mandate__shell">
+          <div className="eca-mandate__top">
+            <Reveal>
+              <SectionTag label="O mandato" />
+              <h3 id="eca-mandate-heading" className="headline eca-block__title">
+                Papel do mandato
+              </h3>
+            </Reveal>
 
-          <div className="eca-timeline">
-            <div className="eca-timeline__track" aria-hidden="true">
-              <motion.div
-                className="eca-timeline__fill"
-                initial={{ width: "0%" }}
-                animate={
-                  reduceMotion || inView ? { width: "100%" } : { width: "0%" }
-                }
-                transition={{ duration: 1.05, ease: EASE, delay: 0.15 }}
-              />
-            </div>
-            <ol className="eca-timeline__steps">
-              {TIMELINE.map((step, index) => (
-                <motion.li
-                  key={step.label}
-                  className="eca-timeline__step"
-                  initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+            <div className="eca-timeline">
+              <div className="eca-timeline__track" aria-hidden="true">
+                <motion.div
+                  className="eca-timeline__fill"
+                  initial={{ width: "0%" }}
                   animate={
-                    reduceMotion || inView
-                      ? { opacity: 1, y: 0 }
-                      : { opacity: 0, y: 10 }
+                    reduceMotion || inView ? { width: "100%" } : { width: "0%" }
                   }
-                  transition={{
-                    duration: 0.45,
-                    ease: EASE,
-                    delay: reduceMotion ? 0 : 0.2 + index * 0.08,
-                  }}
-                >
-                  <span className="eca-timeline__dot" aria-hidden="true" />
-                  <span className="eca-timeline__label">{step.label}</span>
-                  <span className="eca-timeline__note">{step.note}</span>
-                </motion.li>
-              ))}
-            </ol>
-          </div>
-
-          <div className="eca-mandate__grid">
-            {MANDATE.map((item, index) => (
-              <Reveal key={item.title} delay={0.06 * index}>
-                <article
-                  className={[
-                    "eca-mandate__item",
-                    item.title === "Relatoria"
-                      ? "eca-mandate__item--featured"
-                      : null,
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
-                >
-                  <h4>{item.title}</h4>
-                  <p>{item.body}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-
-        <div className="eca-press" aria-labelledby="eca-press-heading">
-          <div className="eca-press__head">
-            <p className="eca-press__eyebrow">Relatoria · Na imprensa</p>
-            <h4 id="eca-press-heading" className="eca-press__title">
-              O que a cobertura registrou
-            </h4>
-          </div>
-
-          <ul className="eca-press__list">
-            {PRESS.map((item, index) => (
-              <li key={item.href} className="eca-press__item">
-                <Reveal delay={0.1 * index} className="eca-press__reveal">
-                  <a
-                    className="eca-press__link"
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  transition={{ duration: 1.05, ease: EASE, delay: 0.15 }}
+                />
+              </div>
+              <ol className="eca-timeline__steps">
+                {TIMELINE.map((step, index) => (
+                  <motion.li
+                    key={step.label}
+                    className="eca-timeline__step"
+                    initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                    animate={
+                      reduceMotion || inView
+                        ? { opacity: 1, y: 0 }
+                        : { opacity: 0, y: 10 }
+                    }
+                    transition={{
+                      duration: 0.45,
+                      ease: EASE,
+                      delay: reduceMotion ? 0 : 0.2 + index * 0.08,
+                    }}
                   >
-                    <span className="eca-press__thumb">
-                      <img
-                        src={item.image}
-                        alt={item.imageAlt}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </span>
-                    <span className="eca-press__body">
-                      <span className="eca-press__meta">
-                        <span className="eca-press__source">{item.source}</span>
-                        <span className="eca-press__dot" aria-hidden="true">
-                          ·
-                        </span>
-                        <time className="eca-press__date">{item.date}</time>
-                      </span>
-                      <span className="eca-press__headline">{item.title}</span>
-                      <span className="eca-press__cta">
-                        Ler matéria
-                        <span aria-hidden="true">↗</span>
-                      </span>
-                    </span>
-                  </a>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
-        </div>
+                    <span className="eca-timeline__dot" aria-hidden="true" />
+                    <span className="eca-timeline__label">{step.label}</span>
+                    <span className="eca-timeline__note">{step.note}</span>
+                  </motion.li>
+                ))}
+              </ol>
+            </div>
 
-        <EcaContinue href="#eca-numeros" label="Os números da causa" />
-      </Container>
-    </Section>
+            <div className="eca-mandate__grid">
+              {MANDATE.map((item, index) => (
+                <Reveal key={item.title} delay={0.06 * index}>
+                  <article
+                    className={[
+                      "eca-mandate__item",
+                      item.title === "Relatoria"
+                        ? "eca-mandate__item--featured"
+                        : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                  >
+                    <h4>{item.title}</h4>
+                    <p>{item.body}</p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+
+          <div className="eca-press" aria-labelledby="eca-press-heading">
+            <div className="eca-press__head">
+              <p className="eca-press__eyebrow">Relatoria · Na imprensa</p>
+              <h4 id="eca-press-heading" className="eca-press__title">
+                O que a cobertura registrou
+              </h4>
+            </div>
+
+            <ul className="eca-press__list">
+              {PRESS.map((item, index) => (
+                <li key={item.href} className="eca-press__item">
+                  <Reveal delay={0.1 * index} className="eca-press__reveal">
+                    <a
+                      className="eca-press__link"
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="eca-press__thumb">
+                        <img
+                          src={item.image}
+                          alt={item.imageAlt}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </span>
+                      <span className="eca-press__body">
+                        <span className="eca-press__meta">
+                          <span className="eca-press__source">{item.source}</span>
+                          <span className="eca-press__dot" aria-hidden="true">
+                            ·
+                          </span>
+                          <time className="eca-press__date">{item.date}</time>
+                        </span>
+                        <span className="eca-press__headline">{item.title}</span>
+                        <span className="eca-press__cta">
+                          Ler matéria
+                          <span aria-hidden="true">↗</span>
+                        </span>
+                      </span>
+                    </a>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Container>
+      </div>
+    </MiniScreensHandoff>
   );
 }
 
@@ -527,12 +527,18 @@ function ExposureCounter() {
   );
 }
 
-/** Números em fundo preto */
+/** Números em fundo preto → Hospital de Amor */
 function EcaNumbers() {
   return (
-    <Section
-      className="eca-numbers"
+    <MiniScreensHandoff
       id="eca-numeros"
+      targetId="hospital-cta"
+      label="Próxima causa · Hospital de Amor"
+      bandMax="30%"
+      previews={HOSPITAL_PREVIEWS}
+      activeIndex={0}
+      pinClassName="eca-numbers"
+      className="eca-numbers-track"
       aria-labelledby="eca-numbers-heading"
     >
       <Container className="eca-numbers__shell">
@@ -601,13 +607,10 @@ function EcaNumbers() {
             >
               Ver a lei completa
             </Button>
-            <Button href="#hospital-de-amor" variant="outline" arrow>
-              Próxima causa: Hospital de Amor
-            </Button>
           </div>
         </Reveal>
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 

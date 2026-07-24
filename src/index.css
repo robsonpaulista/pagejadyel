@@ -74,9 +74,9 @@ html {
   scroll-snap-type: y proximity;
 }
 
-.abertura.section {
+.abertura-track {
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
 }
 
 body {

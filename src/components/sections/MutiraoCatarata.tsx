@@ -5,11 +5,14 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 import { Reveal } from "../Reveal";
+import { MiniScreensHandoff } from "../MiniScreensHandoff";
 import {
-  Button,
+  CATARATA_PREVIEWS,
+  INFRA_PREVIEWS,
+} from "../miniScreenPreviews";
+import {
   Container,
   Highlight,
-  Section,
   SectionTag,
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
@@ -65,24 +68,6 @@ const IMPACTS = [
   },
 ] as const;
 
-type ContinueProps = {
-  href: string;
-  label: string;
-};
-
-function CatarataContinue({ href, label }: ContinueProps) {
-  return (
-    <Reveal className="catarata-continue-wrap">
-      <a href={href} className="catarata-continue">
-        <span>{label}</span>
-        <span className="catarata-continue__arrow" aria-hidden="true">
-          ↓
-        </span>
-      </a>
-    </Reveal>
-  );
-}
-
 function SurgeriesCounter() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -107,7 +92,7 @@ function SurgeriesCounter() {
   );
 }
 
-/** 1 — Capa */
+/** 1 — Capa → Impacto */
 function CatarataHero() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -115,9 +100,15 @@ function CatarataHero() {
   const show = reduceMotion || inView;
 
   return (
-    <Section
-      className="catarata-hero"
+    <MiniScreensHandoff
       id="catarata-abertura"
+      targetId="catarata-impacto"
+      label="Catarata em quatro telas"
+      bandMax="30%"
+      previews={CATARATA_PREVIEWS}
+      activeIndex={1}
+      pinClassName="catarata-hero"
+      className="catarata-hero-track"
       aria-labelledby="catarata-heading"
     >
       <div className="catarata-hero__stage" ref={ref}>
@@ -196,30 +187,25 @@ function CatarataHero() {
               Mais de 20 mil cirurgias realizadas, recuperando autonomia,
               autoestima e qualidade de vida para milhares de piauienses.
             </motion.p>
-
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.68 }}
-            >
-              <CatarataContinue
-                href="#catarata-impacto"
-                label="Conheça essa história"
-              />
-            </motion.div>
           </div>
         </Container>
       </div>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
-/** 2 — Impacto na prática (fundo branco) */
+/** 2 — Impacto → Números */
 function CatarataPractice() {
   return (
-    <Section
-      className="catarata-practice"
+    <MiniScreensHandoff
       id="catarata-impacto"
+      targetId="catarata-vidas"
+      label="Catarata em quatro telas"
+      bandMax="30%"
+      previews={CATARATA_PREVIEWS}
+      activeIndex={2}
+      pinClassName="catarata-practice"
+      className="catarata-practice-track"
       aria-labelledby="catarata-practice-heading"
     >
       <Container className="catarata-practice__shell">
@@ -272,22 +258,23 @@ function CatarataPractice() {
             </Reveal>
           ))}
         </div>
-
-        <CatarataContinue
-          href="#catarata-vidas"
-          label="O que muda na vida"
-        />
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 
-/** 3 — Números e transformação (fundo preto) */
+/** 3 — Números → Infraestrutura */
 function CatarataNumbers() {
   return (
-    <Section
-      className="catarata-numbers"
+    <MiniScreensHandoff
       id="catarata-vidas"
+      targetId="infra-abertura"
+      label="Próxima causa · Infraestrutura"
+      bandMax="30%"
+      previews={INFRA_PREVIEWS}
+      activeIndex={0}
+      pinClassName="catarata-numbers"
+      className="catarata-numbers-track"
       aria-labelledby="catarata-numbers-heading"
     >
       <Container className="catarata-numbers__shell">
@@ -336,14 +323,9 @@ function CatarataNumbers() {
             Porque cuidar também é ajudar as pessoas a enxergarem novos
             caminhos.
           </h4>
-          <div className="catarata-numbers__actions">
-            <Button href="#infraestrutura" variant="solid" arrow>
-              Próxima causa: Infraestrutura
-            </Button>
-          </div>
         </Reveal>
       </Container>
-    </Section>
+    </MiniScreensHandoff>
   );
 }
 

@@ -23,9 +23,73 @@
   scroll-snap-stop: always;
 }
 
-.eca-page > .section > .container {
+.eca-page > .eca-hero-track,
+.eca-page > .eca-why-track,
+.eca-page > .eca-mandate-track,
+.eca-page > .eca-numbers-track {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+.eca-page > .section > .container,
+.eca-hero-track .eca-hero__shell,
+.eca-why-track .eca-why__inner,
+.eca-mandate-track .eca-mandate__shell,
+.eca-numbers-track .eca-numbers__shell {
   width: 100%;
   margin-block: auto;
+}
+
+.eca-hero.mini-handoff__pin {
+  background: var(--white);
+  overflow: hidden;
+  padding: 0;
+}
+
+.eca-hero-track .eca-hero__stage {
+  min-height: 100%;
+  height: 100%;
+}
+
+.eca-why.mini-handoff__pin {
+  overflow: hidden;
+  background: var(--white);
+  padding: 0;
+  justify-content: stretch;
+}
+
+.eca-mandate.mini-handoff__pin {
+  background: var(--cream);
+  padding: 0;
+  justify-content: stretch;
+}
+
+.eca-numbers.mini-handoff__pin {
+  background: var(--dark);
+  color: var(--dark-ink);
+  padding: 0;
+  justify-content: stretch;
+}
+
+.eca-why-track .eca-why__inner,
+.eca-mandate-track .eca-mandate__shell,
+.eca-numbers-track .eca-numbers__shell {
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(1.15rem, 3svh, 2rem);
+  margin-block: 0;
+}
+
+.eca-mandate__shell-wrap {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .eca-block__title {
@@ -310,7 +374,8 @@
 
 /* ---- Bloco 3: por que importa ---- */
 
-.eca-why {
+/* :not(.mini-handoff__pin) — position:relative não pode derrubar o sticky */
+.eca-why:not(.mini-handoff__pin) {
   position: relative;
   overflow: hidden;
   background: var(--white);

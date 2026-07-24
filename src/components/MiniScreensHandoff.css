@@ -1,0 +1,231 @@
+/* Faixa + mini telas + clique → fade → próxima página */
+
+.mini-handoff {
+  position: relative;
+  height: calc(var(--panel-h) + 85svh);
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+.mini-handoff__pin {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 1;
+  box-sizing: border-box;
+  height: var(--panel-h);
+  min-height: var(--panel-h);
+  max-height: var(--panel-h);
+  overflow: hidden;
+}
+
+/* Especificidade > .eca-why { position:relative } */
+.mini-handoff > .mini-handoff__pin {
+  position: sticky;
+  top: var(--nav-h);
+}
+
+.mini-handoff__stage {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Camada fixa: a faixa cobre por cima — nunca encolhe nem empurra o conteúdo */
+.mini-handoff__content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.mini-handoff__band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  z-index: 4;
+  height: 0;
+  pointer-events: none;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mini-handoff__band-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  container-type: size;
+  padding: clamp(0.45rem, 2.5%, 1rem) var(--gutter)
+    clamp(0.55rem, 3%, 1.25rem);
+  box-sizing: border-box;
+  max-width: calc(var(--max-width) + 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+.mini-handoff__label {
+  margin: 0 0 clamp(0.35rem, 1.2cqh, 0.65rem);
+  flex-shrink: 0;
+  font-size: clamp(0.55rem, 3.5cqh, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.mini-handoff__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.35rem, 1.8cqh, 0.75rem);
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  align-items: stretch;
+}
+
+.mini-handoff__card {
+  position: relative;
+  overflow: hidden;
+  border-radius: clamp(8px, 2cqh, 14px);
+  padding: clamp(0.45rem, 3cqh, 1rem) clamp(0.5rem, 2.5cqi, 0.9rem);
+  height: 100%;
+  min-height: 0;
+  border: 1px solid rgba(35, 33, 28, 0.08);
+  box-shadow: 0 8px 20px rgba(22, 20, 15, 0.07);
+  transform-origin: bottom center;
+  will-change: transform, opacity;
+  container-type: size;
+  display: flex;
+  flex-direction: column;
+}
+
+.mini-handoff__card--light {
+  background: #fff;
+  color: var(--ink);
+}
+
+.mini-handoff__card--dark {
+  background: #16140f;
+  color: #f6f2ea;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.mini-handoff__card--active {
+  box-shadow:
+    0 0 0 1.5px rgba(255, 190, 0, 0.55),
+    0 12px 28px rgba(22, 20, 15, 0.12);
+}
+
+.mini-handoff__chrome {
+  display: flex;
+  gap: 0.28rem;
+  margin-bottom: clamp(0.25rem, 2.5cqh, 0.65rem);
+  flex-shrink: 0;
+}
+
+.mini-handoff__chrome span {
+  width: clamp(0.28rem, 1.8cqh, 0.45rem);
+  height: clamp(0.28rem, 1.8cqh, 0.45rem);
+  border-radius: 50%;
+  background: rgba(35, 33, 28, 0.18);
+}
+
+.mini-handoff__card--dark .mini-handoff__chrome span {
+  background: rgba(246, 242, 234, 0.28);
+}
+
+.mini-handoff__tag {
+  margin: 0;
+  font-size: clamp(0.45rem, 3.2cqh, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.mini-handoff__card--dark .mini-handoff__tag {
+  color: rgba(246, 242, 234, 0.55);
+}
+
+.mini-handoff__title {
+  margin: clamp(0.15rem, 1.5cqh, 0.4rem) 0 0;
+  font-size: clamp(0.7rem, 7.5cqh, 1.35rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+
+.mini-handoff__meta {
+  margin: auto 0 0;
+  padding-top: clamp(0.2rem, 2cqh, 0.5rem);
+  font-size: clamp(0.5rem, 3.8cqh, 0.78rem);
+  font-weight: 560;
+  line-height: 1.3;
+  opacity: 0.72;
+}
+
+.mini-handoff__cursor {
+  position: absolute;
+  left: 54%;
+  top: 58%;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 14px rgba(22, 20, 15, 0.35));
+  will-change: transform, opacity;
+}
+
+.mini-handoff__cursor-icon {
+  width: clamp(2rem, 22cqh, 2.6rem);
+  height: clamp(2rem, 22cqh, 2.6rem);
+  color: #16140f;
+  fill: var(--yellow);
+}
+
+.mini-handoff__cursor-hint {
+  margin-left: 0.15rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  background: #16140f;
+  color: var(--yellow);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.mini-handoff__fade {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--white);
+  pointer-events: none;
+}
+
+@media (min-width: 720px) {
+  .mini-handoff__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .mini-handoff__band-inner {
+    padding-inline: max(
+      var(--gutter),
+      calc((100% - var(--max-width)) / 2 + var(--gutter))
+    );
+  }
+}

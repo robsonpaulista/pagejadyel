@@ -1,7 +1,7 @@
 .piaui-map {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.65rem;
   width: 100%;
 }
 
@@ -17,8 +17,9 @@
 
 .piaui-map__stage {
   position: relative;
-  background: linear-gradient(180deg, #fcfaf7 0%, #f5f1ea 100%);
-  padding: clamp(0.65rem, 1.6svh, 1rem);
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 40%, #fff 0%, #f7f3ec 100%);
+  padding: clamp(0.5rem, 1.4svh, 0.85rem);
   min-height: min(54svh, 30rem);
 }
 
@@ -26,38 +27,50 @@
   display: block;
   width: 100%;
   height: auto;
-  max-height: min(48svh, 26rem);
+  max-height: min(50svh, 28rem);
   margin-inline: auto;
   overflow: visible;
 }
 
 .piaui-map__land {
-  fill: rgba(255, 255, 255, 0.55);
+  fill: rgba(255, 255, 255, 0.72);
 }
 
 .piaui-map__delimiter path {
-  fill: rgba(217, 127, 31, 0.04);
-  stroke: rgba(35, 33, 28, 0.22);
-  stroke-width: 0.7;
+  fill: rgba(217, 127, 31, 0.07);
+  stroke: rgba(35, 33, 28, 0.28);
+  stroke-width: 0.65;
 }
 
 .piaui-map__delimiter text {
-  fill: rgba(35, 33, 28, 0.42);
-  font-size: 5.8px;
-  font-weight: 650;
+  fill: rgba(35, 33, 28, 0.55);
+  font-size: 6.2px;
+  font-weight: 700;
   letter-spacing: 0.01em;
   pointer-events: none;
 }
 
 .piaui-map__outline {
-  stroke: rgba(35, 33, 28, 0.4);
-  stroke-width: 1.2;
+  stroke: rgba(35, 33, 28, 0.45);
+  stroke-width: 1.35;
+}
+
+.piaui-map__route-ghost {
+  stroke: rgba(224, 168, 42, 0.18);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .piaui-map__route {
-  stroke: #e0a82a;
-  stroke-width: 2.6;
-  filter: drop-shadow(0 0 2px rgba(224, 168, 42, 0.35));
+  stroke: #d98f1f;
+  stroke-width: 2.4;
+}
+
+.piaui-map__stops circle {
+  fill: #fff;
+  stroke: #d98f1f;
+  stroke-width: 1.4;
 }
 
 .piaui-map__truck {
@@ -66,10 +79,10 @@
 }
 
 .piaui-map__hint {
-  margin: 0.55rem 0 0;
+  margin: 0.45rem 0 0;
   font-size: 0.75rem;
   font-weight: 560;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   color: var(--ink-soft);
   text-align: center;
 }
