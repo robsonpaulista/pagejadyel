@@ -1,12 +1,14 @@
 import {
+  createContext,
   useCallback,
+  useContext,
   useEffect,
   useId,
   useRef,
   useState,
   type CSSProperties,
+  type ReactNode,
 } from "react";
-import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import "./JinglePlayer.css";
 
@@ -57,6 +59,14 @@ const TRACKS = [
 
 const PLAYLIST = TRACKS.map((t) => t.id).join(",");
 
+type JingleContextValue = {
+  ready: boolean;
+  engaged: boolean;
+  start: () => void;
+};
+
+const JingleContext = createContext<JingleContextValue | null>(null);
+
 let apiPromise: Promise<void> | null = null;
 
 function loadYouTubeApi(): Promise<void> {
@@ -87,11 +97,37 @@ function formatTime(totalSeconds: number): string {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
+/** Convite na home — renderizado no fluxo da Abertura (sem portal). */
+export function JingleInvite() {
+  const ctx = useContext(JingleContext);
+  if (!ctx || ctx.engaged) return null;
+
+  return (
+    <div className="jingle-invite">
+      <button
+        type="button"
+        className="jingle-invite__btn"
+        onClick={ctx.start}
+        disabled={!ctx.ready}
+        aria-label="Ouvir os jingles da campanha"
+      >
+        <span className="jingle-invite__icon" aria-hidden="true">
+          <PlayIcon />
+        </span>
+        <span className="jingle-invite__copy">
+          <strong>Ouvir os jingles</strong>
+          <small>4 faixas · começa no seu clique</small>
+        </span>
+      </button>
+    </div>
+  );
+}
+
 /**
  * Player de jingles: convida sem som, toca só no clique,
  * depois vira barra compacta com progresso durante a navegação.
  */
-export function JinglePlayer() {
+export function JinglePlayer({ children }: { children?: ReactNode }) {
   const reduceMotion = useReducedMotion();
   const hostId = useId().replace(/:/g, "");
   const playerRef = useRef<YTPlayer | null>(null);
@@ -105,21 +141,6 @@ export function JinglePlayer() {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(70);
   const [muted, setMuted] = useState(false);
-  const [inviteRoot, setInviteRoot] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    const find = () => {
-      const el = document.getElementById("jingle-invite-root");
-      if (el) setInviteRoot(el);
-    };
-    find();
-    const poll = window.setInterval(find, 80);
-    const stop = window.setTimeout(() => window.clearInterval(poll), 2500);
-    return () => {
-      window.clearInterval(poll);
-      window.clearTimeout(stop);
-    };
-  }, []);
 
   const syncTrackMeta = useCallback((player: YTPlayer) => {
     try {
@@ -129,7 +150,6 @@ export function JinglePlayer() {
         const fallback = TRACKS[idx]?.title ?? TRACKS[0].title;
         const data = player.getVideoData?.();
         const apiTitle = data?.title?.trim();
-        // Prefere título curto/campanha; se a API trouxer algo útil e curto, usa
         setTrackTitle(
           apiTitle && apiTitle.length > 0 && apiTitle.length < 48
             ? apiTitle
@@ -196,7 +216,6 @@ export function JinglePlayer() {
     };
   }, [hostId, syncTrackMeta]);
 
-  // Progresso em tempo real enquanto toca
   useEffect(() => {
     if (!playing) return;
     const tick = () => {
@@ -282,39 +301,10 @@ export function JinglePlayer() {
 
   const progress = duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0;
 
-  const invite =
-    !engaged && inviteRoot
-      ? createPortal(
-          <motion.div
-            className="jingle-invite"
-            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.55 }}
-          >
-            <button
-              type="button"
-              className="jingle-invite__btn"
-              onClick={start}
-              disabled={!ready}
-              aria-label="Ouvir os jingles da campanha"
-            >
-              <span className="jingle-invite__icon" aria-hidden="true">
-                <PlayIcon />
-              </span>
-              <span className="jingle-invite__copy">
-                <strong>Ouvir os jingles</strong>
-                <small>4 faixas · começa no seu clique</small>
-              </span>
-            </button>
-          </motion.div>,
-          inviteRoot,
-        )
-      : null;
-
   return (
-    <>
+    <JingleContext.Provider value={{ ready, engaged, start }}>
+      {children}
       <div id={`jingle-host-${hostId}`} className="jingle-host" aria-hidden="true" />
-      {invite}
 
       <AnimatePresence>
         {engaged && (
@@ -398,7 +388,7 @@ export function JinglePlayer() {
           </motion.aside>
         )}
       </AnimatePresence>
-    </>
+    </JingleContext.Provider>
   );
 }
 

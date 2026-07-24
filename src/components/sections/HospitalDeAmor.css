@@ -160,7 +160,6 @@
   min-height: 0;
   max-width: calc(var(--max-width) + 2 * var(--gutter));
   padding-block: clamp(1.15rem, 3svh, 2rem) clamp(1rem, 2.5svh, 1.65rem);
-  padding-inline: var(--gutter);
 }
 
 .hamor-hero__copy {
@@ -247,6 +246,64 @@
   }
 }
 
+/* Mobile: imagem no topo, texto em seguida (sem overlay) */
+@media (max-width: 767px) {
+  .hamor-hero.mini-handoff__pin,
+  .hamor-hero.section {
+    overflow: visible;
+  }
+
+  .hamor-hero-track .hamor-hero__stage,
+  .hamor-hero__stage {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .hamor-hero__photo {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    max-height: min(42svh, 20rem);
+    object-fit: cover;
+    object-position: 55% 28%;
+    flex-shrink: 0;
+    transform: none !important;
+  }
+
+  .hamor-hero__fade,
+  .hamor-hero__glow {
+    display: none;
+  }
+
+  .hamor-hero-track .hamor-hero__shell,
+  .hamor-hero__shell {
+    height: auto;
+    min-height: 0;
+    justify-content: flex-start;
+    padding-block: 1.25rem 1.75rem;
+    gap: 0.75rem;
+  }
+
+  .hamor-hero__headline {
+    max-width: none;
+    font-size: clamp(1.45rem, 6.5vw, 1.85rem);
+  }
+
+  .hamor-hero__site {
+    margin-top: 1rem;
+  }
+
+  .hamor-hero .hamor-continue-wrap {
+    margin-top: 1.15rem;
+  }
+}
+
 /* ---- 2. Referência (fundo branco) ---- */
 
 .hamor-ref.section,
@@ -265,7 +322,6 @@
   height: 100%;
   max-width: calc(var(--max-width) + 2 * var(--gutter));
   padding-block: clamp(1.5rem, 4.5svh, 2.75rem);
-  padding-inline: var(--gutter);
 }
 
 .hamor-ref__copy {
@@ -376,7 +432,7 @@
 .hamor-numbers__lede {
   max-width: 46ch;
   margin-top: var(--sp-3);
-  color: var(--dark-ink);
+  color: var(--dark-ink-muted);
 }
 
 .hamor-numbers__board {
@@ -442,6 +498,18 @@
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--dark-ink);
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 639px) {
+  .hamor-numbers__title,
+  .hamor-numbers__close-title {
+    max-width: none;
+  }
+
+  .hamor-score__value {
+    font-size: clamp(2rem, 12vw, 2.75rem);
+  }
 }
 
 .hamor-numbers__close {

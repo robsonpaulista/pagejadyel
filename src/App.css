@@ -3,6 +3,7 @@
   background: var(--cream);
   /* Espaço para a barra superior fixa */
   padding-top: var(--nav-h);
+  overflow-x: clip;
 }
 
 /* ---- Tipografia compartilhada dos painéis ---- */
@@ -15,6 +16,7 @@
   letter-spacing: -0.025em;
   color: var(--ink);
   text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .lede {
@@ -24,6 +26,55 @@
   font-weight: 500;
   line-height: 1.65;
   color: var(--ink-muted);
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 639px) {
+  :root {
+    --text-headline: clamp(1.4rem, 1.15rem + 2.8vw, 1.85rem);
+    --text-hero: clamp(1.65rem, 1.25rem + 3vw, 2.25rem);
+    --gutter: 1.15rem;
+  }
+
+  .headline {
+    max-width: none;
+  }
+
+  .lede {
+    max-width: none;
+  }
+}
+
+/* Mobile: painéis de causa crescem com o conteúdo (sem clipar na viewport) */
+@media (max-width: 767px) {
+  .nmand-page > .section,
+  .eca-page > .section,
+  .eca-hero.section,
+  .eca-why.section,
+  .eca-mandate.section,
+  .eca-numbers.section,
+  .hamor-page > .section,
+  .hamor-hero.section,
+  .hamor-ref.section,
+  .hamor-numbers.section,
+  .animal-page > .section,
+  .animal-policy.section,
+  .animal-care.section,
+  .animal-numbers.section,
+  .catarata-page > .section,
+  .catarata-hero.section,
+  .catarata-practice.section,
+  .catarata-numbers.section,
+  .infra-page > .section,
+  .infra-hero.section,
+  .infra-map.section,
+  .infra-numbers.section {
+    height: auto;
+    min-height: var(--panel-h);
+    max-height: none;
+    overflow: visible;
+    scroll-snap-align: none;
+  }
 }
 
 /* Pista de rolagem: "ROLE PARA COMEÇAR ↓" */

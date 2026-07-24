@@ -1,4 +1,5 @@
-/* Barra fixa no topo — mesmo eixo horizontal do conteúdo (ex.: “Grandes causas”) */
+/* Barra fixa no topo — desktop: links; mobile: sanduíche */
+
 .bottom-bar {
   position: fixed;
   top: 0;
@@ -14,13 +15,51 @@
 }
 
 .bottom-bar__inner {
+  position: relative;
+  z-index: 2;
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
 }
 
-.bottom-bar__list {
+.bottom-bar__mobile {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: var(--nav-h);
+  gap: 1rem;
+}
+
+.bottom-bar__brand {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  text-decoration: none;
+}
+
+.bottom-bar__toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: -0.35rem;
+  color: var(--dark-ink);
+  border-radius: 8px;
+}
+
+.bottom-bar__toggle:hover,
+.bottom-bar__toggle:focus-visible {
+  color: var(--yellow);
+}
+
+.bottom-bar__list--desktop {
+  display: none;
+}
+
+.bottom-bar__list {
   align-items: center;
   justify-content: flex-start;
   gap: 0;
@@ -28,20 +67,6 @@
   margin: 0;
   padding: 0.7rem 0;
   list-style: none;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  mask-image: linear-gradient(
-    90deg,
-    #000 0,
-    #000 calc(100% - 1.25rem),
-    transparent 100%
-  );
-}
-
-.bottom-bar__list::-webkit-scrollbar {
-  display: none;
 }
 
 .bottom-bar__item {
@@ -132,10 +157,104 @@
   color: var(--yellow);
 }
 
-@media (min-width: 960px) {
-  .bottom-bar__list {
-    mask-image: none;
-    overflow: visible;
+/* ---- Drawer mobile ---- */
+
+.bottom-bar__drawer {
+  position: fixed;
+  inset: var(--nav-h) 0 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.bottom-bar__drawer--open {
+  pointer-events: auto;
+}
+
+.bottom-bar__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(22, 20, 15, 0.55);
+  opacity: 0;
+  transition: opacity 0.28s var(--ease);
+}
+
+.bottom-bar__drawer--open .bottom-bar__backdrop {
+  opacity: 1;
+}
+
+.bottom-bar__drawer-list {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  width: min(100%, 20rem);
+  height: 100%;
+  margin: 0;
+  padding: 1rem var(--gutter) 2rem;
+  list-style: none;
+  background: var(--dark);
+  border-left: 1px solid rgba(246, 242, 234, 0.08);
+  box-shadow: -12px 0 32px rgba(0, 0, 0, 0.28);
+  transform: translateX(105%);
+  transition: transform 0.32s var(--ease);
+}
+
+.bottom-bar__drawer--open .bottom-bar__drawer-list {
+  transform: translateX(0);
+}
+
+.bottom-bar__drawer-link {
+  display: block;
+  padding: 0.95rem 0.15rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dark-ink-muted);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(246, 242, 234, 0.08);
+}
+
+.bottom-bar__drawer-link--active,
+.bottom-bar__drawer-link:hover,
+.bottom-bar__drawer-link:focus-visible {
+  color: var(--yellow);
+}
+
+.bottom-bar__drawer-link--blue.bottom-bar__drawer-link--active {
+  color: #6ba8f0;
+}
+
+.bottom-bar__drawer-link--pink.bottom-bar__drawer-link--active {
+  color: #f0a0b8;
+}
+
+.bottom-bar__drawer-link--orange.bottom-bar__drawer-link--active {
+  color: #f0b070;
+}
+
+.bottom-bar__drawer-link--purple.bottom-bar__drawer-link--active {
+  color: #c4a0f0;
+}
+
+.bottom-bar__drawer-link--amber.bottom-bar__drawer-link--active {
+  color: #f0d060;
+}
+
+@media (min-width: 768px) {
+  .bottom-bar__mobile {
+    display: none;
+  }
+
+  .bottom-bar__list--desktop {
+    display: flex;
+  }
+
+  .bottom-bar__drawer {
+    display: none;
   }
 
   .bottom-bar__sep {

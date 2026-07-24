@@ -216,7 +216,6 @@
   height: 100%;
   max-width: calc(var(--max-width) + 2 * var(--gutter));
   padding-block: clamp(1.5rem, 4svh, 2.75rem);
-  padding-inline: var(--gutter);
 }
 
 .catarata-hero__copy {
@@ -276,6 +275,59 @@
   .catarata-hero__copy {
     width: min(30rem, 46%);
     max-width: 46%;
+  }
+}
+
+/* Mobile: imagem no topo, texto em seguida (sem overlay) */
+@media (max-width: 767px) {
+  .catarata-hero.mini-handoff__pin,
+  .catarata-hero.section {
+    overflow: visible;
+  }
+
+  .catarata-hero-track .catarata-hero__stage,
+  .catarata-hero__stage {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .catarata-hero__photo {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    max-height: min(42svh, 20rem);
+    object-fit: cover;
+    object-position: 55% 22%;
+    flex-shrink: 0;
+    transform: none !important;
+  }
+
+  .catarata-hero__fade,
+  .catarata-hero__glow {
+    display: none;
+  }
+
+  .catarata-hero-track .catarata-hero__shell,
+  .catarata-hero__shell {
+    height: auto;
+    min-height: 0;
+    align-items: flex-start;
+    padding-block: 1.25rem 1.75rem;
+  }
+
+  .catarata-hero__copy {
+    max-width: none;
+    width: 100%;
+  }
+
+  .catarata-hero__headline {
+    max-width: none;
   }
 }
 

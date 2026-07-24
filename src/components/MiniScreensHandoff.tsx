@@ -100,14 +100,11 @@ function jumpToId(targetId: string, onComplete?: () => void): void {
     immediate: true,
     onComplete,
   });
-
-  const { pathname, search } = window.location;
-  window.history.replaceState(null, "", `${pathname}${search}#${targetId}`);
 }
 
 /**
  * Faixa branca + mini telas + clique do mouse → fade → página alvo.
- * Desktop only (≥768px); no mobile rende a seção estática.
+ * Ativo só no desktop (≥768px). Mobile: mesma estrutura, sem scrub/faixa/salto.
  */
 export function MiniScreensHandoff({
   id,
@@ -124,6 +121,8 @@ export function MiniScreensHandoff({
   const reduceMotion = useReducedMotion();
   const isDesktop = useIsDesktop();
   const skipHandoff = Boolean(reduceMotion || !isDesktop);
+  const skipRef = useRef(skipHandoff);
+  skipRef.current = skipHandoff;
 
   const trackRef = useRef<HTMLDivElement>(null);
   const openedRef = useRef(false);
@@ -131,6 +130,7 @@ export function MiniScreensHandoff({
   const [handoff, setHandoff] = useState<"idle" | "out" | "in">("idle");
   handoffRef.current = handoff;
 
+  /* trackRef precisa existir desde o 1º paint — não trocar a árvore no mobile */
   const { scrollYProgress } = useScroll({
     target: trackRef,
     offset: ["start start", "end end"],
@@ -148,8 +148,8 @@ export function MiniScreensHandoff({
   );
   const contentFade = useTransform(
     scrollYProgress,
-    [0, 0.15, 0.42],
-    [1, 1, 0.22],
+    skipHandoff ? [0, 1] : [0, 0.15, 0.42],
+    skipHandoff ? [1, 1] : [1, 1, 0.22],
   );
 
   const cursorOpacity = useTransform(
@@ -175,7 +175,7 @@ export function MiniScreensHandoff({
   );
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    if (skipHandoff) return;
+    if (skipRef.current) return;
     if (progress >= 0.8 && !openedRef.current) {
       openedRef.current = true;
       setHandoff("out");
@@ -184,6 +184,13 @@ export function MiniScreensHandoff({
       openedRef.current = false;
     }
   });
+
+  useEffect(() => {
+    if (skipHandoff) {
+      openedRef.current = false;
+      setHandoff("idle");
+    }
+  }, [skipHandoff]);
 
   useEffect(() => {
     if (skipHandoff || handoff !== "out") return;
@@ -201,30 +208,17 @@ export function MiniScreensHandoff({
     return () => window.clearTimeout(timer);
   }, [handoff]);
 
-  if (skipHandoff) {
-    return (
-      <section
-        id={id}
-        aria-labelledby={ariaLabelledBy}
-        className={[
-          "mini-handoff__pin",
-          "mini-handoff__pin--static",
-          pinClassName,
-          className,
-        ]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        {children}
-      </section>
-    );
-  }
-
   return (
     <div
       ref={trackRef}
       id={id}
-      className={["mini-handoff", className].filter(Boolean).join(" ")}
+      className={[
+        "mini-handoff",
+        skipHandoff ? "mini-handoff--static" : null,
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <section
         aria-labelledby={ariaLabelledBy}
@@ -233,76 +227,80 @@ export function MiniScreensHandoff({
         <div className="mini-handoff__stage">
           <motion.div
             className="mini-handoff__content"
-            style={{ opacity: contentFade }}
+            style={skipHandoff ? undefined : { opacity: contentFade }}
           >
             {children}
           </motion.div>
 
-          <motion.div
-            className="mini-handoff__band"
-            aria-hidden="true"
-            style={{ height: bandHeight }}
-          >
-            <div className="mini-handoff__band-inner">
-              <motion.p
-                className="mini-handoff__label"
-                style={{ opacity: labelOpacity }}
-              >
-                {label}
-              </motion.p>
-              <div className="mini-handoff__grid">
-                {previews.map((preview, index) => {
-                  const isActive = index === activeIndex;
-                  return (
-                    <PreviewCard
-                      key={preview.id}
-                      preview={preview}
-                      progress={scrollYProgress}
-                      isActive={isActive}
-                    >
-                      {isActive ? (
-                        <motion.div
-                          className="mini-handoff__cursor"
-                          style={{
-                            opacity: cursorOpacity,
-                            x: cursorX,
-                            y: cursorY,
-                            scale: cursorScale,
-                          }}
-                        >
-                          <MousePointer2
-                            className="mini-handoff__cursor-icon"
-                            strokeWidth={2.25}
-                            aria-hidden
-                          />
-                          <motion.span
-                            className="mini-handoff__cursor-hint"
-                            style={{ opacity: cursorHintOpacity }}
+          {!skipHandoff ? (
+            <motion.div
+              className="mini-handoff__band"
+              aria-hidden="true"
+              style={{ height: bandHeight }}
+            >
+              <div className="mini-handoff__band-inner">
+                <motion.p
+                  className="mini-handoff__label"
+                  style={{ opacity: labelOpacity }}
+                >
+                  {label}
+                </motion.p>
+                <div className="mini-handoff__grid">
+                  {previews.map((preview, index) => {
+                    const isActive = index === activeIndex;
+                    return (
+                      <PreviewCard
+                        key={preview.id}
+                        preview={preview}
+                        progress={scrollYProgress}
+                        isActive={isActive}
+                      >
+                        {isActive ? (
+                          <motion.div
+                            className="mini-handoff__cursor"
+                            style={{
+                              opacity: cursorOpacity,
+                              x: cursorX,
+                              y: cursorY,
+                              scale: cursorScale,
+                            }}
                           >
-                            Abrir
-                          </motion.span>
-                        </motion.div>
-                      ) : null}
-                    </PreviewCard>
-                  );
-                })}
+                            <MousePointer2
+                              className="mini-handoff__cursor-icon"
+                              strokeWidth={2.25}
+                              aria-hidden
+                            />
+                            <motion.span
+                              className="mini-handoff__cursor-hint"
+                              style={{ opacity: cursorHintOpacity }}
+                            >
+                              Abrir
+                            </motion.span>
+                          </motion.div>
+                        ) : null}
+                      </PreviewCard>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ) : null}
         </div>
       </section>
 
-      <motion.div
-        className="mini-handoff__fade"
-        aria-hidden="true"
-        initial={false}
-        animate={{ opacity: handoff === "out" ? 1 : 0 }}
-        transition={{
-          duration: handoff === "out" ? 0.28 : 0.6,
-          ease: EASE,
-        }}
-        style={{ pointerEvents: handoff === "out" ? "auto" : "none" }}
-      />
+      {!skipHandoff ? (
+        <motion.div
+          className="mini-handoff__fade"
+          aria-hidden="true"
+          initial={false}
+          animate={{ opacity: handoff === "out" ? 1 : 0 }}
+          transition={{
+            duration: handoff === "out" ? 0.28 : 0.6,
+            ease: EASE,
+          }}
+          style={{ pointerEvents: handoff === "out" ? "auto" : "none" }}
+        />
+      ) : null}
     </div>
   );
 }

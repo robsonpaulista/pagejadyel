@@ -14,21 +14,22 @@ import "./App.css";
 function App() {
   return (
     <SmoothScroll>
-      <div className="page">
-        <BottomBar />
-        {/* IntroSplash em standby: reativar importando de ./components/IntroSplash */}
-        <main>
-          <Abertura />
-          <NumerosDoMandato />
-          <EcaDigital />
-          <HospitalDeAmor />
-          <CausaAnimal />
-          <MutiraoCatarata />
-          <Infraestrutura />
-          <CallFinal />
-        </main>
-        <JinglePlayer />
-      </div>
+      <JinglePlayer>
+        <div className="page">
+          <BottomBar />
+          {/* IntroSplash em standby: reativar importando de ./components/IntroSplash */}
+          <main>
+            <Abertura />
+            <NumerosDoMandato />
+            <EcaDigital />
+            <HospitalDeAmor />
+            <CausaAnimal />
+            <MutiraoCatarata />
+            <Infraestrutura />
+            <CallFinal />
+          </main>
+        </div>
+      </JinglePlayer>
     </SmoothScroll>
   );
 }

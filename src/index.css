@@ -47,7 +47,7 @@
   --sp-7: 4rem;
 
   --section-y: clamp(4rem, 10vw, 7rem);
-  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --gutter: clamp(1.15rem, 4.5vw, 4rem);
   --max-width: 1200px;
   --nav-h: 3.25rem;
   /* Uma “página” de conteúdo abaixo do menu fixo */
@@ -72,6 +72,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-h);
   scroll-snap-type: y proximity;
+  overflow-x: clip;
 }
 
 .abertura-track {
@@ -87,7 +88,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 img,

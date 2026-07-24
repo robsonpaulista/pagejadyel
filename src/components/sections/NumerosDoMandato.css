@@ -651,3 +651,125 @@
     align-items: baseline;
   }
 }
+
+/* Mobile: seções crescem com o conteúdo (sem clipar na viewport) */
+@media (max-width: 767px) {
+  .nmand-page > .section {
+    height: auto;
+    min-height: var(--panel-h);
+    max-height: none;
+    overflow: visible;
+    justify-content: flex-start;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  .nmand-stats-track .nmand-stats__shell,
+  .nmand-spaces-track .nmand-spaces__shell,
+  .nmand-brands-track .nmand-brands__shell,
+  .nmand-hero-track .nmand-hero__shell,
+  .nmand-hero__shell {
+    height: auto;
+    min-height: 0;
+    justify-content: flex-start;
+    padding-block: 1.15rem 1.75rem;
+    gap: 0.85rem;
+  }
+
+  .nmand-hero__title {
+    font-size: clamp(1.45rem, 6.5vw, 1.85rem);
+    max-width: 16ch;
+  }
+
+  .nmand-hero__lede {
+    font-size: 0.92rem;
+    margin-top: 0.55rem;
+  }
+
+  .nmand-hero__bio {
+    margin-top: 0.55rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+  }
+
+  .nmand-hero__feature-body {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.88rem;
+    margin-top: 0.45rem;
+  }
+
+  .nmand-hero__feature-title {
+    font-size: 1.25rem;
+  }
+
+  .nmand-hero__proof {
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .nmand-hero__wins {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .nmand-hero__win h4 {
+    font-size: 0.88rem;
+  }
+
+  .nmand-hero__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-top: 0.25rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .nmand-hero .nmand-continue-wrap {
+    position: relative;
+    z-index: 1;
+    margin-top: 0.15rem;
+  }
+
+  .nmand-stats__title {
+    font-size: clamp(1.4rem, 6vw, 1.75rem);
+    margin-top: var(--sp-3);
+  }
+
+  .nmand-stats__strip {
+    margin-top: var(--sp-4);
+  }
+
+  .nmand-stat {
+    padding: 0.7rem 0;
+  }
+
+  .nmand-stat__value {
+    font-size: clamp(2rem, 9vw, 2.6rem);
+  }
+
+  .nmand-stat__label {
+    margin-top: 0.35rem;
+    font-size: 0.95rem;
+  }
+
+  .nmand-stat__meta,
+  .nmand-stat__tip {
+    margin-top: 0.2rem;
+    font-size: 0.75rem;
+  }
+
+  .nmand-stats__presence {
+    margin-top: var(--sp-4);
+    padding-bottom: 0.5rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .nmand-continue-wrap {
+    margin-top: var(--sp-4);
+  }
+}

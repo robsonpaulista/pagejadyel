@@ -24,13 +24,26 @@
   top: var(--nav-h);
 }
 
-/* Mobile / reduced-motion: seção normal, sem trilha de scrub */
-.mini-handoff__pin--static {
+/* Mobile / reduced-motion: sem trilha extra de scrub — página cresce com o conteúdo */
+.mini-handoff--static {
+  height: auto;
+}
+
+.mini-handoff--static .mini-handoff__pin {
   position: relative;
   top: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  height: auto;
+  max-height: none;
+  overflow: visible !important;
+}
+
+.mini-handoff--static .mini-handoff__content,
+.mini-handoff--static .mini-handoff__stage {
+  position: relative;
+  inset: auto;
+  height: auto;
+  max-height: none;
+  overflow: visible !important;
 }
 
 .mini-handoff__stage {
@@ -47,6 +60,7 @@
   z-index: 1;
   overflow: hidden;
   overscroll-behavior: none;
+  min-width: 0;
 }
 
 .mini-handoff__band {
@@ -239,10 +253,25 @@
   }
 }
 
-/* Mobile: handoff desligado (JS também rende static; CSS é rede de segurança) */
+/* Mobile: handoff desligado — páginas crescem com o conteúdo (sem clipar) */
 @media (max-width: 767px) {
   .mini-handoff {
-    height: auto;
+    height: auto !important;
+  }
+
+  .mini-handoff__pin {
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    min-height: var(--panel-h);
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .mini-handoff__stage {
+    height: auto !important;
+    min-height: var(--panel-h);
+    overflow: visible !important;
   }
 
   .mini-handoff__band,
@@ -251,10 +280,22 @@
   }
 
   .mini-handoff__content {
-    position: relative;
-    inset: auto;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
+    position: relative !important;
+    inset: auto !important;
+    height: auto !important;
+    min-height: var(--panel-h);
+    overflow: visible !important;
+  }
+
+  .mini-handoff--static {
+    height: auto;
+  }
+
+  .mini-handoff--static .mini-handoff__pin,
+  .mini-handoff--static .mini-handoff__content,
+  .mini-handoff--static .mini-handoff__stage {
+    height: auto;
+    max-height: none;
+    overflow: visible;
   }
 }

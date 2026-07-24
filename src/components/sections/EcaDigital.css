@@ -170,7 +170,6 @@
   min-height: 0;
   max-width: calc(var(--max-width) + 2 * var(--gutter));
   padding-block: clamp(1.25rem, 3.5svh, 2.25rem) clamp(1rem, 2.5svh, 1.75rem);
-  padding-inline: var(--gutter);
 }
 
 .eca-hero__copy {
@@ -695,7 +694,7 @@
 .eca-press__list {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.65rem;
+  gap: 1rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -705,8 +704,8 @@
 
 .eca-press__item,
 .eca-press__reveal {
-  display: flex;
-  height: 100%;
+  display: block;
+  height: auto;
   min-height: 0;
 }
 
@@ -716,10 +715,9 @@
 
 .eca-press__link {
   display: grid;
-  grid-template-columns: 5.5rem minmax(0, 1fr);
-  gap: 0.65rem;
+  grid-template-columns: 4.75rem minmax(0, 1fr);
+  gap: 0.65rem 0.75rem;
   align-items: start;
-  flex: 1;
   width: 100%;
   text-decoration: none;
   color: inherit;
@@ -759,7 +757,7 @@
 .eca-press__body {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.25rem;
   min-width: 0;
   padding-top: 0;
 }
@@ -827,7 +825,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  margin-top: 0.15rem;
+  margin-top: 0.35rem;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -859,6 +857,7 @@
 
   .eca-press__item,
   .eca-press__reveal {
+    display: flex;
     height: 100%;
   }
 
@@ -1100,5 +1099,154 @@
   .eca-continue,
   .eca-continue__arrow {
     animation: none;
+  }
+}
+
+/* Mobile: seções crescem com o conteúdo (sem clipar / sobrepor) */
+@media (max-width: 767px) {
+  .eca-page > .section,
+  .eca-hero.section,
+  .eca-why.section,
+  .eca-mandate.section,
+  .eca-numbers.section {
+    height: auto;
+    min-height: var(--panel-h);
+    max-height: none;
+    overflow: visible;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  .eca-page > .section > .container,
+  .eca-hero-track .eca-hero__shell,
+  .eca-why-track .eca-why__inner,
+  .eca-mandate-track .eca-mandate__shell,
+  .eca-numbers-track .eca-numbers__shell {
+    margin-block: 0;
+  }
+
+  .eca-why-track .eca-why__inner,
+  .eca-mandate-track .eca-mandate__shell,
+  .eca-numbers-track .eca-numbers__shell,
+  .eca-mandate__shell-wrap {
+    height: auto;
+    min-height: 0;
+    justify-content: flex-start;
+  }
+
+  .eca-hero.mini-handoff__pin,
+  .eca-why.mini-handoff__pin,
+  .eca-mandate.mini-handoff__pin,
+  .eca-numbers.mini-handoff__pin {
+    overflow: visible;
+  }
+
+  .eca-hero-track .eca-hero__stage {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .eca-hero__photo {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    max-height: min(42svh, 20rem);
+    object-fit: cover;
+    object-position: 70% center;
+    flex-shrink: 0;
+    transform: none !important;
+  }
+
+  .eca-hero__fade,
+  .eca-hero__glow {
+    display: none;
+  }
+
+  .eca-hero-track .eca-hero__shell,
+  .eca-hero__shell {
+    height: auto;
+    min-height: 0;
+    justify-content: flex-start;
+    padding-block: 1.25rem 1.75rem;
+    gap: 0.85rem;
+  }
+
+  .eca-hero__copy,
+  .eca-hero__practice {
+    max-width: none;
+    width: 100%;
+  }
+
+  .eca-hero__headline {
+    max-width: none;
+  }
+
+  .eca-press {
+    flex: none;
+    min-height: 0;
+    padding-top: 0.85rem;
+    gap: 0.75rem;
+  }
+
+  .eca-press__list {
+    gap: 1.15rem;
+    flex: none;
+  }
+
+  .eca-press__item,
+  .eca-press__reveal {
+    display: block;
+    height: auto;
+    min-height: 0;
+  }
+
+  .eca-press__link {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 0.55rem 0.7rem;
+    height: auto;
+    align-items: start;
+  }
+
+  .eca-press__thumb {
+    flex: none;
+    aspect-ratio: 1;
+    max-height: 4.5rem;
+    height: auto;
+  }
+
+  .eca-press__body {
+    gap: 0.2rem;
+  }
+
+  .eca-press__headline {
+    -webkit-line-clamp: 3;
+    font-size: 0.8rem;
+  }
+
+  .eca-press__cta {
+    margin-top: 0.4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .eca-mandate__shell {
+    padding-block: 1.15rem 1.75rem;
+    gap: 0.75rem;
+  }
+
+  .eca-numbers {
+    justify-content: flex-start;
+    padding-block: 1.15rem 1.75rem;
+  }
+
+  .eca-numbers__shell {
+    height: auto;
   }
 }

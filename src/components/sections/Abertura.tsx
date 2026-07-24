@@ -12,6 +12,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button, Container, Highlight, NameLockup } from "../ui";
 import { useIsDesktop } from "../../hooks/useIsDesktop";
 import { scrollToElement } from "../../lib/lenisBridge";
+import { JingleInvite } from "../JinglePlayer";
 import jadyelBandeira from "../../assets/jadyel-bandeira.webp";
 import "./Abertura.css";
 
@@ -148,9 +149,6 @@ function goToMandatoPage(onComplete?: () => void): void {
     immediate: true,
     onComplete,
   });
-
-  const { pathname, search } = window.location;
-  window.history.replaceState(null, "", `${pathname}${search}#nmand-abertura`);
 }
 
 /**
@@ -160,6 +158,8 @@ export function Abertura() {
   const reduceMotion = useReducedMotion();
   const isDesktop = useIsDesktop();
   const skipHandoff = Boolean(reduceMotion || !isDesktop);
+  const skipRef = useRef(skipHandoff);
+  skipRef.current = skipHandoff;
   const trackRef = useRef<HTMLDivElement>(null);
   const openedRef = useRef(false);
   const handoffRef = useRef<"idle" | "out" | "in">("idle");
@@ -170,7 +170,8 @@ export function Abertura() {
     offset: ["start start", "end end"],
   });
 
-  const afterTitleDelay = reduceMotion ? 0 : 0.08 * 8 + 0.15;
+  const afterTitleDelay = reduceMotion || skipHandoff ? 0 : 0.08 * 8 + 0.15;
+  const skipEnter = Boolean(reduceMotion || skipHandoff);
 
   /*
     0–0.55  faixa sobe até BAND_MAX + mini telas
@@ -245,7 +246,7 @@ export function Abertura() {
   );
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    if (skipHandoff) return;
+    if (skipRef.current) return;
     if (progress >= 0.8 && !openedRef.current) {
       openedRef.current = true;
       setHandoff("out");
@@ -255,6 +256,13 @@ export function Abertura() {
       openedRef.current = false;
     }
   });
+
+  useEffect(() => {
+    if (skipHandoff) {
+      openedRef.current = false;
+      setHandoff("idle");
+    }
+  }, [skipHandoff]);
 
   useEffect(() => {
     if (skipHandoff || handoff !== "out") return;
@@ -303,7 +311,7 @@ export function Abertura() {
             }
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.85, ease: EASE, delay: 0.15 }}
+            transition={{ duration: skipHandoff ? 0.45 : 0.85, ease: EASE, delay: skipHandoff ? 0 : 0.15 }}
           />
 
           <div className="abertura__fade" aria-hidden="true" />
@@ -311,6 +319,7 @@ export function Abertura() {
           <Container className="abertura__inner">
             <div className="abertura__copy">
               <motion.div
+                className="abertura__narrative"
                 style={
                   skipHandoff ? undefined : { opacity: titlesOpacity }
                 }
@@ -319,7 +328,7 @@ export function Abertura() {
                   id="abertura-heading"
                   className="headline abertura__headline"
                   variants={titleContainer}
-                  initial={reduceMotion ? false : "hidden"}
+                  initial={skipEnter ? false : "hidden"}
                   animate="show"
                 >
                   <Word>Grandes</Word> <Word>causas.</Word>
@@ -335,8 +344,8 @@ export function Abertura() {
                 </motion.h1>
 
                 <motion.p
-                  className="lede"
-                  initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                  className="lede abertura__lede abertura__lede--full"
+                  initial={skipEnter ? false : { opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
                     duration: 0.6,
@@ -348,11 +357,24 @@ export function Abertura() {
                   animais e levar obras para todos os cantos do estado. É assim
                   que o nosso mandato cuida do Piauí.
                 </motion.p>
+                <motion.p
+                  className="lede abertura__lede abertura__lede--short"
+                  initial={skipEnter ? false : { opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.45,
+                    ease: EASE,
+                    delay: afterTitleDelay,
+                  }}
+                >
+                  Proteger as crianças, ampliar a saúde, cuidar dos animais e
+                  levar obras a todo o Piauí.
+                </motion.p>
               </motion.div>
 
               <motion.div
-                className="abertura__brand"
-                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                className="abertura__signature"
+                initial={skipEnter ? false : { opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.6,
@@ -363,38 +385,22 @@ export function Abertura() {
                   skipHandoff ? undefined : { opacity: brandOpacity }
                 }
               >
-                <NameLockup
-                  compact
-                  subline={false}
-                  className="abertura__lockup"
-                />
-                <p className="abertura__urn" aria-label="Número de urna 1000">
-                  1000
-                </p>
-              </motion.div>
-
-              <motion.div
-                style={
-                  skipHandoff ? undefined : { opacity: titlesOpacity }
-                }
-              >
-                <motion.p
-                  className="abertura__slogan"
-                  initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.55,
-                    ease: EASE,
-                    delay: afterTitleDelay + 0.14,
-                  }}
-                >
-                  O Piauí É PRA JÁ!
-                </motion.p>
+                <div className="abertura__brand">
+                  <NameLockup
+                    compact
+                    subline={false}
+                    className="abertura__lockup"
+                  />
+                  <p className="abertura__urn" aria-label="Número de urna 1000">
+                    1000
+                  </p>
+                </div>
+                <p className="abertura__slogan">O Piauí É PRA JÁ!</p>
               </motion.div>
 
               <motion.div
                 className="abertura__actions"
-                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                initial={skipEnter ? false : { opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.6,
@@ -411,7 +417,7 @@ export function Abertura() {
                 >
                   Conheça as causas
                 </Button>
-                <div id="jingle-invite-root" />
+                <JingleInvite />
               </motion.div>
 
               <motion.a
