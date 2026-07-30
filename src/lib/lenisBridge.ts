@@ -1,6 +1,11 @@
 import type Lenis from "lenis";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 let lenisInstance: Lenis | null = null;
+/** Contador: >0 enquanto um scrollToElement está em andamento */
+let programmaticDepth = 0;
+/** Mantém o “congelamento” visual um pouco após o salto */
+let jumpFreezeTimer: number | null = null;
 
 export function setLenisInstance(instance: Lenis | null): void {
   lenisInstance = instance;
@@ -8,6 +13,42 @@ export function setLenisInstance(instance: Lenis | null): void {
 
 export function getLenisScroll(): number {
   return lenisInstance?.scroll ?? window.scrollY;
+}
+
+/** True durante salto de menu / handoff — ignore triggers de scrub. */
+export function isProgrammaticScroll(): boolean {
+  return programmaticDepth > 0;
+}
+
+/** Recalcula Lenis + ScrollTrigger após unlock de overflow (splash/menu). */
+export function refreshScrollLayout(): void {
+  lenisInstance?.resize();
+  ScrollTrigger.refresh();
+}
+
+function setJumpFreeze(active: boolean, holdMs = 0): void {
+  if (jumpFreezeTimer !== null) {
+    window.clearTimeout(jumpFreezeTimer);
+    jumpFreezeTimer = null;
+  }
+
+  if (active) {
+    document.documentElement.classList.add("menu-jumping");
+    window.dispatchEvent(new Event("menu-jump"));
+    return;
+  }
+
+  if (holdMs > 0) {
+    jumpFreezeTimer = window.setTimeout(() => {
+      jumpFreezeTimer = null;
+      if (programmaticDepth === 0) {
+        document.documentElement.classList.remove("menu-jumping");
+      }
+    }, holdMs);
+    return;
+  }
+
+  document.documentElement.classList.remove("menu-jumping");
 }
 
 type ScrollToOptions = {
@@ -18,7 +59,8 @@ type ScrollToOptions = {
 };
 
 /**
- * Scroll confiável com Lenis (usa scroll virtual + getBoundingClientRect).
+ * Scroll confiável com Lenis.
+ * Em saltos de menu (immediate), congela handoffs/scrub para não “passar” pelos efeitos.
  */
 export function scrollToElement(
   element: HTMLElement,
@@ -29,16 +71,44 @@ export function scrollToElement(
   const immediate = options?.immediate ?? false;
   const onComplete = options?.onComplete;
 
-  if (lenisInstance) {
-    const y =
-      lenisInstance.scroll + element.getBoundingClientRect().top + offset;
+  programmaticDepth += 1;
+  let settled = false;
 
-    lenisInstance.scrollTo(y, {
+  if (immediate) {
+    setJumpFreeze(true);
+  }
+
+  const settle = () => {
+    if (settled) return;
+    settled = true;
+    programmaticDepth = Math.max(0, programmaticDepth - 1);
+    if (immediate) {
+      // Dá tempo do scroll/sticky assentarem sem disparar handoffs
+      setJumpFreeze(false, 420);
+      requestAnimationFrame(() => {
+        ScrollTrigger.update();
+      });
+    }
+    onComplete?.();
+  };
+
+  // Failsafe: nunca deixar a flag presa
+  const failsafeMs = immediate ? 500 : Math.ceil(duration * 1000) + 400;
+  const failsafe = window.setTimeout(settle, failsafeMs);
+
+  if (lenisInstance) {
+    // Alvo direto no elemento — evita erro de getBoundingClientRect em pins/sticky
+    lenisInstance.scrollTo(element, {
+      offset,
       immediate,
       duration: immediate ? undefined : duration,
       programmatic: true,
       force: true,
-      onComplete,
+      lock: immediate,
+      onComplete: () => {
+        window.clearTimeout(failsafe);
+        settle();
+      },
     });
     return;
   }
@@ -46,7 +116,11 @@ export function scrollToElement(
   const top =
     element.getBoundingClientRect().top + window.scrollY + offset;
   window.scrollTo({ top, behavior: immediate ? "auto" : "smooth" });
-  if (onComplete) {
-    window.setTimeout(onComplete, immediate ? 0 : duration * 1000);
-  }
+  window.setTimeout(
+    () => {
+      window.clearTimeout(failsafe);
+      settle();
+    },
+    immediate ? 0 : Math.ceil(duration * 1000),
+  );
 }

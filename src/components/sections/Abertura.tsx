@@ -8,11 +8,11 @@ import {
   type Variants,
 } from "framer-motion";
 import { MousePointer2 } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Button, Container, Highlight, NameLockup } from "../ui";
 import { useIsDesktop } from "../../hooks/useIsDesktop";
-import { scrollToElement } from "../../lib/lenisBridge";
-import { JingleInvite } from "../JinglePlayer";
+import { isProgrammaticScroll, scrollToElement } from "../../lib/lenisBridge";
+import { JingleInvite, useJingle } from "../JinglePlayer";
 import { MANDATO_PREVIEWS } from "../miniScreenPreviews";
 import type { MiniScreenPreview } from "../MiniScreensHandoff";
 import jadyelBandeira from "../../assets/jadyel-bandeira.webp";
@@ -134,10 +134,9 @@ function goToMandatoPage(onComplete?: () => void): void {
       getComputedStyle(document.documentElement).getPropertyValue("--nav-h"),
     ) || 52;
 
-  // Salto imediato sob o fade branco — sem scrolls manuais restantes
   scrollToElement(target, {
     offset: -nav,
-    immediate: true,
+    immediate: false,
     onComplete,
   });
 }
@@ -148,6 +147,7 @@ function goToMandatoPage(onComplete?: () => void): void {
 export function Abertura() {
   const reduceMotion = useReducedMotion();
   const isDesktop = useIsDesktop();
+  const jingle = useJingle();
   const skipHandoff = Boolean(reduceMotion || !isDesktop);
   const skipRef = useRef(skipHandoff);
   skipRef.current = skipHandoff;
@@ -190,17 +190,6 @@ export function Abertura() {
     skipHandoff ? [1, 1] : [1, 1, 0],
   );
 
-  const photoScale = useTransform(
-    scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.28, 0.4],
-    skipHandoff ? [1, 1] : [1, 1, 1.02],
-  );
-  const photoX = useTransform(
-    scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.28, 0.4],
-    skipHandoff ? [0, 0] : [0, 0, -14],
-  );
-
   const bandHeight = useTransform(
     scrollYProgress,
     skipHandoff ? [0, 1] : [0, 0.04, 0.4, 1],
@@ -238,6 +227,8 @@ export function Abertura() {
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     if (skipRef.current) return;
+    // Menu / salto programático: não dispara o fade branco fixo
+    if (isProgrammaticScroll()) return;
     if (progress >= 0.72 && !openedRef.current) {
       openedRef.current = true;
       setHandoff("out");
@@ -256,6 +247,15 @@ export function Abertura() {
   }, [skipHandoff]);
 
   useEffect(() => {
+    const onJump = () => {
+      openedRef.current = false;
+      setHandoff("idle");
+    };
+    window.addEventListener("menu-jump", onJump);
+    return () => window.removeEventListener("menu-jump", onJump);
+  }, []);
+
+  useEffect(() => {
     if (skipHandoff || handoff !== "out") return;
 
     const timer = window.setTimeout(() => {
@@ -266,8 +266,13 @@ export function Abertura() {
         });
       });
     }, 300);
+    // Se o salto falhar, não deixa a tela branca presa
+    const failsafe = window.setTimeout(() => setHandoff("idle"), 2200);
 
-    return () => window.clearTimeout(timer);
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(failsafe);
+    };
   }, [handoff, skipHandoff]);
 
   useEffect(() => {
@@ -291,21 +296,36 @@ export function Abertura() {
         aria-labelledby="abertura-heading"
       >
         <div className="abertura__stage">
-          <motion.img
+          {/* Foto 100% estática — ancorada na base, sem parallax/zoom */}
+          <img
             className="abertura__photo"
             src={jadyelBandeira}
             alt="Jadyel Alencar sorrindo com a bandeira do Piauí sobre os ombros"
-            style={
-              skipHandoff
-                ? undefined
-                : { scale: photoScale, x: photoX }
-            }
-            initial={reduceMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: skipHandoff ? 0.45 : 0.85, ease: EASE, delay: skipHandoff ? 0 : 0.15 }}
           />
 
           <div className="abertura__fade" aria-hidden="true" />
+
+          <div
+            className={[
+              "abertura__ambient",
+              jingle.playing ? "abertura__ambient--live" : null,
+              jingle.refrainHit ? "abertura__ambient--hit" : null,
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            aria-hidden="true"
+            style={
+              {
+                "--jingle-ambience": String(jingle.ambience),
+              } as CSSProperties
+            }
+          >
+            <span className="abertura__particles" />
+          </div>
+
+          <div className="abertura__road" aria-hidden="true">
+            <span className="abertura__road-line" />
+          </div>
 
           <Container className="abertura__inner">
             <div className="abertura__copy">
@@ -328,9 +348,12 @@ export function Abertura() {
                     <Word>Um</Word> <Word>só</Word> <Word>propósito:</Word>
                   </span>
                   <br />
-                  <Highlight color="yellow">
-                    <Word>CUIDAR</Word> <Word>DO</Word> <Word>PIAUÍ</Word>
-                  </Highlight>
+                  <span className="abertura__care">
+                    <Highlight color="yellow">
+                      <Word>CUIDAR</Word> <Word>DO</Word> <Word>PIAUÍ</Word>
+                    </Highlight>
+                    <span className="abertura__care-light" aria-hidden="true" />
+                  </span>
                   <Word>.</Word>
                 </motion.h1>
 
@@ -401,12 +424,11 @@ export function Abertura() {
                 style={skipHandoff ? undefined : { opacity: ctaOpacity }}
               >
                 <Button
-                  href="#hospital-de-amor"
                   variant="solid"
                   arrow
                   className="abertura__cta"
                 >
-                  Conheça as causas
+                  Junte-se a nós
                 </Button>
                 <JingleInvite />
               </motion.div>
@@ -416,7 +438,7 @@ export function Abertura() {
                 href="#nmand-abertura"
                 style={skipHandoff ? undefined : { opacity: cueOpacity }}
               >
-                Role para conhecer as causas
+                Role para conhecer
                 <span className="cue__arrow">↓</span>
               </motion.a>
             </div>

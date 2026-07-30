@@ -174,7 +174,7 @@ function InfraMap() {
       <Container className="infra-map__shell">
         <div className="infra-map__copy">
           <Reveal>
-            <SectionTag className="infra-tag" label="O mapa das obras" />
+            <SectionTag className="infra-tag" label="Infraestrutura · O mapa das obras" />
             <h3 id="infra-map-heading" className="headline infra-map__title">
               O Piauí ganha{" "}
               <Highlight color="amber">caminho</Highlight>.
@@ -226,7 +226,7 @@ function InfraNumbers() {
           <Reveal>
             <SectionTag
               className="infra-tag infra-tag--on-dark"
-              label="Em números"
+              label="Infraestrutura em números"
             />
             <h3
               id="infra-numbers-heading"

@@ -7,8 +7,9 @@
   right: 0;
   z-index: 50;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   min-height: var(--nav-h);
+  height: var(--nav-h);
   padding-inline: var(--gutter);
   background: var(--dark);
   color: var(--dark-ink);
@@ -17,9 +18,12 @@
 .bottom-bar__inner {
   position: relative;
   z-index: 2;
+  display: flex;
+  align-items: stretch;
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
+  min-height: 100%;
 }
 
 .bottom-bar__mobile {
@@ -60,30 +64,42 @@
 }
 
 .bottom-bar__list {
-  align-items: center;
+  align-items: stretch;
   justify-content: flex-start;
   gap: 0;
   width: 100%;
+  height: 100%;
+  min-height: var(--nav-h);
   margin: 0;
-  padding: 0.7rem 0;
+  padding: 0;
   list-style: none;
 }
 
 .bottom-bar__item {
   display: inline-flex;
-  align-items: center;
+  align-items: stretch;
   flex-shrink: 0;
+  height: 100%;
 }
 
 .bottom-bar__sep {
-  margin-inline: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  margin-inline: 0.15rem;
   color: rgba(246, 242, 234, 0.28);
   font-weight: 700;
   user-select: none;
+  pointer-events: none;
 }
 
 .bottom-bar__link {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 100%;
+  min-height: var(--nav-h);
+  padding: 0 0.7rem;
   font-size: var(--text-tag);
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -91,21 +107,23 @@
   color: var(--dark-ink-muted);
   white-space: nowrap;
   text-decoration: none;
+  cursor: pointer;
   transition: color 0.25s var(--ease);
 }
 
 .bottom-bar__link::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.45rem;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: 0.55rem;
   height: 2px;
   border-radius: 999px;
   background: currentColor;
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.3s var(--ease);
+  pointer-events: none;
 }
 
 .bottom-bar__link:hover,
@@ -258,6 +276,15 @@
   }
 
   .bottom-bar__sep {
-    margin-inline: 0.85rem;
+    margin-inline: 0.35rem;
+  }
+
+  .bottom-bar__link {
+    padding-inline: 0.85rem;
+  }
+
+  .bottom-bar__link::after {
+    left: 0.85rem;
+    right: 0.85rem;
   }
 }

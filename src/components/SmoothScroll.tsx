@@ -10,7 +10,7 @@ type SmoothScrollProps = {
   children: ReactNode;
 };
 
-/** Smooth scroll global via Lenis — sincronizado com GSAP ScrollTrigger. */
+/** Smooth scroll global via Lenis — sincronizado com GSAP ScrollTrigger (inclui pin/scrub). */
 export function SmoothScroll({ children }: SmoothScrollProps) {
   useEffect(() => {
     const prefersReduced =
@@ -25,11 +25,33 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     });
 
     setLenisInstance(lenis);
+
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        if (arguments.length && typeof value === "number") {
+          lenis.scrollTo(value, { immediate: true });
+        }
+        return lenis.scroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+    });
+
     lenis.on("scroll", ScrollTrigger.update);
+    ScrollTrigger.defaults({ scroller: document.body });
+    ScrollTrigger.refresh();
 
     return () => {
       setLenisInstance(null);
+      ScrollTrigger.defaults({ scroller: undefined });
       lenis.destroy();
+      ScrollTrigger.refresh();
     };
   }, []);
 

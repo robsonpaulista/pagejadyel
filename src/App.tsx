@@ -7,6 +7,8 @@ import { MutiraoCatarata } from "./components/sections/MutiraoCatarata";
 import { Infraestrutura } from "./components/sections/Infraestrutura";
 import { CallFinal } from "./components/sections/CallFinal";
 import { BottomBar } from "./components/sections/BottomBar";
+import { BeatSplash } from "./components/BeatSplash";
+import { PageNav } from "./components/PageNav";
 import { JinglePlayer } from "./components/JinglePlayer";
 import { SmoothScroll } from "./components/SmoothScroll";
 import "./App.css";
@@ -16,8 +18,9 @@ function App() {
     <SmoothScroll>
       <JinglePlayer>
         <div className="page">
+          <BeatSplash />
           <BottomBar />
-          {/* IntroSplash em standby: reativar importando de ./components/IntroSplash */}
+          <PageNav />
           <main>
             <Abertura />
             <NumerosDoMandato />

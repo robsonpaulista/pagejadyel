@@ -22,7 +22,11 @@ export function CallFinal() {
               Juntos, podemos fazer o Piauí ir ainda mais longe.
             </h2>
 
-            <NameLockup className="call-final__lockup" />
+            <NameLockup
+              compact
+              subline={false}
+              className="call-final__lockup"
+            />
 
             <div className="call-final__actions">
               <Button variant="solid" href="#participar" arrow>

@@ -23,7 +23,10 @@ import { useCountUp } from "../../hooks/useCountUp";
 import ecaDigitalPhoto from "../../assets/eca-digital.webp";
 import pressRepublicanos from "../../assets/press/republicanos-eca.webp";
 import pressVeja from "../../assets/press/veja-eca.webp";
-import pressAci from "../../assets/press/aci-eca.webp";
+import pressG1 from "../../assets/press/g1-eca.jpg";
+import vejaLogo from "../../assets/press/veja-logo.png";
+import republicanosLogo from "../../assets/press/republicanos-logo.png";
+import g1Logo from "../../assets/press/g1-logo.png";
 import "./EcaDigital.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -81,6 +84,8 @@ const TIMELINE = [
 const PRESS = [
   {
     source: "Republicanos",
+    sourceLogo: republicanosLogo,
+    sourceLogoWide: true,
     date: "18 set 2025",
     title:
       "Sancionada lei que cria o Estatuto Digital da Criança e do Adolescente",
@@ -92,6 +97,7 @@ const PRESS = [
   },
   {
     source: "VEJA",
+    sourceLogo: vejaLogo,
     date: "20 ago 2025",
     title:
       "Câmara aprova ECA Digital, que obriga redes a proteger menores de idade",
@@ -102,15 +108,16 @@ const PRESS = [
       "Deputado Jadyel Alencar, relator do ECA Digital, em matéria da VEJA",
   },
   {
-    source: "ACI Digital",
-    date: "21 ago 2025",
+    source: "g1",
+    sourceLogo: g1Logo,
+    date: "17 mar 2026",
     title:
-      "Câmara dos Deputados aprova o ECA Digital, projeto que protege menores",
-    deck: "Aprovação destaca supervisão parental e segurança de crianças no ambiente digital.",
-    href: "https://www.acidigital.com/noticia/64195/camara-dos-deputados-aprova-o-eca-digital-projeto-que-protege-menores-de-idade-em-ambientes-digitais",
-    image: pressAci,
+      "ECA Digital começa a valer e impõe novas regras para crianças e jovens",
+    deck: "Lei sancionada em setembro entra em vigor e cria marco de proteção no ambiente digital.",
+    href: "https://g1.globo.com/tecnologia/noticia/2026/03/17/eca-digital-comeca-a-valer-e-impoe-novas-regras-para-criancas-e-jovens-em-redes-sociais-jogos-e-sites.ghtml",
+    image: pressG1,
     imageAlt:
-      "Hugo Motta e Jadyel Alencar celebrando a aprovação do ECA Digital",
+      "Ilustração da cobertura do g1 sobre a vigência do ECA Digital",
   },
 ] as const;
 
@@ -207,7 +214,7 @@ function EcaHero() {
                 animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                 transition={{ duration: 0.75, ease: EASE, delay: 0.55 }}
               >
-                <Highlight color="blue">internet</Highlight>
+                <Highlight color="yellow">internet</Highlight>
               </motion.span>
               <motion.span
                 initial={reduceMotion ? false : { opacity: 0 }}
@@ -234,7 +241,7 @@ function EcaHero() {
 
           <div className="eca-hero__practice" aria-labelledby="eca-changes-heading">
             <div className="eca-hero__practice-head">
-              <SectionTag label="Na prática" />
+              <SectionTag label="ECA Digital na prática" />
               <h3 id="eca-changes-heading" className="eca-hero__practice-title">
                 O que mudou na prática
               </h3>
@@ -319,7 +326,7 @@ function EcaWhy() {
 
       <Container className="eca-why__inner">
         <Reveal>
-          <SectionTag label="No dia a dia" />
+          <SectionTag label="ECA Digital no dia a dia" />
           <h3 id="eca-why-heading" className="headline eca-block__title">
             Por que isso importa
           </h3>
@@ -334,7 +341,7 @@ function EcaWhy() {
             transition={{ duration: 0.75, ease: EASE }}
           >
             A infância também acontece{" "}
-            <Highlight color="blue">online</Highlight>.
+            <Highlight color="yellow">online</Highlight>.
           </motion.p>
           <motion.p
             className="eca-why__kinetic-line eca-why__kinetic-line--second"
@@ -389,7 +396,7 @@ function EcaMandate() {
         <Container className="eca-mandate__shell">
           <div className="eca-mandate__top">
             <Reveal>
-              <SectionTag label="O mandato" />
+              <SectionTag label="ECA Digital no mandato" />
               <h3 id="eca-mandate-heading" className="headline eca-block__title">
                 Papel do mandato
               </h3>
@@ -445,7 +452,16 @@ function EcaMandate() {
                       .join(" ")}
                   >
                     <h4>{item.title}</h4>
-                    <p>{item.body}</p>
+                    <p>
+                      {item.title === "Conquista nacional" ? (
+                        <>
+                          Uma lei que fortalece o ECA em todo o Brasil, também
+                          na <Highlight color="yellow">internet</Highlight>.
+                        </>
+                      ) : (
+                        item.body
+                      )}
+                    </p>
                   </article>
                 </Reveal>
               ))}
@@ -480,7 +496,24 @@ function EcaMandate() {
                       </span>
                       <span className="eca-press__body">
                         <span className="eca-press__meta">
-                          <span className="eca-press__source">{item.source}</span>
+                          {"sourceLogo" in item && item.sourceLogo ? (
+                            <img
+                              className={[
+                                "eca-press__source-logo",
+                                "sourceLogoWide" in item && item.sourceLogoWide
+                                  ? "eca-press__source-logo--wide"
+                                  : null,
+                              ]
+                                .filter(Boolean)
+                                .join(" ")}
+                              src={item.sourceLogo}
+                              alt={item.source}
+                            />
+                          ) : (
+                            <span className="eca-press__source">
+                              {item.source}
+                            </span>
+                          )}
                           <span className="eca-press__dot" aria-hidden="true">
                             ·
                           </span>
@@ -546,14 +579,14 @@ function EcaNumbers() {
           <Reveal>
             <SectionTag
               className="eca-tag eca-tag--on-dark"
-              label="Em números"
+              label="ECA Digital em números"
             />
             <h3
               id="eca-numbers-heading"
               className="headline eca-numbers__title"
             >
               A proteção das crianças não termina fora da{" "}
-              <Highlight color="blue">tela</Highlight>.
+              <Highlight color="yellow">tela</Highlight>.
             </h3>
             <p className="lede eca-numbers__lede">
               O acesso cresce cedo — e os riscos também. Por isso a proteção

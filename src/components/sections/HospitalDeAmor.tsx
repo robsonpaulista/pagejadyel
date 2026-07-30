@@ -1,5 +1,13 @@
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { MapPin } from "lucide-react";
+import {
+  HandHeart,
+  HeartHandshake,
+  MapPin,
+  Search,
+  ShieldPlus,
+  Stethoscope,
+  type LucideIcon,
+} from "lucide-react";
 import { useRef } from "react";
 import { Reveal } from "../Reveal";
 import { MiniScreensHandoff } from "../MiniScreensHandoff";
@@ -24,20 +32,57 @@ const PATIENTS = 613_202;
 const DAILY_AVG = 5_697;
 const MUNICIPALITIES = 2_712;
 
-const PILLARS = [
+const REF_PILLARS: readonly {
+  title: string;
+  body: string;
+  Icon: LucideIcon;
+}[] = [
   {
+    title: "Atendimento gratuito",
+    body: "Cuidado oncológico sem cobrança para quem precisa.",
+    Icon: HeartHandshake,
+  },
+  {
+    title: "Tecnologia",
+    body: "Estrutura moderna para prevenção e diagnóstico.",
+    Icon: Stethoscope,
+  },
+  {
+    title: "Cuidado humanizado",
+    body: "Acolhimento ao paciente e à família em cada etapa.",
+    Icon: HandHeart,
+  },
+];
+
+const REF_CARDS: readonly {
+  seal: string;
+  title: string;
+  body: string;
+  relevance: string;
+  Icon: LucideIcon;
+}[] = [
+  {
+    seal: "Prevenção",
     title: "Prevenir",
     body: "Ações e exames para identificar riscos mais cedo.",
+    relevance: "Antecipar o cuidado reduz o impacto da doença.",
+    Icon: ShieldPlus,
   },
   {
+    seal: "Diagnóstico",
     title: "Descobrir cedo",
     body: "Mais estrutura para descobrir a doença no tempo certo.",
+    relevance: "Tempo certo muda o curso do tratamento.",
+    Icon: Search,
   },
   {
+    seal: "Acolhimento",
     title: "Cuidar",
     body: "Acolhimento para o paciente e para toda a família.",
+    relevance: "Cuidar é também estar perto de quem ama.",
+    Icon: HeartHandshake,
   },
-] as const;
+];
 
 /** 1 — Capa → Referência */
 function HospitalHero() {
@@ -133,7 +178,7 @@ function HospitalHero() {
               animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
               transition={{ duration: 0.7, ease: EASE, delay: 0.48 }}
             >
-              Uma conquista histórica para o Piauí: mais de R$ 60 milhões em
+              Uma conquista histórica para o Piauí: mais de R$ 100 milhões em
               investimentos para tornar realidade, em Teresina, uma unidade de
               referência em prevenção e diagnóstico oncológico. Quando a
               prevenção chega mais perto, diminuem a distância, a espera e o
@@ -166,11 +211,6 @@ function HospitalHero() {
 
 /** 2 — Referência → Números */
 function HospitalReference() {
-  const reduceMotion = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.35 });
-  const show = reduceMotion || inView;
-
   return (
     <MiniScreensHandoff
       id="hospital-referencia"
@@ -183,42 +223,86 @@ function HospitalReference() {
       className="hamor-ref-track"
       aria-labelledby="hamor-ref-heading"
     >
-      <Container className="hamor-ref__inner">
-        <div className="hamor-ref__copy" ref={ref}>
-          <Reveal>
-            <SectionTag className="hamor-tag" label="Referência nacional" />
+      <Container className="hamor-ref__shell">
+        <div className="hamor-ref__top">
+          <Reveal className="hamor-ref__intro">
+            <SectionTag
+              className="hamor-tag"
+              label="Hospital de Amor · Referência nacional"
+            />
             <h3 id="hamor-ref-heading" className="headline hamor-ref__title">
-              A maior referência em oncologia do Brasil mais perto dos{" "}
+              A maior referência
+              <br />
+              em oncologia do Brasil
+              <br />
+              mais perto dos{" "}
               <Highlight color="pink">piauienses</Highlight>.
             </h3>
             <p className="lede hamor-ref__lede">
-              O Hospital de Amor construiu uma história reconhecida pelo
-              atendimento gratuito, pela tecnologia e pelo cuidado humanizado.
-              A chegada de uma unidade a Teresina aproxima das famílias
-              piauienses a prevenção e o diagnóstico precoce.
+              Uma história reconhecida pelo atendimento gratuito, pela tecnologia
+              e pelo cuidado humanizado — agora mais perto das famílias do Piauí.
             </p>
           </Reveal>
 
-          <div className="hamor-ref__highlights">
-            {PILLARS.map((item, index) => (
-              <motion.article
-                key={item.title}
-                className="hamor-ref__item"
-                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-                animate={
-                  show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }
-                }
-                transition={{
-                  duration: 0.5,
-                  ease: EASE,
-                  delay: reduceMotion ? 0 : 0.25 + index * 0.1,
-                }}
-              >
-                <h4>{item.title}</h4>
-                <p>{item.body}</p>
-              </motion.article>
-            ))}
-          </div>
+          <Reveal delay={0.12} className="hamor-ref__feature-wrap">
+            <article className="hamor-ref__feature" tabIndex={0}>
+              <span className="hamor-ref__feature-mono" aria-hidden="true">
+                HA
+              </span>
+              <p className="hamor-ref__feature-seal">Chegada a Teresina</p>
+              <h4 className="hamor-ref__feature-title">
+                Referência nacional
+                <br />
+                de prevenção e diagnóstico
+              </h4>
+              <p className="hamor-ref__feature-body">
+                A unidade do Hospital de Amor em Teresina aproxima das famílias
+                piauienses a prevenção e o diagnóstico precoce, com o mesmo
+                padrão de excelência reconhecido no Brasil.
+              </p>
+              <ul className="hamor-ref__pillars">
+                {REF_PILLARS.map(({ title, body, Icon }) => (
+                  <li key={title} className="hamor-ref__pillar">
+                    <Icon
+                      className="hamor-ref__pillar-icon"
+                      size={16}
+                      strokeWidth={1.75}
+                      aria-hidden
+                    />
+                    <p className="hamor-ref__pillar-title">{title}</p>
+                    <p className="hamor-ref__pillar-body">{body}</p>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          </Reveal>
+        </div>
+
+        <div className="hamor-ref__grid">
+          {REF_CARDS.map(({ seal, title, body, relevance, Icon }, index) => (
+            <Reveal
+              key={title}
+              delay={0.18 + index * 0.07}
+              className="hamor-ref__card-wrap"
+            >
+              <article className="hamor-ref__card" tabIndex={0}>
+                <span className="hamor-ref__card-num" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="hamor-ref__card-seal">{seal}</p>
+                <Icon
+                  className="hamor-ref__card-icon"
+                  size={20}
+                  strokeWidth={1.75}
+                  aria-hidden
+                />
+                <h4 className="hamor-ref__card-title">{title}</h4>
+                <p className="hamor-ref__card-body">{body}</p>
+                <p className="hamor-ref__card-relevance">{relevance}</p>
+                <span className="hamor-ref__card-accent" aria-hidden="true" />
+              </article>
+            </Reveal>
+          ))}
         </div>
       </Container>
     </MiniScreensHandoff>
@@ -269,14 +353,14 @@ function HospitalNumbers() {
           <Reveal>
             <SectionTag
               className="hamor-tag hamor-tag--on-dark"
-              label="Em números"
+              label="Hospital de Amor em números"
             />
             <h3
               id="hamor-numbers-heading"
               className="headline hamor-numbers__title"
             >
               O maior centro oncológico da América Latina,{" "}
-              <Highlight color="pink">100% pelo SUS</Highlight>.
+              <Highlight color="yellow">100% pelo SUS</Highlight>.
             </h3>
             <p className="lede hamor-numbers__lede">
               Antigo Hospital de Câncer de Barretos, o Hospital de Amor atende

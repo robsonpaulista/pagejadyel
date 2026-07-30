@@ -210,7 +210,7 @@ function CatarataPractice() {
     >
       <Container className="catarata-practice__shell">
         <Reveal>
-          <SectionTag className="catarata-tag" label="Na prática" />
+          <SectionTag className="catarata-tag" label="Mutirões de Catarata na prática" />
           <h3
             id="catarata-practice-heading"
             className="headline catarata-practice__title"
@@ -282,7 +282,7 @@ function CatarataNumbers() {
           <Reveal>
             <SectionTag
               className="catarata-tag catarata-tag--on-dark"
-              label="Em números"
+              label="Mutirões de Catarata em números"
             />
             <h3
               id="catarata-numbers-heading"

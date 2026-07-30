@@ -3,7 +3,14 @@ import {
   useInView,
   useReducedMotion,
 } from "framer-motion";
-import { useRef } from "react";
+import {
+  HeartPulse,
+  Scale,
+  Shield,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+import { useRef, type MouseEvent } from "react";
 import { Reveal } from "../Reveal";
 import { MiniScreensHandoff } from "../MiniScreensHandoff";
 import {
@@ -17,6 +24,7 @@ import {
   SectionTag,
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
+import { scrollToElement } from "../../lib/lenisBridge";
 import causaAnimalPhoto from "../../assets/causa-animal.jpg";
 import "./CausaAnimal.css";
 
@@ -26,48 +34,57 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const CASTRATIONS_DONE = 4877;
 const CASTRATIONS_UPDATED = "julho de 2026";
 
-const TIMELINE = [
+const CARE_FEATURE_PILLARS: readonly {
+  title: string;
+  body: string;
+  Icon: LucideIcon;
+}[] = [
   {
-    when: "Outubro de 2025",
-    title: "É Pra Já Pet",
-    body: "Festival idealizado por Jadyel, reunindo famílias, tutores, protetores e organizações em torno da adoção responsável, dos serviços veterinários e da defesa animal. O evento marcou o anúncio de mais de R$ 20 milhões para ações da causa animal.",
+    title: "Ética",
+    body: "Controle populacional sem violência nem abandono.",
+    Icon: Scale,
   },
   {
-    when: "Junho de 2026",
-    title: "Pacto pelos Animais",
-    body: "A parceria com o Governo do Estado transformou a mobilização em política pública permanente, com ações previstas nos 224 municípios piauienses.",
+    title: "Rede",
+    body: "Apoio a quem já cuida todos os dias.",
+    Icon: Users,
   },
-] as const;
+  {
+    title: "Estado",
+    body: "Política pública permanente, não só campanha.",
+    Icon: Shield,
+  },
+];
 
-const HIGHLIGHTS = [
+const CARE_CARDS: readonly {
+  seal: string;
+  title: string;
+  body: string;
+  relevance: string;
+  Icon: LucideIcon;
+}[] = [
   {
-    value: "R$ 20 mi+",
-    label: "anunciados para ações da causa animal",
-  },
-  {
-    value: "20 mil",
-    label: "castrações previstas pelo Pacto",
-  },
-  {
-    value: "224",
-    label: "municípios contemplados",
-  },
-] as const;
-
-const PILLARS = [
-  {
+    seal: "Saúde",
     title: "Castração e saúde",
     body: "Procedimentos gratuitos, atendimento veterinário e ações itinerantes para levar cuidado a diferentes regiões do estado.",
+    relevance: "Cuidado que chega às cidades e reduz o abandono.",
+    Icon: HeartPulse,
   },
   {
+    seal: "Rede",
     title: "Apoio à rede protetora",
     body: "Ração Solidária, apoio a protetores independentes e fortalecimento das entidades que já realizam esse trabalho diariamente.",
+    relevance: "Quem protege precisa de estrutura e parceria.",
+    Icon: Users,
   },
   {
+    seal: "Proteção",
     title: "Proteção e responsabilidade",
     body: "Ações integradas de combate aos maus-tratos, educação para a guarda responsável e conscientização da população.",
+    relevance: "Mais fiscalização, educação e respeito à vida animal.",
+    Icon: Shield,
   },
-] as const;
+];
 
 const MANDATE_ROLE = [
   {
@@ -83,6 +100,14 @@ const MANDATE_ROLE = [
     body: "a parceria que ajudou a transformar o cuidado em política pública permanente.",
   },
 ] as const;
+
+function navOffset(): number {
+  return (
+    parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue("--nav-h"),
+    ) || 52
+  );
+}
 
 function CastrationCounter() {
   const reduceMotion = useReducedMotion();
@@ -121,12 +146,24 @@ function CastrationCounter() {
   );
 }
 
-/** Seção 1 — Capa → Cuidado */
+/** Seção 1 — Capa emocional da causa animal */
 function AnimalPolicy() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.35 });
-  const show = reduceMotion || inView;
+  const inView = useInView(ref, { once: true, amount: 0.28 });
+  const show = Boolean(reduceMotion || inView);
+
+  function goToStory(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+    const target = document.getElementById("animal-cuidado");
+    if (!target) return;
+    scrollToElement(target, {
+      offset: -navOffset(),
+      immediate: true,
+    });
+    const { pathname, search } = window.location;
+    window.history.pushState(null, "", `${pathname}${search}#animal-cuidado`);
+  }
 
   return (
     <MiniScreensHandoff
@@ -145,66 +182,77 @@ function AnimalPolicy() {
           className="animal-policy__photo"
           src={causaAnimalPhoto}
           alt="Jadyel Alencar com um cão, campanha da causa animal"
-          initial={reduceMotion ? false : { opacity: 0, x: 36 }}
-          animate={show ? { opacity: 1, x: 0 } : { opacity: 0, x: 36 }}
-          transition={{ duration: 0.85, ease: EASE }}
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={show ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.85, ease: EASE, delay: 0.28 }}
         />
         <div className="animal-policy__fade" aria-hidden="true" />
 
         <Container className="animal-policy__shell">
-          <Reveal>
-            <SectionTag
-              className="animal-tag"
-              label="Do movimento à política"
-            />
+          <div className="animal-policy__copy">
+            <motion.p
+              className="animal-policy__kicker"
+              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              transition={{ duration: 0.55, ease: EASE }}
+            >
+              Causa Animal
+            </motion.p>
+
             <h3
               id="animal-policy-heading"
               className="headline animal-policy__title"
             >
-              O cuidado virou{" "}
-              <Highlight color="orange">compromisso de Estado</Highlight>.
+              <motion.span
+                className="animal-policy__title-line"
+                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.65, delay: 0.12, ease: EASE }}
+              >
+                O cuidado virou
+              </motion.span>
+              <motion.span
+                className="animal-policy__title-line animal-policy__title-line--accent"
+                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.65, delay: 0.22, ease: EASE }}
+              >
+                compromisso
+              </motion.span>
+              <motion.span
+                className="animal-policy__title-line animal-policy__title-line--accent"
+                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.65, delay: 0.32, ease: EASE }}
+              >
+                de Estado.
+              </motion.span>
             </h3>
-            <p className="lede animal-policy__lede">
-              O É Pra Já Pet reuniu a sociedade, colocou a causa animal no centro
-              do debate e deu início a um grande movimento. Com a parceria do
-              Governo do Piauí, esse trabalho avançou para o Pacto pelos Animais:
-              uma política permanente de proteção e bem-estar animal.
-            </p>
-          </Reveal>
 
-          <div className="animal-timeline">
-            {TIMELINE.map((item, index) => (
-              <Reveal
-                key={item.title}
-                delay={0.08 * index}
-                className="animal-timeline__item"
-              >
-                <p className="animal-timeline__when">{item.when}</p>
-                <h4 className="animal-timeline__title">{item.title}</h4>
-                <p className="animal-timeline__body">{item.body}</p>
-              </Reveal>
-            ))}
-          </div>
+            <motion.p
+              className="lede animal-policy__lede"
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              transition={{ duration: 0.6, delay: 0.42, ease: EASE }}
+            >
+              Do É Pra Já Pet ao Pacto pelos Animais: um movimento que
+              transformou amor pelos animais em investimento e política pública
+              permanente.
+            </motion.p>
 
-          <div className="animal-path" aria-hidden="true">
-            <span>Movimento</span>
-            <span className="animal-path__arrow">→</span>
-            <span>Parceria</span>
-            <span className="animal-path__arrow">→</span>
-            <span>Política permanente</span>
-          </div>
-
-          <div className="animal-highlights">
-            {HIGHLIGHTS.map((item, index) => (
-              <Reveal
-                key={item.value}
-                delay={0.06 * index}
-                className="animal-highlight"
-              >
-                <p className="animal-highlight__value">{item.value}</p>
-                <p className="animal-highlight__label">{item.label}</p>
-              </Reveal>
-            ))}
+            <motion.a
+              className="animal-policy__cta"
+              href="#animal-cuidado"
+              onClick={goToStory}
+              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              transition={{ duration: 0.55, delay: 0.55, ease: EASE }}
+            >
+              Conheça essa história
+              <span className="animal-policy__cta-arrow" aria-hidden="true">
+                →
+              </span>
+            </motion.a>
           </div>
         </Container>
       </div>
@@ -227,28 +275,78 @@ function AnimalCare() {
       aria-labelledby="animal-care-heading"
     >
       <Container className="animal-care__shell">
-        <Reveal>
-          <SectionTag className="animal-tag" label="Na ponta" />
-          <h3 id="animal-care-heading" className="headline animal-care__title">
-            Castrar. Alimentar.{" "}
-            <Highlight color="orange">Proteger</Highlight>.
-          </h3>
-          <p className="lede animal-care__lede">
-            Uma política completa para controlar a população animal de forma
-            ética, reduzir o abandono, apoiar quem cuida e fortalecer o
-            combate aos maus-tratos.
-          </p>
-        </Reveal>
+        <div className="animal-care__top">
+          <Reveal className="animal-care__intro">
+            <SectionTag className="animal-tag" label="Causa Animal na ponta" />
+            <h3 id="animal-care-heading" className="headline animal-care__title">
+              Castrar. Alimentar.
+              <br />
+              <Highlight color="orange">Proteger</Highlight>.
+            </h3>
+            <p className="lede animal-care__lede">
+              Uma política completa para controlar a população animal de forma
+              ética, reduzir o abandono, apoiar quem cuida e fortalecer o
+              combate aos maus-tratos.
+            </p>
+          </Reveal>
 
-        <div className="animal-care__pillars">
-          {PILLARS.map((item, index) => (
+          <Reveal delay={0.12} className="animal-care__feature-wrap">
+            <article className="animal-care__feature" tabIndex={0}>
+              <span className="animal-care__feature-mono" aria-hidden="true">
+                PA
+              </span>
+              <p className="animal-care__feature-seal">Trilha do cuidado</p>
+              <h4 className="animal-care__feature-title">
+                Do movimento
+                <br />
+                à política permanente
+              </h4>
+              <p className="animal-care__feature-body">
+                Castração, alimentação, rede protetora e combate aos maus-tratos
+                em uma mesma agenda — para o cuidado deixar de depender só de
+                quem ama os animais.
+              </p>
+              <ul className="animal-care__mini">
+                {CARE_FEATURE_PILLARS.map(({ title, body, Icon }) => (
+                  <li key={title} className="animal-care__mini-item">
+                    <Icon
+                      className="animal-care__mini-icon"
+                      size={16}
+                      strokeWidth={1.75}
+                      aria-hidden
+                    />
+                    <p className="animal-care__mini-title">{title}</p>
+                    <p className="animal-care__mini-body">{body}</p>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          </Reveal>
+        </div>
+
+        <div className="animal-care__grid">
+          {CARE_CARDS.map(({ seal, title, body, relevance, Icon }, index) => (
             <Reveal
-              key={item.title}
-              delay={0.06 * index}
-              className="animal-care__pillar"
+              key={title}
+              delay={0.18 + index * 0.07}
+              className="animal-care__card-wrap"
             >
-              <h4>{item.title}</h4>
-              <p>{item.body}</p>
+              <article className="animal-care__card" tabIndex={0}>
+                <span className="animal-care__card-num" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="animal-care__card-seal">{seal}</p>
+                <Icon
+                  className="animal-care__card-icon"
+                  size={20}
+                  strokeWidth={1.75}
+                  aria-hidden
+                />
+                <h4 className="animal-care__card-title">{title}</h4>
+                <p className="animal-care__card-body">{body}</p>
+                <p className="animal-care__card-relevance">{relevance}</p>
+                <span className="animal-care__card-accent" aria-hidden="true" />
+              </article>
             </Reveal>
           ))}
         </div>
@@ -276,7 +374,7 @@ function AnimalNumbers() {
           <Reveal>
             <SectionTag
               className="animal-tag animal-tag--on-dark"
-              label="Em números"
+              label="Causa Animal em números"
             />
             <h3
               id="animal-numbers-heading"

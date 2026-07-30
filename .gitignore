@@ -26,3 +26,4 @@ dist-ssr
 # Originais e ambiente local
 fotos-originais/
 scripts/.venv/
+.venv-rembg/

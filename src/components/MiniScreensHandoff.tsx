@@ -9,7 +9,8 @@ import {
 import { MousePointer2 } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useIsDesktop } from "../hooks/useIsDesktop";
-import { scrollToElement } from "../lib/lenisBridge";
+import { isProgrammaticScroll, scrollToElement } from "../lib/lenisBridge";
+import { BrandMark } from "./ui/BrandMark";
 import "./MiniScreensHandoff.css";
 
 export type MiniScreenPreview = {
@@ -205,6 +206,8 @@ export function MiniScreensHandoff({
 
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     if (skipRef.current) return;
+    // Menu / salto programático: não dispara o fade branco fixo
+    if (isProgrammaticScroll()) return;
     if (progress >= 0.72 && !openedRef.current) {
       openedRef.current = true;
       setHandoff("out");
@@ -221,6 +224,16 @@ export function MiniScreensHandoff({
     }
   }, [skipHandoff]);
 
+  // Clique no menu: cancela fade branco / handoff em andamento
+  useEffect(() => {
+    const onJump = () => {
+      openedRef.current = false;
+      setHandoff("idle");
+    };
+    window.addEventListener("menu-jump", onJump);
+    return () => window.removeEventListener("menu-jump", onJump);
+  }, []);
+
   useEffect(() => {
     if (skipHandoff || handoff !== "out") return;
     const timer = window.setTimeout(() => {
@@ -228,7 +241,12 @@ export function MiniScreensHandoff({
         requestAnimationFrame(() => setHandoff("in"));
       });
     }, 300);
-    return () => window.clearTimeout(timer);
+    // Se o salto falhar, não deixa a tela branca presa
+    const failsafe = window.setTimeout(() => setHandoff("idle"), 2200);
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(failsafe);
+    };
   }, [handoff, targetId, skipHandoff]);
 
   useEffect(() => {
@@ -258,6 +276,7 @@ export function MiniScreensHandoff({
             className="mini-handoff__content"
             style={skipHandoff ? undefined : { opacity: contentFade }}
           >
+            <BrandMark className="mini-handoff__brand" />
             {children}
           </motion.div>
 

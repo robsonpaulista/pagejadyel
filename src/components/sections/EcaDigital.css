@@ -178,7 +178,9 @@
 }
 
 .eca-hero__tag .section-tag__label {
-  color: var(--blue);
+  font-size: clamp(0.95rem, 0.85rem + 0.45vw, 1.15rem);
+  letter-spacing: 0.12em;
+  color: var(--ink);
 }
 
 .eca-hero__headline {
@@ -287,7 +289,7 @@
   left: 4%;
   right: 4%;
   height: 2px;
-  background: rgba(47, 126, 224, 0.12);
+  background: rgba(255, 190, 0, 0.18);
   pointer-events: none;
   z-index: 0;
 }
@@ -296,7 +298,7 @@
   height: 100%;
   width: 100%;
   transform-origin: left center;
-  background: var(--blue);
+  background: var(--yellow);
   will-change: transform;
 }
 
@@ -329,7 +331,7 @@
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: var(--blue);
+  color: var(--yellow);
 }
 
 .eca-card__title {
@@ -391,7 +393,7 @@
 
 .eca-why__mark {
   position: absolute;
-  border: 1.5px solid rgba(47, 126, 224, 0.12);
+  border: 1.5px solid rgba(255, 190, 0, 0.18);
   opacity: 0.55;
 }
 
@@ -420,8 +422,8 @@
   height: min(9rem, 22vw);
   border-radius: 8px;
   background-image:
-    linear-gradient(rgba(47, 126, 224, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(47, 126, 224, 0.08) 1px, transparent 1px);
+    linear-gradient(rgba(255, 190, 0, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 190, 0, 0.12) 1px, transparent 1px);
   background-size: 18px 18px;
   border-color: transparent;
   animation: eca-drift 26s ease-in-out infinite;
@@ -503,8 +505,8 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background: rgba(47, 126, 224, 0.1);
-  color: var(--blue);
+  background: rgba(255, 190, 0, 0.22);
+  color: var(--ink);
   font-size: var(--text-caption);
   font-weight: 800;
 }
@@ -522,14 +524,14 @@
 
 .eca-mandate {
   background: var(--cream);
-  padding-block: clamp(1rem, 2.8svh, 1.75rem);
+  padding-block: clamp(1.15rem, 3.2svh, 2rem);
   justify-content: stretch;
 }
 
 .eca-mandate__shell {
   display: flex;
   flex-direction: column;
-  gap: clamp(0.75rem, 2svh, 1.25rem);
+  gap: clamp(1.15rem, 3.2svh, 1.85rem);
   flex: 1;
   min-height: 0;
   height: 100%;
@@ -538,7 +540,7 @@
 .eca-mandate__top {
   display: flex;
   flex-direction: column;
-  gap: clamp(0.65rem, 1.8svh, 1rem);
+  gap: clamp(1rem, 2.8svh, 1.65rem);
 }
 
 .eca-mandate .eca-block__title {
@@ -554,15 +556,15 @@
 .eca-timeline__track {
   position: relative;
   height: 2px;
-  margin: 0 0.4rem 0.85rem;
-  background: rgba(47, 126, 224, 0.14);
+  margin: 0 0.4rem 1.1rem;
+  background: rgba(255, 190, 0, 0.22);
   border-radius: 999px;
   overflow: hidden;
 }
 
 .eca-timeline__fill {
   height: 100%;
-  background: var(--blue);
+  background: var(--yellow);
 }
 
 .eca-timeline__steps {
@@ -585,8 +587,8 @@
   height: 0.45rem;
   margin-bottom: 0.2rem;
   border-radius: 50%;
-  background: var(--blue);
-  box-shadow: 0 0 0 3px rgba(47, 126, 224, 0.12);
+  background: var(--yellow);
+  box-shadow: 0 0 0 3px rgba(255, 190, 0, 0.22);
 }
 
 .eca-timeline__label {
@@ -612,21 +614,22 @@
 .eca-mandate__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.75rem;
+  gap: 1.15rem;
   margin: 0;
+  padding-top: 0.15rem;
 }
 
 .eca-mandate__item {
-  padding-top: 0.55rem;
-  border-top: 2px solid var(--blue);
+  padding-top: 0.85rem;
+  border-top: 2px solid var(--yellow);
 }
 
 .eca-mandate__item--featured {
-  border-top-color: var(--blue);
+  border-top-color: var(--yellow);
 }
 
 .eca-mandate__item h4 {
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.4rem;
   font-size: 0.95rem;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -637,10 +640,10 @@
   margin: 0;
   font-size: 0.82rem;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.5;
   color: var(--ink-muted);
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -648,7 +651,7 @@
 @media (min-width: 640px) {
   .eca-mandate__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 1.35rem 1.75rem;
   }
 }
 
@@ -656,13 +659,14 @@
 
 .eca-press {
   margin: 0;
-  padding-top: 0.75rem;
+  padding-top: clamp(1rem, 2.5svh, 1.35rem);
+  padding-bottom: 0.5rem;
   border-top: 1px solid var(--hairline);
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: clamp(0.75rem, 2svh, 1rem);
 }
 
 .eca-press__head {
@@ -678,7 +682,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--blue);
+  color: var(--yellow);
 }
 
 .eca-press__title {
@@ -728,7 +732,7 @@
 }
 
 .eca-press__link:hover .eca-press__headline {
-  color: var(--blue);
+  color: var(--yellow);
 }
 
 .eca-press__link:hover .eca-press__cta {
@@ -765,8 +769,8 @@
 .eca-press__meta {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.3rem;
+  align-items: center;
+  gap: 0.35rem;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -776,7 +780,23 @@
 
 .eca-press__source {
   position: relative;
-  color: var(--blue);
+  color: var(--yellow);
+}
+
+.eca-press__source-logo {
+  display: block;
+  width: 1.85rem;
+  height: 1.35rem;
+  object-fit: contain;
+  object-position: left center;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.eca-press__source-logo--wide {
+  width: 5.5rem;
+  height: 1.45rem;
+  object-fit: contain;
 }
 
 .eca-press__source::after {
@@ -786,7 +806,7 @@
   bottom: -0.15em;
   width: 100%;
   height: 1.5px;
-  background: var(--blue);
+  background: var(--yellow);
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 0.25s var(--ease);
@@ -830,8 +850,8 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--blue);
-  opacity: 0.85;
+  color: var(--yellow);
+  opacity: 0.95;
   transition:
     opacity 0.2s var(--ease),
     transform 0.2s var(--ease);
@@ -851,7 +871,7 @@
 
   .eca-press__list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.85rem;
+    gap: 1.15rem;
     align-items: stretch;
   }
 
@@ -871,8 +891,8 @@
 
   .eca-press__thumb {
     flex: 1 1 auto;
-    min-height: clamp(9rem, 22svh, 16rem);
-    max-height: none;
+    min-height: clamp(7.25rem, 17svh, 12.5rem);
+    max-height: min(12.5rem, 28svh);
     height: auto;
     aspect-ratio: auto;
   }
@@ -900,7 +920,7 @@
 }
 
 .eca-tag--on-dark .section-tag__num {
-  background: var(--blue);
+  background: var(--yellow);
   color: var(--dark);
 }
 
@@ -947,7 +967,7 @@
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 0.9;
-  color: var(--blue);
+  color: var(--yellow);
 }
 
 .eca-score__label {
@@ -965,7 +985,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--blue);
+  color: var(--yellow);
 }
 
 .eca-score__meta {
@@ -1014,8 +1034,8 @@
 }
 
 .eca-numbers .btn--solid {
-  background: var(--blue);
-  color: var(--dark);
+  background: var(--yellow);
+  color: var(--ink);
 }
 
 .eca-numbers .btn--outline {

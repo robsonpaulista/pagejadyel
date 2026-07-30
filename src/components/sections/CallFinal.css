@@ -38,6 +38,19 @@
   margin-top: var(--sp-6);
 }
 
+.call-final__lockup.name-lockup--compact {
+  --name-size: clamp(1.85rem, 1.4rem + 2vw, 2.75rem);
+}
+
+.call-final__lockup .name-lockup__name {
+  margin-top: var(--sp-3);
+}
+
+.call-final__lockup .name-lockup__chip-badge {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.55rem;
+}
+
 .call-final__actions {
   margin-top: var(--sp-6);
 }

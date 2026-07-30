@@ -14,7 +14,7 @@ type CauseLink = {
 
 const CAUSE_LINKS: CauseLink[] = [
   {
-    label: "Jadyel",
+    label: "Mandato",
     href: "#numeros-do-mandato",
     entryId: "nmand-abertura",
     accent: "yellow",
@@ -144,8 +144,13 @@ export function BottomBar() {
   function handleClick(event: MouseEvent<HTMLAnchorElement>, link: CauseLink) {
     event.preventDefault();
     setActiveHref(link.href);
+    // Libera overflow do drawer antes do salto (senão Lenis não anda)
+    document.body.style.overflow = "";
     setMenuOpen(false);
-    goToCauseEntry(link);
+    // Sem refresh pesado antes do salto — ele “trava” os handoffs no caminho
+    requestAnimationFrame(() => {
+      goToCauseEntry(link);
+    });
   }
 
   return (
@@ -157,16 +162,19 @@ export function BottomBar() {
             href="#abertura"
             onClick={(event) => {
               event.preventDefault();
+              document.body.style.overflow = "";
               setMenuOpen(false);
-              const home = document.getElementById("abertura");
-              if (home) {
-                scrollToElement(home, {
-                  offset: -navOffset(),
-                  immediate: true,
-                });
-              }
-              const { pathname, search } = window.location;
-              window.history.pushState(null, "", `${pathname}${search}`);
+              requestAnimationFrame(() => {
+                const home = document.getElementById("abertura");
+                if (home) {
+                  scrollToElement(home, {
+                    offset: -navOffset(),
+                    immediate: true,
+                  });
+                }
+                const { pathname, search } = window.location;
+                window.history.pushState(null, "", `${pathname}${search}`);
+              });
             }}
           >
             Jadyel

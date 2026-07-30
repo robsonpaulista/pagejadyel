@@ -1,0 +1,41 @@
+.brand-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+.brand-mark__chip {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: var(--yellow);
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.brand-mark__name {
+  margin: 0;
+  font-size: clamp(0.72rem, 0.65rem + 0.35vw, 0.95rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  text-align: right;
+  color: currentColor;
+}
+
+.brand-mark__surname {
+  display: block;
+  margin-top: 0.12em;
+  font-size: 0.55em;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  opacity: 0.72;
+}

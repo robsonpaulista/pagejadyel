@@ -5,4 +5,5 @@ export { SectionTag } from "./SectionTag";
 export { Highlight, type AccentColor } from "./Highlight";
 export { Media } from "./Media";
 export { NameLockup } from "./NameLockup";
+export { BrandMark } from "./BrandMark";
 export { CauseIcon, type CauseIconName } from "./CauseIcon";

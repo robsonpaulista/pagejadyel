@@ -1,0 +1,84 @@
+/* Splash preta — partículas no bottom */
+
+html.intro-locked,
+html.intro-locked body {
+  overflow: hidden !important;
+  height: 100%;
+}
+
+.beat-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background-color: #0a0908;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.beat-splash--out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.beat-splash__hit {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.beat-splash__stage {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.beat-splash__title {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  z-index: 2;
+  margin: 0;
+  max-width: min(92vw, 18ch);
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0;
+  will-change: opacity, transform;
+  font-family: var(--font-sans);
+  font-size: clamp(2.4rem, 9.5vw, 5.75rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(255, 190, 0, 0.92);
+  text-shadow: 0 0 40px rgba(255, 190, 0, 0.28);
+  pointer-events: none;
+  user-select: none;
+}
+
+.beat-splash__hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.25rem, 4vh, 2rem);
+  z-index: 2;
+  margin: 0;
+  transform: translateX(-50%);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(246, 242, 234, 0.42);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beat-splash {
+    display: none !important;
+  }
+}

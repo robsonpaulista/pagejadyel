@@ -62,10 +62,32 @@ const PLAYLIST = TRACKS.map((t) => t.id).join(",");
 type JingleContextValue = {
   ready: boolean;
   engaged: boolean;
+  playing: boolean;
+  currentTime: number;
+  /** 0–1 pulse decorativo (sem Web Audio — cues por tempo) */
+  ambience: number;
+  /** pico alinhado a momentos do refrão */
+  refrainHit: boolean;
   start: () => void;
 };
 
 const JingleContext = createContext<JingleContextValue | null>(null);
+
+/** Hook seguro para a home / ambiente reagir ao jingle. */
+export function useJingle(): JingleContextValue {
+  const ctx = useContext(JingleContext);
+  return (
+    ctx ?? {
+      ready: false,
+      engaged: false,
+      playing: false,
+      currentTime: 0,
+      ambience: 0,
+      refrainHit: false,
+      start: () => undefined,
+    }
+  );
+}
 
 let apiPromise: Promise<void> | null = null;
 
@@ -141,6 +163,8 @@ export function JinglePlayer({ children }: { children?: ReactNode }) {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(70);
   const [muted, setMuted] = useState(false);
+  const [ambience, setAmbience] = useState(0);
+  const [refrainHit, setRefrainHit] = useState(false);
 
   const syncTrackMeta = useCallback((player: YTPlayer) => {
     try {
@@ -217,20 +241,34 @@ export function JinglePlayer({ children }: { children?: ReactNode }) {
   }, [hostId, syncTrackMeta]);
 
   useEffect(() => {
-    if (!playing) return;
+    if (!playing) {
+      setAmbience(0);
+      setRefrainHit(false);
+      return;
+    }
     const tick = () => {
       const player = playerRef.current;
       if (!player) return;
       try {
-        setCurrentTime(player.getCurrentTime() || 0);
+        const t = player.getCurrentTime() || 0;
+        setCurrentTime(t);
         const d = player.getDuration();
         if (d > 0) setDuration(d);
+
+        /* Cues decorativos — sem Web Audio (YouTube cross-origin).
+           Pulsos nos ciclos típicos do refrão + seno leve enquanto toca. */
+        const cycle = t % 16;
+        const nearRefrain = cycle > 7.2 && cycle < 9.4;
+        const nearName = cycle > 11.2 && cycle < 12.6;
+        const pulse = 0.35 + 0.65 * Math.abs(Math.sin(t * 3.1));
+        setAmbience(nearRefrain || nearName ? Math.min(1, pulse + 0.25) : pulse * 0.55);
+        setRefrainHit(nearRefrain || nearName);
       } catch {
         /* ignore */
       }
     };
     tick();
-    const id = window.setInterval(tick, 400);
+    const id = window.setInterval(tick, 180);
     return () => window.clearInterval(id);
   }, [playing]);
 
@@ -302,7 +340,9 @@ export function JinglePlayer({ children }: { children?: ReactNode }) {
   const progress = duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0;
 
   return (
-    <JingleContext.Provider value={{ ready, engaged, start }}>
+    <JingleContext.Provider
+      value={{ ready, engaged, playing, currentTime, ambience, refrainHit, start }}
+    >
       {children}
       <div id={`jingle-host-${hostId}`} className="jingle-host" aria-hidden="true" />
 
