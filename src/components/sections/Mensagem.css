@@ -1,0 +1,325 @@
+.mensagem {
+  --serif: "Cormorant Garamond", "Times New Roman", serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ink: #3d4148;
+  --ink-soft: #6b7078;
+  --paper: #fbfbfb;
+
+  box-sizing: border-box;
+  min-height: 100svh;
+  height: 100svh;
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.mensagem__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(92vw, 48rem);
+  perspective: 1100px;
+  perspective-origin: 50% 50%;
+}
+
+.mensagem__tilt {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.mensagem__frames {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  aspect-ratio: 1408 / 768;
+  transform: translateZ(0);
+}
+
+.mensagem__envelope {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  filter: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  transform-origin: 50% 60%;
+}
+
+.mensagem__envelope--closed {
+  z-index: 1;
+}
+
+.mensagem__envelope--message {
+  z-index: 2;
+}
+
+/* ---- Bilhete / carta ---- */
+
+.mensagem__card {
+  position: absolute;
+  z-index: 5;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+  transform-origin: 50% 85%;
+  overflow: hidden;
+}
+
+.mensagem__card[role="button"] {
+  cursor: pointer;
+}
+
+.mensagem__card--letter {
+  z-index: 6;
+  background: var(--paper);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 18px 40px rgba(20, 16, 10, 0.12),
+    0 4px 12px rgba(20, 16, 10, 0.06);
+}
+
+.mensagem__card-inner {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 0.4em 0.45em 0.55em;
+  overflow: hidden;
+}
+
+.mensagem__card--letter .mensagem__card-inner {
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: clamp(1.1rem, 2.2vw, 1.85rem) clamp(1.15rem, 2.8vw, 2.1rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mensagem__note-text {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.28em;
+  text-align: center;
+  font-family: var(--serif);
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.mensagem__card--letter .mensagem__note-text {
+  gap: 0.2em;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(120, 124, 132, 0.22);
+}
+
+.mensagem__note-line {
+  display: block;
+  font-size: clamp(0.68rem, 0.5rem + 0.95vw, 1.05rem);
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+}
+
+.mensagem__card--letter .mensagem__note-line {
+  font-size: clamp(1.05rem, 0.85rem + 1.1vw, 1.5rem);
+}
+
+.mensagem__note-line--soft {
+  font-size: clamp(0.56rem, 0.4rem + 0.8vw, 0.88rem);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.mensagem__card--letter .mensagem__note-line--soft {
+  font-size: clamp(0.88rem, 0.68rem + 0.85vw, 1.15rem);
+}
+
+.mensagem__letter-body {
+  margin: 0;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85em;
+}
+
+.mensagem__letter-body p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(0.9rem, 0.72rem + 0.85vw, 1.2rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.mensagem__seal-btn:disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ---- Botão do lacre (ponta da aba) ---- */
+
+.mensagem__seal-btn {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  z-index: 4;
+  translate: -50% -50%;
+  width: clamp(2.5rem, 6.2vw, 3.25rem);
+  height: clamp(2.5rem, 6.2vw, 3.25rem);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transform: translateZ(36px);
+}
+
+.mensagem__seal-btn:focus-visible {
+  outline: 2px solid #1a1814;
+  outline-offset: 6px;
+  border-radius: 50%;
+}
+
+.mensagem__card:focus-visible {
+  outline: 2px solid #1a1814;
+  outline-offset: 4px;
+}
+
+/* ---- Selo — fundo branco; JA e linhas em cinza ---- */
+
+.selo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 5px rgba(20, 16, 10, 0.08));
+}
+
+.selo__wax {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.selo__rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    inset 0 0 0 1px rgba(160, 164, 170, 0.35),
+    0 1px 2px rgba(20, 16, 10, 0.06);
+}
+
+.selo__rim::before {
+  content: "";
+  position: absolute;
+  inset: 10%;
+  border-radius: 50%;
+  border: 1px solid rgba(120, 124, 132, 0.55);
+}
+
+.selo__inner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+}
+
+.selo__letters {
+  font-family: var(--serif);
+  font-size: clamp(0.72rem, 0.55rem + 0.7vw, 0.95rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #6b7078;
+}
+
+.selo__shine {
+  display: none;
+}
+
+.mensagem__glare {
+  position: absolute;
+  inset: 8% 6%;
+  border-radius: 4px;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: 0.45;
+  transform: translateZ(24px);
+  z-index: 3;
+}
+
+@media (max-width: 639px) {
+  .mensagem {
+    padding: 0.75rem;
+  }
+
+  .mensagem__stage {
+    width: min(96vw, 36rem);
+  }
+
+  .mensagem__glare {
+    display: none;
+  }
+
+  .mensagem__seal-btn {
+    top: 54%;
+  }
+
+  .mensagem__card--letter .mensagem__card-inner {
+    padding: 1rem 1.05rem 1.15rem;
+  }
+
+  .mensagem__letter-body p {
+    font-size: clamp(0.84rem, 0.76rem + 0.5vw, 1.05rem);
+    line-height: 1.52;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mensagem__glare {
+    display: none;
+  }
+}
+
+@media (hover: none) {
+  .mensagem__glare {
+    display: none;
+  }
+}

@@ -138,7 +138,6 @@ export function JingleInvite() {
         </span>
         <span className="jingle-invite__copy">
           <strong>Ouvir os jingles</strong>
-          <small>4 faixas · começa no seu clique</small>
         </span>
       </button>
     </div>

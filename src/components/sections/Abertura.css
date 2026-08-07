@@ -849,9 +849,8 @@
   }
 
   .abertura .name-lockup__chip-badge {
-    padding: 0.14rem 0.5rem;
+    padding: 0;
     font-size: 0.55rem;
-    border-radius: 4px;
   }
 
   .abertura__lockup.name-lockup--compact,

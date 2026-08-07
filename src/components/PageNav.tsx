@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { refreshScrollLayout, scrollToElement } from "../lib/lenisBridge";
 import {
   HOME_PAGE_ID,
@@ -89,9 +89,13 @@ export function PageNav() {
       : null;
   const current = STORY_PAGES[activeIndex];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.classList.toggle("has-page-nav", !isHome);
-    return () => document.documentElement.classList.remove("has-page-nav");
+    document.documentElement.classList.toggle("home-solo", isHome);
+    return () => {
+      document.documentElement.classList.remove("has-page-nav");
+      document.documentElement.classList.remove("home-solo");
+    };
   }, [isHome]);
 
   if (isHome) return null;

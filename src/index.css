@@ -75,7 +75,8 @@ html {
   overflow-x: clip;
 }
 
-.abertura-track {
+.abertura-track,
+#mensagem {
   scroll-snap-align: start;
   scroll-snap-stop: normal;
 }

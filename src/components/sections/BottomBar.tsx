@@ -1,7 +1,10 @@
-import { Menu, X } from "lucide-react";
+import { Home, Menu, X } from "lucide-react";
 import { useEffect, useId, useState, type MouseEvent } from "react";
 import { scrollToElement } from "../../lib/lenisBridge";
 import "./BottomBar.css";
+
+const HOME_HREF = "#abertura";
+const HOME_ID = "abertura";
 
 type CauseLink = {
   label: string;
@@ -63,6 +66,19 @@ function navOffset(): number {
   );
 }
 
+function goHome(): void {
+  const home = document.getElementById(HOME_ID);
+  if (!home) return;
+
+  scrollToElement(home, {
+    offset: -navOffset(),
+    immediate: true,
+  });
+
+  const { pathname, search } = window.location;
+  window.history.pushState(null, "", `${pathname}${search}`);
+}
+
 /** Menu = salto para a capa da causa. Scroll handoff é outra trilha. */
 function goToCauseEntry(link: CauseLink): void {
   const target =
@@ -81,13 +97,18 @@ function goToCauseEntry(link: CauseLink): void {
 
 export function BottomBar() {
   const menuId = useId();
-  const [activeHref, setActiveHref] = useState<string>(CAUSE_LINKS[0].href);
+  const [activeHref, setActiveHref] = useState<string>(HOME_HREF);
   const [menuOpen, setMenuOpen] = useState(false);
+  const homeActive = activeHref === HOME_HREF;
 
   useEffect(() => {
-    const sections = CAUSE_LINKS.map((link) =>
-      document.getElementById(sectionIdFromHref(link.href)),
-    ).filter((el): el is HTMLElement => Boolean(el));
+    const trackedIds = [
+      HOME_ID,
+      ...CAUSE_LINKS.map((link) => sectionIdFromHref(link.href)),
+    ];
+    const sections = trackedIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
 
     if (sections.length === 0) return;
 
@@ -99,11 +120,10 @@ export function BottomBar() {
           ratios.set(entry.target.id, entry.intersectionRatio);
         }
 
-        let bestId = sectionIdFromHref(CAUSE_LINKS[0].href);
+        let bestId = HOME_ID;
         let bestRatio = -1;
 
-        for (const link of CAUSE_LINKS) {
-          const id = sectionIdFromHref(link.href);
+        for (const id of trackedIds) {
           const ratio = ratios.get(id) ?? 0;
           if (ratio > bestRatio) {
             bestRatio = ratio;
@@ -141,13 +161,21 @@ export function BottomBar() {
     };
   }, [menuOpen]);
 
+  function handleHomeClick(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+    setActiveHref(HOME_HREF);
+    document.body.style.overflow = "";
+    setMenuOpen(false);
+    requestAnimationFrame(() => {
+      goHome();
+    });
+  }
+
   function handleClick(event: MouseEvent<HTMLAnchorElement>, link: CauseLink) {
     event.preventDefault();
     setActiveHref(link.href);
-    // Libera overflow do drawer antes do salto (senão Lenis não anda)
     document.body.style.overflow = "";
     setMenuOpen(false);
-    // Sem refresh pesado antes do salto — ele “trava” os handoffs no caminho
     requestAnimationFrame(() => {
       goToCauseEntry(link);
     });
@@ -156,29 +184,19 @@ export function BottomBar() {
   return (
     <nav className="bottom-bar" aria-label="Navegação da campanha">
       <div className="bottom-bar__inner">
+        <a
+          className="bottom-bar__brand"
+          href={HOME_HREF}
+          aria-label="Jadyel Alencar — Início"
+          onClick={handleHomeClick}
+        >
+          <span className="bottom-bar__brand-chip">Deputado Federal</span>
+          <span className="bottom-bar__brand-name">
+            Jadyel <span className="bottom-bar__brand-surname">Alencar</span>
+          </span>
+        </a>
+
         <div className="bottom-bar__mobile">
-          <a
-            className="bottom-bar__brand"
-            href="#abertura"
-            onClick={(event) => {
-              event.preventDefault();
-              document.body.style.overflow = "";
-              setMenuOpen(false);
-              requestAnimationFrame(() => {
-                const home = document.getElementById("abertura");
-                if (home) {
-                  scrollToElement(home, {
-                    offset: -navOffset(),
-                    immediate: true,
-                  });
-                }
-                const { pathname, search } = window.location;
-                window.history.pushState(null, "", `${pathname}${search}`);
-              });
-            }}
-          >
-            Jadyel
-          </a>
           <button
             type="button"
             className="bottom-bar__toggle"
@@ -196,16 +214,27 @@ export function BottomBar() {
         </div>
 
         <ul className="bottom-bar__list bottom-bar__list--desktop">
-          {CAUSE_LINKS.map((cause, index) => {
+          <li className="bottom-bar__item">
+            <a
+              className={[
+                "bottom-bar__home",
+                homeActive ? "bottom-bar__home--active" : null,
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              href={HOME_HREF}
+              aria-label="Início"
+              aria-current={homeActive ? "page" : undefined}
+              onClick={handleHomeClick}
+            >
+              <Home size={18} strokeWidth={2.25} aria-hidden />
+            </a>
+          </li>
+          {CAUSE_LINKS.map((cause) => {
             const isActive = activeHref === cause.href;
 
             return (
               <li key={cause.href} className="bottom-bar__item">
-                {index > 0 ? (
-                  <span className="bottom-bar__sep" aria-hidden="true">
-                    ·
-                  </span>
-                ) : null}
                 <a
                   className={[
                     "bottom-bar__link",
@@ -244,6 +273,24 @@ export function BottomBar() {
           onClick={() => setMenuOpen(false)}
         />
         <ul className="bottom-bar__drawer-list">
+          <li>
+            <a
+              className={[
+                "bottom-bar__drawer-link",
+                "bottom-bar__drawer-link--home",
+                homeActive ? "bottom-bar__drawer-link--active" : null,
+                homeActive ? "bottom-bar__drawer-link--yellow" : null,
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              href={HOME_HREF}
+              aria-current={homeActive ? "page" : undefined}
+              onClick={handleHomeClick}
+            >
+              <Home size={18} strokeWidth={2.25} aria-hidden />
+              <span>Início</span>
+            </a>
+          </li>
           {CAUSE_LINKS.map((cause) => {
             const isActive = activeHref === cause.href;
 

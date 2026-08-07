@@ -1,9 +1,19 @@
 .page {
   min-height: 100vh;
-  background: var(--cream);
-  /* Espaço para a barra superior fixa */
-  padding-top: var(--nav-h);
+  background: #ffffff;
   overflow-x: clip;
+}
+
+.page--envelope {
+  padding-top: 0;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.page--content-only {
+  padding-top: 0;
+  background: #ffffff;
 }
 
 /* ---- Tipografia compartilhada dos painéis ---- */

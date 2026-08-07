@@ -8,4 +8,9 @@ export default defineConfig({
     host: true,
     port: 5174,
   },
+  preview: {
+    host: true,
+  },
+  // Garante /historia no preview/build (Vite já faz fallback no dev).
+  appType: "spa",
 })

@@ -35,6 +35,8 @@ type MiniScreensHandoffProps = {
   activeIndex?: number;
   className?: string;
   pinClassName?: string;
+  /** Desliga faixa/salto (só conteúdo) */
+  disableHandoff?: boolean;
   "aria-labelledby"?: string;
   children: ReactNode;
 };
@@ -120,10 +122,12 @@ function jumpToId(targetId: string, onComplete?: () => void): void {
     return;
   }
 
-  const nav =
-    parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue("--nav-h"),
-    ) || 52;
+  const hasChrome = Boolean(document.querySelector(".bottom-bar, .page-nav"));
+  const nav = hasChrome
+    ? parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue("--nav-h"),
+      ) || 52
+    : 0;
 
   scrollToElement(target, {
     offset: -nav,
@@ -145,12 +149,13 @@ export function MiniScreensHandoff({
   activeIndex = 0,
   className,
   pinClassName,
+  disableHandoff = false,
   "aria-labelledby": ariaLabelledBy,
   children,
 }: MiniScreensHandoffProps) {
   const reduceMotion = useReducedMotion();
   const isDesktop = useIsDesktop();
-  const skipHandoff = Boolean(reduceMotion || !isDesktop);
+  const skipHandoff = Boolean(reduceMotion || !isDesktop || disableHandoff);
   const skipRef = useRef(skipHandoff);
   skipRef.current = skipHandoff;
 

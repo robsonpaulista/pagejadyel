@@ -22,22 +22,20 @@
 }
 
 .name-lockup__chip-badge {
-  padding: 0.25rem 0.7rem;
-  border-radius: 6px;
-  background: var(--yellow);
+  padding: 0;
   font-size: var(--text-tag);
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--ink-soft);
 }
 
 .name-lockup__name {
-  margin-top: var(--sp-4);
+  margin-top: var(--sp-2);
   font-size: var(--name-size);
   font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.03em;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
   text-transform: uppercase;
   color: var(--ink);
 }
@@ -46,9 +44,9 @@
   display: block;
   font-weight: 600;
   /* Tracking calibrado para ALENCAR fechar na mesma largura de JADYEL */
-  letter-spacing: 0.28em;
+  letter-spacing: 0.24em;
   font-size: 0.55em;
-  margin-top: var(--sp-2);
+  margin-top: 0.15rem;
   color: var(--ink-soft);
 }
 

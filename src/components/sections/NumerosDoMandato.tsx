@@ -220,20 +220,26 @@ function StatValue({
 }
 
 /** Abertura + leis: um mandato que entrega */
-function MandatoHero() {
+function MandatoHero({
+  id,
+  nextId,
+}: {
+  id: string;
+  nextId: string;
+}) {
   const reduceMotion = useReducedMotion();
 
   return (
     <MiniScreensHandoff
-      id="nmand-abertura"
-      targetId="nmand-producao"
+      id={id}
+      targetId={nextId}
       label="O mandato em quatro telas"
       bandMax="30%"
       previews={MANDATO_PREVIEWS}
       activeIndex={1}
       pinClassName="nmand-hero"
       className="nmand-hero-track"
-      aria-labelledby="nmand-hero-heading"
+      aria-labelledby={`${id}-heading`}
     >
       <div className="nmand-hero__stage">
         <motion.img
@@ -254,7 +260,7 @@ function MandatoHero() {
                 className="nmand-tag nmand-tag--ink"
                 label="Jadyel Alencar"
               />
-              <h2 id="nmand-hero-heading" className="headline nmand-hero__title">
+              <h2 id={`${id}-heading`} className="headline nmand-hero__title">
                 Um mandato que cuida,
                 <br />
                 trabalha e <Highlight color="yellow">entrega</Highlight>.
@@ -350,7 +356,13 @@ function MandatoHero() {
 }
 
 /** 02 — Produção legislativa */
-function MandatoProducao() {
+function MandatoProducao({
+  id,
+  nextId,
+}: {
+  id: string;
+  nextId: string;
+}) {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.35 });
@@ -359,15 +371,15 @@ function MandatoProducao() {
 
   return (
     <MiniScreensHandoff
-      id="nmand-producao"
-      targetId="nmand-espacos"
+      id={id}
+      targetId={nextId}
       label="O mandato em quatro telas"
       bandMax="30%"
       previews={MANDATO_PREVIEWS}
       activeIndex={2}
       pinClassName="nmand-stats"
       className="nmand-stats-track"
-      aria-labelledby="nmand-stats-heading"
+      aria-labelledby={`${id}-heading`}
     >
       <Container className="nmand-stats__shell">
         <Reveal>
@@ -375,7 +387,7 @@ function MandatoProducao() {
             className="nmand-tag nmand-tag--on-dark"
             label="Jadyel · Produção legislativa"
           />
-          <h3 id="nmand-stats-heading" className="headline nmand-stats__title">
+          <h3 id={`${id}-heading`} className="headline nmand-stats__title">
             Trabalho que aparece nos{" "}
             <Highlight color="yellow">números</Highlight>.
           </h3>
@@ -444,18 +456,24 @@ function MandatoProducao() {
 }
 
 /** 03 — Espaços de decisão */
-function MandatoEspacos() {
+function MandatoEspacos({
+  id,
+  nextId,
+}: {
+  id: string;
+  nextId: string;
+}) {
   return (
     <MiniScreensHandoff
-      id="nmand-espacos"
-      targetId="nmand-marcas"
+      id={id}
+      targetId={nextId}
       label="O mandato em quatro telas"
       bandMax="30%"
       previews={MANDATO_PREVIEWS}
       activeIndex={3}
       pinClassName="nmand-spaces"
       className="nmand-spaces-track"
-      aria-labelledby="nmand-spaces-heading"
+      aria-labelledby={`${id}-heading`}
     >
       <Container className="nmand-spaces__shell">
         <div className="nmand-spaces__top">
@@ -464,7 +482,7 @@ function MandatoEspacos() {
               className="nmand-tag nmand-tag--ink"
               label="Jadyel · Espaços de decisão"
             />
-            <h3 id="nmand-spaces-heading" className="headline nmand-spaces__title">
+            <h3 id={`${id}-heading`} className="headline nmand-spaces__title">
               Presente onde as
               <br />
               grandes decisões
@@ -541,21 +559,32 @@ function MandatoEspacos() {
   );
 }
 
-/** 05 — Marcas do mandato → ECA Digital */
-function MandatoMarcas() {
+/** 05 — Marcas do mandato */
+function MandatoMarcas({
+  id,
+  nextId,
+  exitLabel = "Próxima causa · ECA Digital",
+  disableExitHandoff = false,
+}: {
+  id: string;
+  nextId: string;
+  exitLabel?: string;
+  disableExitHandoff?: boolean;
+}) {
   const [openId, setOpenId] = useState<string | null>(PILLARS[0].id);
 
   return (
     <MiniScreensHandoff
-      id="nmand-marcas"
-      targetId="eca-pratica"
-      label="Próxima causa · ECA Digital"
+      id={id}
+      targetId={nextId}
+      label={exitLabel}
       bandMax="30%"
       previews={ECA_PREVIEWS}
       activeIndex={0}
       pinClassName="nmand-brands"
       className="nmand-brands-track"
-      aria-labelledby="nmand-brands-heading"
+      aria-labelledby={`${id}-heading`}
+      disableHandoff={disableExitHandoff}
     >
       <Container className="nmand-brands__shell">
         <Reveal>
@@ -563,7 +592,7 @@ function MandatoMarcas() {
             className="nmand-tag nmand-tag--on-dark"
             label="Jadyel · Marcas do mandato"
           />
-          <h3 id="nmand-brands-heading" className="headline nmand-brands__title">
+          <h3 id={`${id}-heading`} className="headline nmand-brands__title">
             Grandes causas. Um só propósito:{" "}
             <Highlight color="yellow">cuidar</Highlight>.
           </h3>
@@ -610,13 +639,39 @@ function MandatoMarcas() {
   );
 }
 
-export function NumerosDoMandato() {
+export type NumerosDoMandatoProps = {
+  /** id do wrapper da página */
+  pageId?: string;
+  /** prefixo dos painéis (ex.: nmand → nmand-abertura) */
+  idPrefix?: string;
+  /** destino do handoff final; null desativa o salto */
+  nextTargetId?: string | null;
+  /** rótulo do handoff final */
+  exitLabel?: string;
+};
+
+export function NumerosDoMandato({
+  pageId = "numeros-do-mandato",
+  idPrefix = "nmand",
+  nextTargetId = "eca-pratica",
+  exitLabel = "Próxima causa · ECA Digital",
+}: NumerosDoMandatoProps = {}) {
+  const abertura = `${idPrefix}-abertura`;
+  const producao = `${idPrefix}-producao`;
+  const espacos = `${idPrefix}-espacos`;
+  const marcas = `${idPrefix}-marcas`;
+
   return (
-    <div id="numeros-do-mandato" className="nmand-page">
-      <MandatoHero />
-      <MandatoProducao />
-      <MandatoEspacos />
-      <MandatoMarcas />
+    <div id={pageId} className="nmand-page">
+      <MandatoHero id={abertura} nextId={producao} />
+      <MandatoProducao id={producao} nextId={espacos} />
+      <MandatoEspacos id={espacos} nextId={marcas} />
+      <MandatoMarcas
+        id={marcas}
+        nextId={nextTargetId ?? marcas}
+        exitLabel={exitLabel}
+        disableExitHandoff={nextTargetId == null}
+      />
     </div>
   );
 }

@@ -11,7 +11,7 @@ export function BrandMark({ className }: BrandMarkProps) {
       className={["brand-mark", className].filter(Boolean).join(" ")}
       aria-hidden="true"
     >
-      <span className="brand-mark__chip">Dep. Federal</span>
+      <span className="brand-mark__chip">Deputado Federal</span>
       <p className="brand-mark__name">
         Jadyel
         <span className="brand-mark__surname">Alencar</span>

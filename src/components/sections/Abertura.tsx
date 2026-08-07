@@ -179,11 +179,6 @@ export function Abertura() {
     skipHandoff ? [0, 1] : [0, 0.08, 0.28],
     skipHandoff ? [1, 1] : [1, 1, 0],
   );
-  const cueOpacity = useTransform(
-    scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.05, 0.18],
-    skipHandoff ? [1, 1] : [1, 1, 0],
-  );
   const brandOpacity = useTransform(
     scrollYProgress,
     skipHandoff ? [0, 1] : [0, 0.24, 0.38],
@@ -342,8 +337,6 @@ export function Abertura() {
                   initial={skipEnter ? false : "hidden"}
                   animate="show"
                 >
-                  <Word>Grandes</Word> <Word>causas.</Word>
-                  <br />
                   <span className="abertura__purpose">
                     <Word>Um</Word> <Word>só</Word> <Word>propósito:</Word>
                   </span>
@@ -354,7 +347,6 @@ export function Abertura() {
                     </Highlight>
                     <span className="abertura__care-light" aria-hidden="true" />
                   </span>
-                  <Word>.</Word>
                 </motion.h1>
 
                 <motion.p
@@ -405,9 +397,6 @@ export function Abertura() {
                     subline={false}
                     className="abertura__lockup"
                   />
-                  <p className="abertura__urn" aria-label="Número de urna 1000">
-                    1000
-                  </p>
                 </div>
                 <p className="abertura__slogan">O Piauí É PRA JÁ!</p>
               </motion.div>
@@ -432,15 +421,6 @@ export function Abertura() {
                 </Button>
                 <JingleInvite />
               </motion.div>
-
-              <motion.a
-                className="cue abertura__cue"
-                href="#nmand-abertura"
-                style={skipHandoff ? undefined : { opacity: cueOpacity }}
-              >
-                Role para conhecer
-                <span className="cue__arrow">↓</span>
-              </motion.a>
             </div>
           </Container>
 

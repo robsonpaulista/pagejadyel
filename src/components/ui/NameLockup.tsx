@@ -23,7 +23,7 @@ export function NameLockup({
         .join(" ")}
     >
       <p className="name-lockup__chip">
-        <span className="name-lockup__chip-badge">Dep. Federal</span>
+        <span className="name-lockup__chip-badge">Deputado Federal</span>
       </p>
 
       <p className="name-lockup__name">
