@@ -10,7 +10,6 @@ import { MousePointer2 } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useIsDesktop } from "../hooks/useIsDesktop";
 import { isProgrammaticScroll, scrollToElement } from "../lib/lenisBridge";
-import { BrandMark } from "./ui/BrandMark";
 import "./MiniScreensHandoff.css";
 
 export type MiniScreenPreview = {
@@ -281,7 +280,6 @@ export function MiniScreensHandoff({
             className="mini-handoff__content"
             style={skipHandoff ? undefined : { opacity: contentFade }}
           >
-            <BrandMark className="mini-handoff__brand" />
             {children}
           </motion.div>
 

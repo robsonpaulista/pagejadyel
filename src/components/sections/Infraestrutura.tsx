@@ -18,6 +18,7 @@ import {
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
 import tratorMark from "../../assets/bandeiras/trator.webp";
+import { SectionContact } from "../SectionContact";
 import "./Infraestrutura.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -150,6 +151,8 @@ function InfraHero() {
               desenvolvimento a todas as regiões do Piauí — rua a rua, cidade a
               cidade.
             </motion.p>
+
+            <SectionContact />
           </div>
         </Container>
       </div>
@@ -202,6 +205,8 @@ function InfraMap() {
         <Reveal delay={0.1} className="infra-map__visual">
           <PiauiRoadsMap />
         </Reveal>
+
+        <SectionContact />
       </Container>
     </MiniScreensHandoff>
   );
@@ -266,6 +271,8 @@ function InfraNumbers() {
             porta de casa.
           </p>
         </Reveal>
+
+        <SectionContact tone="dark" />
       </Container>
     </MiniScreensHandoff>
   );

@@ -1,4 +1,4 @@
-/* Barra fixa no topo — fundo branco, página ativa com preenchimento */
+/* Barra fixa no topo — editorial leve, off-white */
 
 .bottom-bar {
   position: fixed;
@@ -11,10 +11,10 @@
   min-height: var(--nav-h);
   height: var(--nav-h);
   padding-inline: var(--gutter);
-  background: #ffffff;
+  background: #f7f5f0;
   color: var(--ink);
   border-bottom: 1px solid rgba(35, 33, 28, 0.08);
-  box-shadow: 0 1px 0 rgba(35, 33, 28, 0.03);
+  box-shadow: none;
 }
 
 .bottom-bar__inner {
@@ -30,26 +30,38 @@
 }
 
 .bottom-bar__brand {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
   gap: 0.08rem;
   flex-shrink: 0;
+  width: max-content;
   text-decoration: none;
   color: var(--ink);
   line-height: 1;
 }
 
 .bottom-bar__brand-chip {
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
   padding: 0;
   font-size: 0.52rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--ink-soft);
   line-height: 1.2;
+}
+
+.bottom-bar__brand-chip > span {
+  flex: 0 0 auto;
+}
+
+.bottom-bar__brand-chip-space {
+  flex: 0 0 0.35em;
 }
 
 .bottom-bar__brand-name {
@@ -58,6 +70,7 @@
   letter-spacing: -0.05em;
   text-transform: uppercase;
   color: var(--ink);
+  white-space: nowrap;
 }
 
 .bottom-bar__brand-surname {
@@ -130,12 +143,12 @@
 .bottom-bar__list {
   align-items: center;
   justify-content: flex-start;
-  gap: 0.35rem;
+  gap: 0.15rem;
   width: auto;
   height: 100%;
   min-height: var(--nav-h);
   margin: 0;
-  margin-left: 1.35rem;
+  margin-left: clamp(1.5rem, 4vw, 3.25rem);
   padding: 0;
   list-style: none;
 }
@@ -156,72 +169,72 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  min-height: 2.15rem;
-  padding: 0.45rem 0.9rem;
-  border-radius: 999px;
-  font-size: var(--text-tag);
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  min-height: 100%;
+  padding: 0 0.85rem;
+  border-radius: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
-  transition:
-    color 0.25s var(--ease),
-    background-color 0.25s var(--ease);
+  background: transparent;
+  transition: color 0.25s var(--ease);
 }
 
 .bottom-bar__link::after {
-  display: none;
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0;
+  height: 2px;
+  background: transparent;
+  transition: background-color 0.25s var(--ease);
 }
 
 .bottom-bar__link:hover,
 .bottom-bar__link:focus-visible {
   color: var(--ink);
-  background: rgba(35, 33, 28, 0.06);
+  background: transparent;
 }
 
 .bottom-bar__link--active {
   color: var(--ink);
+  background: transparent;
+  font-weight: 700;
+}
+
+.bottom-bar__link--active::after {
   background: var(--yellow);
 }
 
 .bottom-bar__link--active:hover,
 .bottom-bar__link--active:focus-visible {
   color: var(--ink);
-  background: var(--yellow);
+  background: transparent;
 }
 
-/* Acento da causa no preenchimento ativo */
-.bottom-bar__link--blue.bottom-bar__link--active {
-  background: var(--blue);
-  color: #ffffff;
-}
-
-.bottom-bar__link--pink.bottom-bar__link--active {
-  background: var(--pink);
-  color: #ffffff;
-}
-
-.bottom-bar__link--orange.bottom-bar__link--active {
-  background: var(--orange);
-  color: #ffffff;
-}
-
-.bottom-bar__link--purple.bottom-bar__link--active {
-  background: var(--purple);
-  color: #ffffff;
-}
-
-.bottom-bar__link--amber.bottom-bar__link--active {
-  background: var(--amber);
-  color: #ffffff;
-}
-
+/* Filete amarelo no ativo (todas as causas) */
+.bottom-bar__link--blue.bottom-bar__link--active,
+.bottom-bar__link--pink.bottom-bar__link--active,
+.bottom-bar__link--orange.bottom-bar__link--active,
+.bottom-bar__link--purple.bottom-bar__link--active,
+.bottom-bar__link--amber.bottom-bar__link--active,
 .bottom-bar__link--yellow.bottom-bar__link--active {
-  background: var(--yellow);
+  background: transparent;
   color: var(--ink);
+}
+
+.bottom-bar__link--blue.bottom-bar__link--active::after,
+.bottom-bar__link--pink.bottom-bar__link--active::after,
+.bottom-bar__link--orange.bottom-bar__link--active::after,
+.bottom-bar__link--purple.bottom-bar__link--active::after,
+.bottom-bar__link--amber.bottom-bar__link--active::after,
+.bottom-bar__link--yellow.bottom-bar__link--active::after {
+  background: var(--yellow);
 }
 
 /* ---- Drawer mobile ---- */
@@ -262,9 +275,9 @@
   margin: 0;
   padding: 1rem var(--gutter) 2rem;
   list-style: none;
-  background: #ffffff;
+  background: #f7f5f0;
   border-left: 1px solid rgba(35, 33, 28, 0.08);
-  box-shadow: -12px 0 32px rgba(0, 0, 0, 0.1);
+  box-shadow: -8px 0 24px rgba(35, 33, 28, 0.06);
   transform: translateX(105%);
   transition: transform 0.32s var(--ease);
 }
@@ -302,37 +315,19 @@
 
 .bottom-bar__drawer-link--active {
   color: var(--ink);
-  background: var(--yellow);
+  background: transparent;
+  box-shadow: inset 3px 0 0 var(--yellow);
 }
 
-.bottom-bar__drawer-link--blue.bottom-bar__drawer-link--active {
-  background: var(--blue);
-  color: #ffffff;
-}
-
-.bottom-bar__drawer-link--pink.bottom-bar__drawer-link--active {
-  background: var(--pink);
-  color: #ffffff;
-}
-
-.bottom-bar__drawer-link--orange.bottom-bar__drawer-link--active {
-  background: var(--orange);
-  color: #ffffff;
-}
-
-.bottom-bar__drawer-link--purple.bottom-bar__drawer-link--active {
-  background: var(--purple);
-  color: #ffffff;
-}
-
-.bottom-bar__drawer-link--amber.bottom-bar__drawer-link--active {
-  background: var(--amber);
-  color: #ffffff;
-}
-
+.bottom-bar__drawer-link--blue.bottom-bar__drawer-link--active,
+.bottom-bar__drawer-link--pink.bottom-bar__drawer-link--active,
+.bottom-bar__drawer-link--orange.bottom-bar__drawer-link--active,
+.bottom-bar__drawer-link--purple.bottom-bar__drawer-link--active,
+.bottom-bar__drawer-link--amber.bottom-bar__drawer-link--active,
 .bottom-bar__drawer-link--yellow.bottom-bar__drawer-link--active {
-  background: var(--yellow);
+  background: transparent;
   color: var(--ink);
+  box-shadow: inset 3px 0 0 var(--yellow);
 }
 
 @media (min-width: 768px) {

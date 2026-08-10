@@ -1,21 +1,34 @@
 .brand-mark {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: stretch;
   gap: 0.3rem;
+  width: max-content;
+  max-width: 100%;
   pointer-events: none;
   user-select: none;
 }
 
 .brand-mark__chip {
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
   padding: 0;
   font-size: 0.55rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--ink-soft);
   line-height: 1.2;
+}
+
+.brand-mark__chip > span {
+  flex: 0 0 auto;
+}
+
+.brand-mark__chip-space {
+  flex: 0 0 0.35em;
 }
 
 .brand-mark__name {

@@ -28,6 +28,7 @@ import {
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
 import fotomandato from "../../assets/fotomandato.jpg";
+import { SectionContact } from "../SectionContact";
 import "./NumerosDoMandato.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -59,41 +60,31 @@ const STATS = [
 const HERO_DELIVERIES: readonly {
   title: string;
   ref: string;
-  badge: string;
-  badgeTone: "ok" | "law";
-  relevance: string;
+  status: string;
   Icon: LucideIcon;
 }[] = [
   {
     title: "Apoio escolar para alunos com deficiência",
     ref: "PL 4050/2023 · Autor",
-    badge: "Aprovado na Câmara",
-    badgeTone: "ok",
-    relevance: "Mais inclusão e suporte para quem mais precisa.",
+    status: "Aprovado na Câmara",
     Icon: Accessibility,
   },
   {
     title: "Proteção de rios e matas ciliares",
     ref: "PL 4488/2023 · Autor",
-    badge: "Aprovado na Câmara",
-    badgeTone: "ok",
-    relevance: "Uma pauta de preservação com impacto no futuro.",
+    status: "Aprovado na Câmara",
     Icon: Leaf,
   },
   {
     title: "Torquato Neto como Patrimônio Cultural",
     ref: "PL 597/2021 · Relator",
-    badge: "Virou lei",
-    badgeTone: "law",
-    relevance: "Valorização da cultura e da identidade brasileira.",
+    status: "Virou lei",
     Icon: Landmark,
   },
   {
     title: "52 rádios comunitárias e TVs relatadas",
-    ref: "Processos ligados ao interior do Piauí",
-    badge: "100% aprovados",
-    badgeTone: "ok",
-    relevance: "Mais comunicação e voz para diferentes cidades.",
+    ref: "Interior do Piauí",
+    status: "100% aprovados",
     Icon: Radio,
   },
 ];
@@ -256,6 +247,17 @@ function MandatoHero({
         <Container className="nmand-hero__shell">
           <div className="nmand-hero__rail">
             <Reveal className="nmand-hero__intro">
+              <div className="nmand-hero__meta">
+                <p className="nmand-hero__index">
+                  <span className="nmand-hero__index-num">01</span>
+                  <span className="nmand-hero__index-sep">/</span>
+                  <span>Mandato</span>
+                </p>
+                <span className="nmand-hero__meta-rule" aria-hidden="true" />
+                <p className="nmand-hero__motto">
+                  Cuidar <span>·</span> Trabalhar <span>·</span> Entregar
+                </p>
+              </div>
               <SectionTag
                 className="nmand-tag nmand-tag--ink"
                 label="Jadyel Alencar"
@@ -266,9 +268,8 @@ function MandatoHero({
                 trabalha e <Highlight color="yellow">entrega</Highlight>.
               </h2>
               <p className="lede nmand-hero__lede">
-                Do Piauí para as grandes decisões do Brasil. Um mandato presente
-                na proteção das crianças, na inclusão, no desenvolvimento
-                econômico e nas pautas que impactam a vida real das pessoas.
+                Do Piauí para as grandes decisões do Brasil — proteção das
+                crianças, inclusão e desenvolvimento.
               </p>
               <p className="nmand-hero__bio">
                 Deputado federal pelo Piauí · Relator do ECA Digital
@@ -278,20 +279,15 @@ function MandatoHero({
             <Reveal delay={0.1} className="nmand-hero__eca-wrap">
               <article className="nmand-hero__eca">
                 <div className="nmand-hero__eca-copy">
-                  <p className="nmand-hero__eca-eyebrow">Principal conquista</p>
                   <div className="nmand-hero__eca-head">
                     <h3 className="nmand-hero__eca-title">ECA Digital</h3>
-                    <span className="nmand-badge nmand-badge--law">
-                      Virou lei
-                    </span>
+                    <span className="nmand-hero__eca-status">Virou lei</span>
                   </div>
                   <p className="nmand-hero__eca-ref">
                     Lei 15.211/2025 · Relator
                   </p>
                   <p className="nmand-hero__eca-body">
-                    A lei que fortaleceu a proteção de crianças e adolescentes
-                    no ambiente digital e estabeleceu novas responsabilidades
-                    para plataformas e aplicativos.
+                    Proteção de crianças e adolescentes no ambiente digital.
                   </p>
                   <a
                     className="nmand-hero__cta"
@@ -303,51 +299,40 @@ function MandatoHero({
                     <span aria-hidden="true"> →</span>
                   </a>
                 </div>
-                <div className="nmand-hero__eca-art" aria-hidden="true">
-                  <Shield
-                    className="nmand-hero__eca-shield"
-                    size={56}
-                    strokeWidth={1.35}
-                  />
-                </div>
+                <Shield
+                  className="nmand-hero__eca-shield"
+                  size={42}
+                  strokeWidth={1.35}
+                  aria-hidden
+                />
               </article>
             </Reveal>
 
             <div className="nmand-hero__wins">
-              {HERO_DELIVERIES.map(
-                (
-                  { title, ref, badge, badgeTone, relevance, Icon },
-                  index,
-                ) => (
-                  <Reveal
-                    key={title}
-                    delay={0.16 + index * 0.06}
-                    className="nmand-hero__win-wrap"
-                  >
-                    <article className="nmand-hero__win">
-                      <span
-                        className={`nmand-badge nmand-badge--${badgeTone}`}
-                      >
-                        {badge}
-                      </span>
-                      <Icon
-                        className="nmand-hero__win-icon"
-                        size={17}
-                        strokeWidth={1.75}
-                        aria-hidden
-                      />
+              {HERO_DELIVERIES.map(({ title, ref, status, Icon }, index) => (
+                <Reveal
+                  key={title}
+                  delay={0.14 + index * 0.05}
+                  className="nmand-hero__win-wrap"
+                >
+                  <article className="nmand-hero__win">
+                    <Icon
+                      className="nmand-hero__win-icon"
+                      size={18}
+                      strokeWidth={1.6}
+                      aria-hidden
+                    />
+                    <div className="nmand-hero__win-copy">
+                      <p className="nmand-hero__win-status">{status}</p>
                       <h4 className="nmand-hero__win-title">{title}</h4>
                       <p className="nmand-hero__win-ref">{ref}</p>
-                      <p className="nmand-hero__win-relevance">{relevance}</p>
-                      <span
-                        className="nmand-hero__win-accent"
-                        aria-hidden="true"
-                      />
-                    </article>
-                  </Reveal>
-                ),
-              )}
+                    </div>
+                  </article>
+                </Reveal>
+              ))}
             </div>
+
+            <SectionContact />
           </div>
         </Container>
       </div>
@@ -450,6 +435,8 @@ function MandatoProducao({
             nominais
           </p>
         </Reveal>
+
+        <SectionContact tone="dark" />
       </Container>
     </MiniScreensHandoff>
   );
@@ -554,6 +541,8 @@ function MandatoEspacos({
             </Reveal>
           ))}
         </div>
+
+        <SectionContact />
       </Container>
     </MiniScreensHandoff>
   );
@@ -634,6 +623,8 @@ function MandatoMarcas({
             são tomadas.
           </p>
         </Reveal>
+
+        <SectionContact tone="dark" />
       </Container>
     </MiniScreensHandoff>
   );

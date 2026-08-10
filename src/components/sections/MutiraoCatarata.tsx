@@ -3,7 +3,7 @@ import {
   useInView,
   useReducedMotion,
 } from "framer-motion";
-import { useRef } from "react";
+import { useRef, type MouseEvent } from "react";
 import { Reveal } from "../Reveal";
 import { MiniScreensHandoff } from "../MiniScreensHandoff";
 import {
@@ -16,7 +16,9 @@ import {
   SectionTag,
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
-import catarataPhoto from "../../assets/catarata.jpg";
+import { scrollToElement } from "../../lib/lenisBridge";
+import catarataPhoto from "../../assets/cataratanova.png";
+import { SectionContact } from "../SectionContact";
 import "./MutiraoCatarata.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -68,6 +70,14 @@ const IMPACTS = [
   },
 ] as const;
 
+function navOffset(): number {
+  return (
+    parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue("--nav-h"),
+    ) || 52
+  );
+}
+
 function SurgeriesCounter() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -97,7 +107,19 @@ function CatarataHero() {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.35 });
-  const show = reduceMotion || inView;
+  const show = Boolean(reduceMotion || inView);
+
+  function goToStory(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+    const target = document.getElementById("catarata-impacto");
+    if (!target) return;
+    scrollToElement(target, {
+      offset: -navOffset(),
+      immediate: true,
+    });
+    const { pathname, search } = window.location;
+    window.history.pushState(null, "", `${pathname}${search}#catarata-impacto`);
+  }
 
   return (
     <MiniScreensHandoff
@@ -115,78 +137,87 @@ function CatarataHero() {
         <motion.img
           className="catarata-hero__photo"
           src={catarataPhoto}
-          alt="Paciente e acompanhante em mutirão de catarata, em momento de cuidado e esperança"
-          initial={
-            reduceMotion
-              ? false
-              : { opacity: 0, filter: "blur(16px)", scale: 1.06 }
-          }
-          animate={
-            show
-              ? { opacity: 1, filter: "blur(0px)", scale: 1 }
-              : { opacity: 0, filter: "blur(16px)", scale: 1.06 }
-          }
-          transition={{ duration: 1.1, ease: EASE }}
+          alt="Atendimento em mutirão de catarata — cuidado e recuperação da visão"
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={show ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
         />
         <motion.div
           className="catarata-hero__fade"
           aria-hidden="true"
-          initial={reduceMotion ? false : { opacity: 0.35 }}
-          animate={show ? { opacity: 1 } : { opacity: 0.35 }}
-          transition={{ duration: 0.9, ease: EASE, delay: 0.08 }}
-        />
-        <motion.div
-          className="catarata-hero__glow"
-          aria-hidden="true"
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={show ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 1, ease: EASE, delay: 0.25 }}
+          initial={reduceMotion ? false : { opacity: 0.4 }}
+          animate={show ? { opacity: 1 } : { opacity: 0.4 }}
+          transition={{ duration: 0.85, ease: EASE, delay: 0.1 }}
         />
 
         <Container className="catarata-hero__shell">
           <div className="catarata-hero__copy">
             <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.65, ease: EASE, delay: 0.12 }}
+              className="catarata-hero__meta"
+              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+              transition={{ duration: 0.55, ease: EASE }}
             >
-              <SectionTag
-                className="catarata-hero__tag"
-                label="Mutirões de Catarata"
-              />
+              <p className="catarata-hero__index">
+                <span className="catarata-hero__index-num">05</span>
+                <span className="catarata-hero__index-sep">/</span>
+                <span>Mutirões de Catarata</span>
+              </p>
             </motion.div>
 
             <h2 id="catarata-heading" className="headline catarata-hero__headline">
               <motion.span
                 className="catarata-hero__line"
-                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-                transition={{ duration: 0.7, ease: EASE, delay: 0.28 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                transition={{ duration: 0.7, ease: EASE, delay: 0.14 }}
               >
-                Devolvendo{" "}
-                <Highlight color="purple">visão</Highlight>,
-              </motion.span>
-              <br />
-              <motion.span
-                className="catarata-hero__line"
-                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-                transition={{ duration: 0.7, ease: EASE, delay: 0.42 }}
-              >
-                devolvendo{" "}
+                Devolver a visão é devolver
+                <br />
+                <Highlight color="purple">autonomia</Highlight>, dignidade e{" "}
                 <Highlight color="purple">esperança</Highlight>.
               </motion.span>
             </h2>
 
             <motion.p
               className="lede catarata-hero__lede"
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
-              transition={{ duration: 0.65, ease: EASE, delay: 0.55 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: 0.65, ease: EASE, delay: 0.32 }}
             >
-              Mais de 20 mil cirurgias realizadas, recuperando autonomia,
-              autoestima e qualidade de vida para milhares de piauienses.
+              Com os mutirões de catarata, o mandato ajudou a ampliar o acesso à
+              cirurgia e a devolver visão, autoestima e qualidade de vida para
+              milhares de piauienses. É um cuidado que transforma a rotina,
+              resgata a independência e devolve segurança para seguir em frente.
             </motion.p>
+
+            <motion.p
+              className="catarata-hero__proof"
+              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+              transition={{ duration: 0.55, ease: EASE, delay: 0.42 }}
+            >
+              <span className="catarata-hero__proof-value">20 mil+</span>
+              <span className="catarata-hero__proof-label">
+                cirurgias realizadas
+              </span>
+            </motion.p>
+
+            <motion.a
+              className="catarata-hero__cta"
+              href="#catarata-impacto"
+              onClick={goToStory}
+              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+              transition={{ duration: 0.55, ease: EASE, delay: 0.52 }}
+            >
+              Conheça essa história
+              <span className="catarata-hero__cta-arrow" aria-hidden="true">
+                →
+              </span>
+            </motion.a>
+
+            <SectionContact className="catarata-hero__contact" />
           </div>
         </Container>
       </div>
@@ -258,6 +289,8 @@ function CatarataPractice() {
             </Reveal>
           ))}
         </div>
+
+        <SectionContact />
       </Container>
     </MiniScreensHandoff>
   );
@@ -324,6 +357,8 @@ function CatarataNumbers() {
             caminhos.
           </h4>
         </Reveal>
+
+        <SectionContact tone="dark" />
       </Container>
     </MiniScreensHandoff>
   );

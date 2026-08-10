@@ -27,6 +27,7 @@ import pressG1 from "../../assets/press/g1-eca.jpg";
 import vejaLogo from "../../assets/press/veja-logo.png";
 import republicanosLogo from "../../assets/press/republicanos-logo.png";
 import g1Logo from "../../assets/press/g1-logo.png";
+import { SectionContact } from "../SectionContact";
 import "./EcaDigital.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -196,6 +197,13 @@ function EcaHero() {
               animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
               transition={{ duration: 0.65, ease: EASE, delay: 0.15 }}
             >
+              <div className="eca-hero__meta">
+                <p className="eca-hero__index">
+                  <span className="eca-hero__index-num">02</span>
+                  <span className="eca-hero__index-sep">/</span>
+                  <span>Proteção às crianças na internet</span>
+                </p>
+              </div>
               <SectionTag className="eca-hero__tag" label="ECA Digital" />
             </motion.div>
 
@@ -297,6 +305,8 @@ function EcaHero() {
               </motion.div>
             </div>
           </div>
+
+          <SectionContact />
         </Container>
       </div>
     </MiniScreensHandoff>
@@ -326,6 +336,13 @@ function EcaWhy() {
 
       <Container className="eca-why__inner">
         <Reveal>
+          <div className="eca-hero__meta">
+            <p className="eca-hero__index">
+              <span className="eca-hero__index-num">02</span>
+              <span className="eca-hero__index-sep">/</span>
+              <span>Proteção às crianças na internet</span>
+            </p>
+          </div>
           <SectionTag label="ECA Digital no dia a dia" />
           <h3 id="eca-why-heading" className="headline eca-block__title">
             Por que isso importa
@@ -370,6 +387,8 @@ function EcaWhy() {
             </Reveal>
           ))}
         </ol>
+
+        <SectionContact />
       </Container>
     </MiniScreensHandoff>
   );
@@ -396,6 +415,13 @@ function EcaMandate() {
         <Container className="eca-mandate__shell">
           <div className="eca-mandate__top">
             <Reveal>
+              <div className="eca-hero__meta">
+                <p className="eca-hero__index">
+                  <span className="eca-hero__index-num">02</span>
+                  <span className="eca-hero__index-sep">/</span>
+                  <span>Proteção às crianças na internet</span>
+                </p>
+              </div>
               <SectionTag label="ECA Digital no mandato" />
               <h3 id="eca-mandate-heading" className="headline eca-block__title">
                 Papel do mandato
@@ -531,6 +557,8 @@ function EcaMandate() {
               ))}
             </ul>
           </div>
+
+          <SectionContact />
         </Container>
       </div>
     </MiniScreensHandoff>
@@ -577,6 +605,13 @@ function EcaNumbers() {
       <Container className="eca-numbers__shell">
         <div className="eca-numbers__board">
           <Reveal>
+            <div className="eca-hero__meta eca-hero__meta--on-dark">
+              <p className="eca-hero__index">
+                <span className="eca-hero__index-num">02</span>
+                <span className="eca-hero__index-sep">/</span>
+                <span>Proteção às crianças na internet</span>
+              </p>
+            </div>
             <SectionTag
               className="eca-tag eca-tag--on-dark"
               label="ECA Digital em números"
@@ -642,6 +677,8 @@ function EcaNumbers() {
             </Button>
           </div>
         </Reveal>
+
+        <SectionContact tone="dark" />
       </Container>
     </MiniScreensHandoff>
   );

@@ -35,7 +35,7 @@ function goToPage(page: StoryPage): void {
 
 /**
  * Barra amarela inferior — anterior / próxima.
- * Oculta na splash (z-index) e na home.
+ * Oculta na home.
  */
 export function PageNav() {
   const [activeIndex, setActiveIndex] = useState(0);

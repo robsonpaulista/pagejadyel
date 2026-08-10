@@ -190,7 +190,18 @@ export function BottomBar() {
           aria-label="Jadyel Alencar — Início"
           onClick={handleHomeClick}
         >
-          <span className="bottom-bar__brand-chip">Deputado Federal</span>
+          <span className="bottom-bar__brand-chip" aria-hidden="true">
+            {Array.from("DEPUTADO FEDERAL").map((char, index) => (
+              <span
+                key={`${char}-${index}`}
+                className={
+                  char === " " ? "bottom-bar__brand-chip-space" : undefined
+                }
+              >
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))}
+          </span>
           <span className="bottom-bar__brand-name">
             Jadyel <span className="bottom-bar__brand-surname">Alencar</span>
           </span>

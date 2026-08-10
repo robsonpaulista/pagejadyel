@@ -38,7 +38,13 @@
 }
 
 .hamor-hero.mini-handoff__pin {
-  background: var(--white);
+  --hamor-bg: #f7f4ee;
+  --hamor-ink: #1a1815;
+  --hamor-muted: #57534d;
+  --hamor-pink: #d93d72;
+  --hamor-pink-soft: #e95b8c;
+  --hamor-pink-deep: #b92e5e;
+  background: var(--hamor-bg);
   overflow: hidden;
   padding: 0;
 }
@@ -87,12 +93,18 @@
 }
 
 
-/* ---- 1. Abertura full-bleed ---- */
+/* ---- 1. Abertura editorial (duas zonas) ---- */
 
 .hamor-hero {
+  --hamor-bg: #f7f4ee;
+  --hamor-ink: #1a1815;
+  --hamor-muted: #57534d;
+  --hamor-pink: #d93d72;
+  --hamor-pink-soft: #e95b8c;
+  --hamor-pink-deep: #b92e5e;
   padding-inline: 0;
   padding-block: 0;
-  background: var(--white);
+  background: var(--hamor-bg);
   justify-content: stretch;
   overflow: hidden;
 }
@@ -101,13 +113,21 @@
   overflow: hidden;
 }
 
+.hamor-hero .highlight--pink {
+  color: var(--hamor-pink);
+}
+
 .hamor-hero__stage {
   position: relative;
   flex: 1;
   overflow: hidden;
   min-height: 0;
   height: 100%;
-  background: var(--white);
+  background: var(--hamor-bg);
+}
+
+.hamor-hero__backdrop {
+  display: none;
 }
 
 .hamor-hero__photo {
@@ -118,7 +138,7 @@
   height: 100%;
   max-width: none !important;
   object-fit: cover;
-  object-position: 55% 32%;
+  object-position: 55% 28%;
   border: 0;
   border-radius: 0;
   box-shadow: none;
@@ -131,21 +151,9 @@
   pointer-events: none;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(255, 255, 255, 0.78) 40%,
-    #ffffff 72%
-  );
-}
-
-.hamor-hero__glow {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 55% 50% at 50% 58%,
-    rgba(231, 49, 104, 0.1) 0%,
-    transparent 70%
+    rgba(247, 244, 238, 0.2) 0%,
+    rgba(247, 244, 238, 0.78) 42%,
+    #f7f4ee 74%
   );
 }
 
@@ -155,11 +163,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(0.75rem, 2svh, 1.15rem);
+  gap: clamp(0.85rem, 2.2svh, 1.35rem);
   height: 100%;
   min-height: 0;
   max-width: calc(var(--max-width) + 2 * var(--gutter));
-  padding-block: clamp(1.15rem, 3svh, 2rem) clamp(1rem, 2.5svh, 1.65rem);
+  padding-block: clamp(1.25rem, 3.5svh, 2.25rem) clamp(1rem, 2.5svh, 1.75rem);
 }
 
 .hamor-hero__copy {
@@ -167,88 +175,259 @@
   flex-shrink: 0;
 }
 
-.hamor-hero__tag .section-tag__label {
-  font-size: clamp(0.95rem, 0.85rem + 0.45vw, 1.15rem);
-  letter-spacing: 0.12em;
-  color: var(--ink);
+.hamor-hero__meta {
+  margin: 0;
 }
 
-.hamor-hero__headline {
+.hamor-hero__index {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hamor-ink);
+}
+
+.hamor-hero__index-num {
+  color: var(--hamor-pink);
+}
+
+.hamor-hero__index-sep {
+  color: rgba(26, 24, 21, 0.42);
+  font-weight: 600;
+}
+
+.hamor-hero .hamor-hero__headline {
   margin-top: var(--sp-3);
-  max-width: 11ch;
-  font-size: clamp(1.65rem, 1.2rem + 1.5vw, 2.35rem);
+  max-width: 12ch;
+  font-size: var(--text-headline);
+  color: var(--hamor-ink);
 }
 
-.hamor-hero__title-line,
-.hamor-hero__amor {
+.hamor-hero__title-line {
   display: inline;
 }
 
-.hamor-hero__body {
-  max-width: 42ch;
-  margin-top: var(--sp-3);
+.hamor-hero__lede {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-width: 34rem;
+  width: min(100%, 33.5rem);
+  margin-top: clamp(1.1rem, 2.8svh, 1.55rem);
+}
+
+.hamor-hero__lede p {
+  margin: 0;
+  font-size: clamp(0.92rem, 0.86rem + 0.22vw, 1.02rem);
+  font-weight: 400;
+  line-height: 1.62;
+  color: var(--hamor-muted);
+}
+
+.hamor-hero__highlights {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem 0;
+  margin-top: clamp(1.25rem, 3svh, 1.75rem);
+  max-width: 34rem;
+}
+
+.hamor-hero__highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.hamor-hero__highlight-icon {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: var(--hamor-pink);
+  opacity: 0.9;
+}
+
+.hamor-hero__highlight-copy {
+  min-width: 0;
+}
+
+.hamor-hero__highlight-value {
+  margin: 0;
+  font-size: clamp(0.95rem, 0.88rem + 0.25vw, 1.08rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--hamor-pink);
+}
+
+.hamor-hero__highlight-value--ink {
+  color: var(--hamor-ink);
+}
+
+.hamor-hero__highlight-label {
+  margin: 0.2rem 0 0;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--hamor-muted);
+}
+
+.hamor-hero__foot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: clamp(1.15rem, 2.8svh, 1.65rem);
 }
 
 .hamor-hero__site {
   display: flex;
   align-items: flex-start;
   gap: 0.45rem;
-  max-width: 34ch;
-  margin: clamp(1.15rem, 2.8svh, 1.65rem) 0 0;
-  font-size: 0.8rem;
+  max-width: 36ch;
+  margin: 0;
+  font-size: 0.78rem;
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.5;
   letter-spacing: 0.01em;
-  color: var(--ink-soft);
+  color: var(--hamor-muted);
 }
 
 .hamor-hero__site-icon {
   flex-shrink: 0;
   margin-top: 0.12rem;
-  color: var(--pink);
-  opacity: 0.72;
+  color: var(--hamor-pink);
+  opacity: 0.85;
 }
 
-.hamor-hero .hamor-continue-wrap {
-  margin-top: clamp(1.15rem, 2.8svh, 1.65rem);
-  flex-shrink: 0;
+.hamor-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--hamor-ink);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--yellow);
+  padding-bottom: 0.12rem;
+  transition: color 180ms ease;
+}
+
+.hamor-hero__cta-arrow {
+  display: inline-block;
+  transition: transform 180ms ease;
+}
+
+.hamor-hero__cta:hover,
+.hamor-hero__cta:focus-visible {
+  color: var(--hamor-pink-deep);
+}
+
+.hamor-hero__cta:hover .hamor-hero__cta-arrow,
+.hamor-hero__cta:focus-visible .hamor-hero__cta-arrow {
+  transform: translateX(3px);
+}
+
+.hamor-hero__contact.section-contact {
+  margin-top: clamp(1.35rem, 3.2svh, 2rem);
+  padding-top: 1rem;
+  border-top-color: rgba(26, 24, 21, 0.08);
+  gap: 0.5rem 0.95rem;
+}
+
+.hamor-hero__contact .section-contact__link {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(87, 83, 77, 0.88);
+}
+
+.hamor-hero__contact .section-contact__whatsapp {
+  width: 1.85rem;
+  height: 1.85rem;
+  color: rgba(87, 83, 77, 0.7);
+}
+
+@media (min-width: 640px) {
+  .hamor-hero__highlights {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.35rem;
+    align-items: start;
+  }
+
+  .hamor-hero__highlight:first-child {
+    padding-right: 1.35rem;
+    border-right: 1px solid rgba(26, 24, 21, 0.12);
+  }
 }
 
 @media (min-width: 960px) {
+  .hamor-hero__backdrop {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 40%;
+    z-index: 0;
+    background:
+      radial-gradient(
+        ellipse 70% 75% at 58% 42%,
+        #e95b8c 0%,
+        #d93d72 42%,
+        #b92e5e 78%,
+        #9e2752 100%
+      );
+  }
+
   .hamor-hero__photo {
-    left: 28%;
-    width: 72%;
-    /* Empurra o sujeito à direita: o fade integra o rosa no texto, sem cobrir o rosto */
-    object-position: 68% 28%;
+    left: 40%;
+    width: 60%;
+    object-fit: cover;
+    object-position: 62% 22%;
   }
 
   .hamor-hero__fade {
     background: linear-gradient(
       90deg,
-      #ffffff 0%,
-      #ffffff 30%,
-      rgba(255, 255, 255, 0.94) 36%,
-      rgba(255, 255, 255, 0.55) 42%,
-      rgba(255, 255, 255, 0.18) 48%,
-      rgba(255, 255, 255, 0) 54%
-    );
-  }
-
-  .hamor-hero__glow {
-    background: radial-gradient(
-      ellipse 30% 65% at 68% 48%,
-      rgba(231, 49, 104, 0.12) 0%,
-      transparent 72%
+      #f7f4ee 0%,
+      #f7f4ee 38%,
+      rgba(247, 244, 238, 0.98) 42%,
+      rgba(247, 244, 238, 0.78) 48%,
+      rgba(247, 244, 238, 0.35) 54%,
+      rgba(247, 244, 238, 0.08) 60%,
+      transparent 68%
     );
   }
 
   .hamor-hero__copy {
-    width: min(26rem, 42%);
+    width: min(30rem, 42%);
     max-width: 42%;
+  }
+
+  .hamor-hero__lede {
+    width: min(100%, 33rem);
   }
 }
 
-/* Mobile: imagem no topo, texto em seguida (sem overlay) */
+@media (min-width: 1180px) {
+  .hamor-hero__photo {
+    left: 40%;
+    width: 60%;
+    object-position: 64% 20%;
+  }
+
+  .hamor-hero__copy {
+    width: min(32rem, 40%);
+    max-width: 40%;
+  }
+}
+
+/* Mobile: texto primeiro, foto abaixo */
 @media (max-width: 767px) {
   .hamor-hero.mini-handoff__pin,
   .hamor-hero.section {
@@ -264,45 +443,62 @@
     overflow: visible;
   }
 
+  .hamor-hero__backdrop {
+    display: none;
+  }
+
   .hamor-hero__photo {
     position: relative;
     inset: auto;
+    order: 2;
     z-index: 0;
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 3;
-    max-height: min(42svh, 20rem);
+    max-height: min(44svh, 22rem);
     object-fit: cover;
-    object-position: 55% 28%;
+    object-position: 55% 22%;
     flex-shrink: 0;
     transform: none !important;
+    background: linear-gradient(160deg, #e95b8c 0%, #d93d72 45%, #b92e5e 100%);
   }
 
-  .hamor-hero__fade,
-  .hamor-hero__glow {
+  .hamor-hero__fade {
     display: none;
   }
 
   .hamor-hero-track .hamor-hero__shell,
   .hamor-hero__shell {
+    order: 1;
     height: auto;
     min-height: 0;
     justify-content: flex-start;
-    padding-block: 1.25rem 1.75rem;
+    padding-block: 1.25rem 1.1rem;
     gap: 0.75rem;
   }
 
-  .hamor-hero__headline {
+  .hamor-hero__copy {
     max-width: none;
-    font-size: clamp(1.45rem, 6.5vw, 1.85rem);
+    height: auto;
   }
 
-  .hamor-hero__site {
-    margin-top: 1rem;
+  .hamor-hero .hamor-hero__headline {
+    max-width: 12ch;
   }
 
-  .hamor-hero .hamor-continue-wrap {
-    margin-top: 1.15rem;
+  .hamor-hero__highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .hamor-hero__highlight:first-child {
+    padding-right: 0;
+    border-right: 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(26, 24, 21, 0.1);
+  }
+
+  .hamor-hero__contact.section-contact {
+    margin-top: 1.5rem;
   }
 }
 
@@ -739,10 +935,10 @@
   color: var(--dark-ink);
 }
 
-.hamor-numbers__lede {
+.hamor-numbers .lede.hamor-numbers__lede {
   max-width: 46ch;
   margin-top: var(--sp-3);
-  color: var(--dark-ink-muted);
+  color: #c8c5bf;
 }
 
 .hamor-numbers__board {

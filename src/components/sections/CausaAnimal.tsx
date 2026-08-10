@@ -25,7 +25,9 @@ import {
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
 import { scrollToElement } from "../../lib/lenisBridge";
+import { SectionContact } from "../SectionContact";
 import causaAnimalPhoto from "../../assets/causa-animal.jpg";
+import causaAnimalDrawing from "../../assets/causa-animal-drawing.png";
 import "./CausaAnimal.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -178,6 +180,16 @@ function AnimalPolicy() {
       aria-labelledby="animal-policy-heading"
     >
       <div className="animal-policy__stage" ref={ref}>
+        <motion.div
+          className="animal-policy__scene"
+          aria-hidden="true"
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={show ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.2 }}
+        >
+          <div className="animal-policy__grain" />
+        </motion.div>
+
         <motion.img
           className="animal-policy__photo"
           src={causaAnimalPhoto}
@@ -186,73 +198,166 @@ function AnimalPolicy() {
           animate={show ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.85, ease: EASE, delay: 0.28 }}
         />
+
+        <motion.div
+          className="animal-policy__deco"
+          aria-hidden="true"
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={show ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.35 }}
+        >
+          <svg
+            className="animal-policy__arcs"
+            viewBox="0 0 800 900"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="620"
+              cy="220"
+              r="280"
+              stroke="currentColor"
+              strokeWidth="1.1"
+            />
+            <circle
+              cx="620"
+              cy="220"
+              r="210"
+              stroke="currentColor"
+              strokeWidth="0.85"
+            />
+            <path
+              d="M40 780 C 220 520, 410 360, 760 180"
+              stroke="currentColor"
+              strokeWidth="0.9"
+            />
+            <path
+              d="M80 820 C 260 560, 450 400, 780 210"
+              stroke="currentColor"
+              strokeWidth="0.7"
+            />
+          </svg>
+          <svg
+            className="animal-policy__mark"
+            viewBox="0 0 160 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M48 78 C40 68 42 52 54 48 C58 36 72 30 82 40 C90 28 108 30 112 46 C124 48 132 58 128 70 C132 84 120 94 104 92 L56 92 C48 92 44 86 48 78Z"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M70 62 C74 54 86 52 90 62"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M118 70 C128 58 144 62 146 78 C148 90 138 98 126 94"
+              stroke="currentColor"
+              strokeWidth="1.3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M128 78 C132 74 138 74 140 80"
+              stroke="currentColor"
+              strokeWidth="1.1"
+              strokeLinecap="round"
+            />
+          </svg>
+        </motion.div>
+
         <div className="animal-policy__fade" aria-hidden="true" />
 
         <Container className="animal-policy__shell">
           <div className="animal-policy__copy">
-            <motion.p
-              className="animal-policy__kicker"
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+            <motion.div
+              className="animal-policy__meta"
+              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
               transition={{ duration: 0.55, ease: EASE }}
             >
-              Causa Animal
-            </motion.p>
+              <p className="animal-policy__index">
+                <span className="animal-policy__index-num">04</span>
+                <span className="animal-policy__index-sep">/</span>
+                <span>Causa Animal</span>
+              </p>
+            </motion.div>
 
-            <h3
+            <h2
               id="animal-policy-heading"
               className="headline animal-policy__title"
             >
               <motion.span
                 className="animal-policy__title-line"
-                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.65, delay: 0.12, ease: EASE }}
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                transition={{ duration: 0.7, delay: 0.12, ease: EASE }}
               >
-                O cuidado virou
+                Cuidar dos animais
+                <br />
+                <span className="animal-policy__title-accent">
+                  virou compromisso
+                  <br />
+                  de Estado.
+                </span>
               </motion.span>
-              <motion.span
-                className="animal-policy__title-line animal-policy__title-line--accent"
-                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.65, delay: 0.22, ease: EASE }}
-              >
-                compromisso
-              </motion.span>
-              <motion.span
-                className="animal-policy__title-line animal-policy__title-line--accent"
-                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.65, delay: 0.32, ease: EASE }}
-              >
-                de Estado.
-              </motion.span>
-            </h3>
+            </h2>
 
             <motion.p
               className="lede animal-policy__lede"
-              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              transition={{ duration: 0.6, delay: 0.42, ease: EASE }}
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: 0.65, delay: 0.4, ease: EASE }}
             >
-              Do É Pra Já Pet ao Pacto pelos Animais: um movimento que
-              transformou amor pelos animais em investimento e política pública
-              permanente.
+              A causa animal sempre esteve presente no mandato. Proteção,
+              castração e apoio a quem cuida ganharam escala até se transformar
+              em uma política pública permanente para todo o Piauí.
             </motion.p>
+
+            <motion.div
+              className="animal-policy__stats"
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
+            >
+              <div className="animal-policy__stat">
+                <p className="animal-policy__stat-value">20 mil+</p>
+                <p className="animal-policy__stat-label">castrações previstas</p>
+              </div>
+              <div className="animal-policy__stat animal-policy__stat--draw">
+                <div className="animal-policy__stat-copy">
+                  <p className="animal-policy__stat-value">224 municípios</p>
+                  <p className="animal-policy__stat-label">alcance estadual</p>
+                </div>
+                <img
+                  className="animal-policy__stat-drawing"
+                  src={causaAnimalDrawing}
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
+            </motion.div>
 
             <motion.a
               className="animal-policy__cta"
               href="#animal-cuidado"
               onClick={goToStory}
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
-              transition={{ duration: 0.55, delay: 0.55, ease: EASE }}
+              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+              transition={{ duration: 0.55, delay: 0.6, ease: EASE }}
             >
               Conheça essa história
               <span className="animal-policy__cta-arrow" aria-hidden="true">
                 →
               </span>
             </motion.a>
+
+            <SectionContact className="animal-policy__contact" />
           </div>
         </Container>
       </div>
@@ -350,6 +455,8 @@ function AnimalCare() {
             </Reveal>
           ))}
         </div>
+
+        <SectionContact />
       </Container>
     </MiniScreensHandoff>
   );
@@ -418,6 +525,8 @@ function AnimalNumbers() {
             </Button>
           </div>
         </Reveal>
+
+        <SectionContact tone="dark" />
       </Container>
     </MiniScreensHandoff>
   );

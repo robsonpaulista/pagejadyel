@@ -1,6 +1,8 @@
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import {
+  Award,
   HandHeart,
+  Heart,
   HeartHandshake,
   MapPin,
   Search,
@@ -22,6 +24,7 @@ import {
 } from "../ui";
 import { useCountUp } from "../../hooks/useCountUp";
 import hospitalPhoto from "../../assets/hospital-jadyel.jpg";
+import { SectionContact } from "../SectionContact";
 import "./HospitalDeAmor.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -104,104 +107,137 @@ function HospitalHero() {
       aria-labelledby="hamor-heading"
     >
       <div className="hamor-hero__stage" ref={ref}>
+        <div className="hamor-hero__backdrop" aria-hidden="true" />
+
         <motion.img
           className="hamor-hero__photo"
           src={hospitalPhoto}
           alt="Jadyel Alencar com a bandeira do Hospital de Amor"
-          initial={reduceMotion ? false : { opacity: 0, x: 48, scale: 1.04 }}
-          animate={
-            show
-              ? { opacity: 1, x: 0, scale: 1 }
-              : { opacity: 0, x: 48, scale: 1.04 }
-          }
-          transition={{ duration: 0.85, ease: EASE }}
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={show ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.12 }}
         />
+
         <motion.div
           className="hamor-hero__fade"
           aria-hidden="true"
-          initial={reduceMotion ? false : { opacity: 0.35 }}
-          animate={show ? { opacity: 1 } : { opacity: 0.35 }}
-          transition={{ duration: 0.9, ease: EASE, delay: 0.08 }}
-        />
-        <motion.div
-          className="hamor-hero__glow"
-          aria-hidden="true"
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={show ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 1, ease: EASE, delay: 0.3 }}
+          initial={reduceMotion ? false : { opacity: 0.4 }}
+          animate={show ? { opacity: 1 } : { opacity: 0.4 }}
+          transition={{ duration: 0.85, ease: EASE, delay: 0.1 }}
         />
 
         <Container className="hamor-hero__shell">
           <div className="hamor-hero__copy">
             <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.65, ease: EASE, delay: 0.15 }}
+              className="hamor-hero__meta"
+              initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+              transition={{ duration: 0.55, ease: EASE, delay: 0.12 }}
             >
-              <SectionTag
-                className="hamor-hero__tag"
-                label="Hospital de Amor"
-              />
+              <p className="hamor-hero__index">
+                <span className="hamor-hero__index-num">03</span>
+                <span className="hamor-hero__index-sep">/</span>
+                <span>Hospital de Amor</span>
+              </p>
             </motion.div>
 
             <h2 id="hamor-heading" className="headline hamor-hero__headline">
               <motion.span
                 className="hamor-hero__title-line"
-                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-                transition={{ duration: 0.7, ease: EASE, delay: 0.28 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+                transition={{ duration: 0.7, ease: EASE, delay: 0.22 }}
               >
                 Cuidar com{" "}
-              </motion.span>
-              <motion.span
-                className="hamor-hero__amor"
-                initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                transition={{ duration: 0.75, ease: EASE, delay: 0.52 }}
-              >
                 <Highlight color="pink">amor</Highlight>
-              </motion.span>
-              <motion.span
-                className="hamor-hero__title-line"
-                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-                transition={{ duration: 0.7, ease: EASE, delay: 0.62 }}
-              >
-                {" "}
+                <br />
                 é o que nos move.
               </motion.span>
             </h2>
 
-            <motion.p
-              className="lede hamor-hero__body"
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.48 }}
+            <motion.div
+              className="hamor-hero__lede"
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              transition={{ duration: 0.65, ease: EASE, delay: 0.36 }}
             >
-              Uma conquista histórica para o Piauí: mais de R$ 100 milhões em
-              investimentos para tornar realidade, em Teresina, uma unidade de
-              referência em prevenção e diagnóstico oncológico. Quando a
-              prevenção chega mais perto, diminuem a distância, a espera e o
-              medo de milhares de famílias.
-            </motion.p>
+              <p>
+                Uma conquista histórica para o Piauí: mais de R$ 100 milhões em
+                investimentos para viabilizar em Teresina uma referência em
+                prevenção, diagnóstico e cuidado oncológico.
+              </p>
+              <p>
+                Quando a prevenção chega mais perto, diminuem a distância, o
+                medo e a espera para milhares de famílias.
+              </p>
+            </motion.div>
 
-            <motion.p
-              className="hamor-hero__site"
+            <motion.div
+              className="hamor-hero__highlights"
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.48 }}
+            >
+              <div className="hamor-hero__highlight">
+                <Heart
+                  className="hamor-hero__highlight-icon"
+                  size={18}
+                  strokeWidth={1.6}
+                  aria-hidden="true"
+                />
+                <div className="hamor-hero__highlight-copy">
+                  <p className="hamor-hero__highlight-value">
+                    + R$ 100 milhões
+                  </p>
+                  <p className="hamor-hero__highlight-label">destinados</p>
+                </div>
+              </div>
+              <div className="hamor-hero__highlight">
+                <Award
+                  className="hamor-hero__highlight-icon"
+                  size={18}
+                  strokeWidth={1.6}
+                  aria-hidden="true"
+                />
+                <div className="hamor-hero__highlight-copy">
+                  <p className="hamor-hero__highlight-value hamor-hero__highlight-value--ink">
+                    Referência nacional
+                  </p>
+                  <p className="hamor-hero__highlight-label">
+                    em prevenção e diagnóstico
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="hamor-hero__foot"
               initial={reduceMotion ? false : { opacity: 0, y: 10 }}
               animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
               transition={{ duration: 0.55, ease: EASE, delay: 0.58 }}
             >
-              <MapPin
-                className="hamor-hero__site-icon"
-                size={15}
-                strokeWidth={1.75}
-                aria-hidden="true"
-              />
-              <span>
-                Obras iniciando muito em breve na Avenida Ulisses Marques,
-                Avenida Presidente Kennedy.
-              </span>
-            </motion.p>
+              <p className="hamor-hero__site">
+                <MapPin
+                  className="hamor-hero__site-icon"
+                  size={15}
+                  strokeWidth={1.75}
+                  aria-hidden="true"
+                />
+                <span>
+                  Obras iniciando na Avenida Ulisses Marques e Avenida
+                  Presidente Kennedy.
+                </span>
+              </p>
+
+              <a className="hamor-hero__cta" href="#hospital-referencia">
+                Conheça essa conquista
+                <span className="hamor-hero__cta-arrow" aria-hidden="true">
+                  →
+                </span>
+              </a>
+            </motion.div>
+
+            <SectionContact className="hamor-hero__contact" />
           </div>
         </Container>
       </div>
@@ -304,6 +340,8 @@ function HospitalReference() {
             </Reveal>
           ))}
         </div>
+
+        <SectionContact />
       </Container>
     </MiniScreensHandoff>
   );
@@ -400,6 +438,8 @@ function HospitalNumbers() {
             Prevenção e diagnóstico precoce mais perto de quem precisa.
           </p>
         </Reveal>
+
+        <SectionContact tone="dark" />
       </Container>
     </MiniScreensHandoff>
   );

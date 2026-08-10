@@ -19,13 +19,6 @@
   overflow: hidden;
 }
 
-.mini-handoff__brand {
-  position: absolute;
-  top: clamp(0.65rem, 1.8vh, 1.1rem);
-  right: clamp(0.75rem, 2.5vw, 1.5rem);
-  z-index: 6;
-}
-
 /* Salto direto do menu: não “passa” pelos efeitos de scrub/handoff */
 html.menu-jumping .mini-handoff__band,
 html.menu-jumping .abertura__cover {

@@ -16,6 +16,7 @@ import {
 import envelopeBranco from "../../assets/envelopebranco1.png";
 import envelopeMensagem from "../../assets/envelopemensagem.png";
 import { scrollToElement } from "../../lib/lenisBridge";
+import { SectionContact } from "../SectionContact";
 import "./Mensagem.css";
 
 const MAX_TILT_X = 16;
@@ -329,6 +330,8 @@ export function Mensagem() {
           ) : null}
         </motion.div>
       </div>
+
+      <SectionContact />
     </section>
   );
 }

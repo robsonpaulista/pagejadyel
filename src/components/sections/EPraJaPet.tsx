@@ -5,6 +5,7 @@ import gp1 from "../../assets/press/pet/gp1.jpg";
 import instagram from "../../assets/press/pet/instagram.jpg";
 import pacto from "../../assets/press/pet/pacto.jpg";
 import cidadeVerdePacto from "../../assets/press/pet/cidade-verde-pacto.jpg";
+import { SectionContact } from "../SectionContact";
 import "./EPraJaPet.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -200,6 +201,8 @@ export function EPraJaPet() {
           </div>
         </aside>
       </div>
+
+      <SectionContact />
     </section>
   );
 }

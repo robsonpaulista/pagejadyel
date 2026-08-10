@@ -14,6 +14,7 @@ import cidadeVerdeSaude from "../../assets/press/cidade-verde-saude.png";
 import metaMetaverso from "../../assets/press/meta-metaverso.png";
 import radiosComunitarias from "../../assets/press/radios-comunitarias.png";
 import fotomandato from "../../assets/fotomandato.jpg";
+import { SectionContact } from "../SectionContact";
 import "./CompromissoComprovacao.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -297,6 +298,8 @@ export function CompromissoComprovacao() {
           </p>
         </footer>
       </div>
+
+      <SectionContact />
     </section>
   );
 }

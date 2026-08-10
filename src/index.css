@@ -57,6 +57,7 @@
   --radius-pill: 999px;
 
   --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-serif: "Cormorant Garamond", "Times New Roman", serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 

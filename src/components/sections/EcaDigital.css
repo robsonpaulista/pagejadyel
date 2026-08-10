@@ -1,7 +1,8 @@
 /* Página da bandeira ECA Digital — blocos 1 a 5 */
 
 .eca-page {
-  background: var(--cream);
+  --eca-bg: #f7f5f0;
+  background: var(--eca-bg);
 }
 
 /* Cada bloco = uma página de viewport (abaixo do menu) */
@@ -41,7 +42,7 @@
 }
 
 .eca-hero.mini-handoff__pin {
-  background: var(--white);
+  background: var(--eca-bg);
   overflow: hidden;
   padding: 0;
 }
@@ -53,13 +54,13 @@
 
 .eca-why.mini-handoff__pin {
   overflow: hidden;
-  background: var(--white);
+  background: var(--eca-bg);
   padding: 0;
   justify-content: stretch;
 }
 
 .eca-mandate.mini-handoff__pin {
-  background: var(--cream);
+  background: var(--eca-bg);
   padding: 0;
   justify-content: stretch;
 }
@@ -102,7 +103,7 @@
 .eca-hero {
   padding-inline: 0;
   padding-block: 0;
-  background: var(--white);
+  background: var(--eca-bg);
   justify-content: stretch;
   overflow: hidden;
 }
@@ -118,7 +119,7 @@
   min-height: 0;
   height: 100%;
   width: 100%;
-  background: var(--white);
+  background: var(--eca-bg);
 }
 
 .eca-hero__photo {
@@ -141,9 +142,9 @@
   pointer-events: none;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0.72) 42%,
-    #ffffff 72%
+    rgba(247, 245, 240, 0.2) 0%,
+    rgba(247, 245, 240, 0.72) 42%,
+    #f7f5f0 72%
   );
 }
 
@@ -175,6 +176,45 @@
 .eca-hero__copy {
   max-width: 34rem;
   flex-shrink: 0;
+}
+
+.eca-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: var(--sp-4);
+}
+
+.eca-hero__index {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin: 0;
+  max-width: 28rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.eca-hero__index-num {
+  color: var(--yellow);
+}
+
+.eca-hero__index-sep {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.eca-hero__meta--on-dark .eca-hero__index {
+  color: rgba(246, 242, 234, 0.92);
+}
+
+.eca-hero__meta--on-dark .eca-hero__index-sep {
+  color: rgba(246, 242, 234, 0.55);
 }
 
 .eca-hero__tag .section-tag__label {
@@ -243,12 +283,12 @@
   .eca-hero__fade {
     background: linear-gradient(
       90deg,
-      #ffffff 0%,
-      #ffffff 36%,
-      rgba(255, 255, 255, 0.97) 44%,
-      rgba(255, 255, 255, 0.55) 56%,
-      rgba(255, 255, 255, 0.12) 66%,
-      rgba(255, 255, 255, 0) 76%
+      #f7f5f0 0%,
+      #f7f5f0 36%,
+      rgba(247, 245, 240, 0.97) 44%,
+      rgba(247, 245, 240, 0.55) 56%,
+      rgba(247, 245, 240, 0.12) 66%,
+      rgba(247, 245, 240, 0) 76%
     );
   }
 
@@ -379,7 +419,7 @@
 .eca-why:not(.mini-handoff__pin) {
   position: relative;
   overflow: hidden;
-  background: var(--white);
+  background: var(--eca-bg);
   justify-content: center;
   padding-block: clamp(1.25rem, 3.5svh, 2.5rem);
 }
@@ -523,7 +563,7 @@
 /* ---- Bloco 4: mandato (painel de uma viewport) ---- */
 
 .eca-mandate {
-  background: var(--cream);
+  background: var(--eca-bg);
   padding-block: clamp(1.15rem, 3.2svh, 2rem);
   justify-content: stretch;
 }
@@ -949,10 +989,10 @@
   color: var(--dark-ink);
 }
 
-.eca-numbers__lede {
+.eca-numbers .lede.eca-numbers__lede {
   max-width: 44ch;
   margin-top: var(--sp-3);
-  color: var(--dark-ink);
+  color: #c8c5bf;
 }
 
 .eca-numbers__board {

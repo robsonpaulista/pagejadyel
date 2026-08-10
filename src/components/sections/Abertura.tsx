@@ -8,14 +8,16 @@ import {
   type Variants,
 } from "framer-motion";
 import { MousePointer2 } from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { Button, Container, Highlight, NameLockup } from "../ui";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Button, Container } from "../ui";
 import { useIsDesktop } from "../../hooks/useIsDesktop";
 import { isProgrammaticScroll, scrollToElement } from "../../lib/lenisBridge";
-import { JingleInvite, useJingle } from "../JinglePlayer";
+import { JingleInvite } from "../JinglePlayer";
+import { SectionContact } from "../SectionContact";
 import { MANDATO_PREVIEWS } from "../miniScreenPreviews";
 import type { MiniScreenPreview } from "../MiniScreensHandoff";
 import jadyelBandeira from "../../assets/jadyel-bandeira.webp";
+import aberturaPonte from "../../assets/abertura-ponte.png";
 import "./Abertura.css";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -147,7 +149,6 @@ function goToMandatoPage(onComplete?: () => void): void {
 export function Abertura() {
   const reduceMotion = useReducedMotion();
   const isDesktop = useIsDesktop();
-  const jingle = useJingle();
   const skipHandoff = Boolean(reduceMotion || !isDesktop);
   const skipRef = useRef(skipHandoff);
   skipRef.current = skipHandoff;
@@ -161,7 +162,7 @@ export function Abertura() {
     offset: ["start start", "end end"],
   });
 
-  const afterTitleDelay = reduceMotion || skipHandoff ? 0 : 0.08 * 8 + 0.15;
+  const afterTitleDelay = reduceMotion || skipHandoff ? 0 : 0.08 * 6 + 0.12;
   const skipEnter = Boolean(reduceMotion || skipHandoff);
 
   /*
@@ -177,11 +178,6 @@ export function Abertura() {
   const ctaOpacity = useTransform(
     scrollYProgress,
     skipHandoff ? [0, 1] : [0, 0.08, 0.28],
-    skipHandoff ? [1, 1] : [1, 1, 0],
-  );
-  const brandOpacity = useTransform(
-    scrollYProgress,
-    skipHandoff ? [0, 1] : [0, 0.24, 0.38],
     skipHandoff ? [1, 1] : [1, 1, 0],
   );
 
@@ -291,36 +287,25 @@ export function Abertura() {
         aria-labelledby="abertura-heading"
       >
         <div className="abertura__stage">
-          {/* Foto 100% estática — ancorada na base, sem parallax/zoom */}
-          <img
+          <motion.img
             className="abertura__photo"
             src={jadyelBandeira}
             alt="Jadyel Alencar sorrindo com a bandeira do Piauí sobre os ombros"
+            initial={skipEnter ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0.12 }}
           />
 
           <div className="abertura__fade" aria-hidden="true" />
+          <div className="abertura__grain" aria-hidden="true" />
 
-          <div
-            className={[
-              "abertura__ambient",
-              jingle.playing ? "abertura__ambient--live" : null,
-              jingle.refrainHit ? "abertura__ambient--hit" : null,
-            ]
-              .filter(Boolean)
-              .join(" ")}
+          <img
+            className="abertura__drawing"
+            src={aberturaPonte}
+            alt=""
             aria-hidden="true"
-            style={
-              {
-                "--jingle-ambience": String(jingle.ambience),
-              } as CSSProperties
-            }
-          >
-            <span className="abertura__particles" />
-          </div>
-
-          <div className="abertura__road" aria-hidden="true">
-            <span className="abertura__road-line" />
-          </div>
+            decoding="async"
+          />
 
           <Container className="abertura__inner">
             <div className="abertura__copy">
@@ -330,6 +315,15 @@ export function Abertura() {
                   skipHandoff ? undefined : { opacity: titlesOpacity }
                 }
               >
+                <motion.p
+                  className="abertura__eyebrow"
+                  initial={skipEnter ? false : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: EASE }}
+                >
+                  Mandato federal · Piauí
+                </motion.p>
+
                 <motion.h1
                   id="abertura-heading"
                   className="headline abertura__headline"
@@ -337,78 +331,43 @@ export function Abertura() {
                   initial={skipEnter ? false : "hidden"}
                   animate="show"
                 >
-                  <span className="abertura__purpose">
-                    <Word>Um</Word> <Word>só</Word> <Word>propósito:</Word>
+                  <span className="abertura__lead">
+                    <Word>Um</Word> <Word>mandato</Word> <Word>com</Word>
                   </span>
-                  <br />
+                  <span className="abertura__lead">
+                    <Word>um</Word> <Word>só</Word> <Word>propósito:</Word>
+                  </span>
                   <span className="abertura__care">
-                    <Highlight color="yellow">
-                      <Word>CUIDAR</Word> <Word>DO</Word> <Word>PIAUÍ</Word>
-                    </Highlight>
-                    <span className="abertura__care-light" aria-hidden="true" />
+                    <Word>Cuidar</Word> <Word>do</Word> <Word>Piauí</Word>
+                    <span className="abertura__care-dot" aria-hidden="true">
+                      .
+                    </span>
                   </span>
                 </motion.h1>
 
                 <motion.p
-                  className="lede abertura__lede abertura__lede--full"
-                  initial={skipEnter ? false : { opacity: 0, y: 16 }}
+                  className="lede abertura__lede"
+                  initial={skipEnter ? false : { opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    duration: 0.6,
+                    duration: 0.55,
                     ease: EASE,
                     delay: afterTitleDelay,
                   }}
                 >
-                  Proteger as crianças, ampliar o acesso à saúde, cuidar dos
-                  animais e levar obras para todos os cantos do estado. É assim
-                  que o nosso mandato cuida do Piauí.
+                  Proteção às crianças. Saúde. Causa animal. Infraestrutura.
+                  Trabalho que chega onde as pessoas estão.
                 </motion.p>
-                <motion.p
-                  className="lede abertura__lede abertura__lede--short"
-                  initial={skipEnter ? false : { opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.45,
-                    ease: EASE,
-                    delay: afterTitleDelay,
-                  }}
-                >
-                  Proteger as crianças, ampliar a saúde, cuidar dos animais e
-                  levar obras a todo o Piauí.
-                </motion.p>
-              </motion.div>
-
-              <motion.div
-                className="abertura__signature"
-                initial={skipEnter ? false : { opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.6,
-                  ease: EASE,
-                  delay: afterTitleDelay + 0.08,
-                }}
-                style={
-                  skipHandoff ? undefined : { opacity: brandOpacity }
-                }
-              >
-                <div className="abertura__brand">
-                  <NameLockup
-                    compact
-                    subline={false}
-                    className="abertura__lockup"
-                  />
-                </div>
-                <p className="abertura__slogan">O Piauí É PRA JÁ!</p>
               </motion.div>
 
               <motion.div
                 className="abertura__actions"
-                initial={skipEnter ? false : { opacity: 0, y: 16 }}
+                initial={skipEnter ? false : { opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.6,
+                  duration: 0.55,
                   ease: EASE,
-                  delay: afterTitleDelay + 0.2,
+                  delay: afterTitleDelay + 0.1,
                 }}
                 style={skipHandoff ? undefined : { opacity: ctaOpacity }}
               >
@@ -416,10 +375,51 @@ export function Abertura() {
                   variant="solid"
                   arrow
                   className="abertura__cta"
+                  href="#nmand-abertura"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    goToMandatoPage();
+                  }}
                 >
-                  Junte-se a nós
+                  Conheça o mandato
                 </Button>
-                <JingleInvite />
+                <JingleInvite label="Ouvir o jingle" />
+              </motion.div>
+
+              <motion.div
+                className="abertura__meta"
+                initial={skipEnter ? false : { opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.5,
+                  ease: EASE,
+                  delay: afterTitleDelay + 0.16,
+                }}
+                style={skipHandoff ? undefined : { opacity: ctaOpacity }}
+              >
+                <p className="abertura__index">
+                  <span className="abertura__index-num">01</span>
+                  <span className="abertura__index-sep">/</span>
+                  <span>Mandato</span>
+                </p>
+                <span className="abertura__meta-rule" aria-hidden="true" />
+                <p className="abertura__motto">
+                  Cuidar <span>·</span> Trabalhar <span>·</span> Entregar
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="abertura__contact-motion"
+                initial={skipEnter ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.5,
+                  ease: EASE,
+                  delay: afterTitleDelay + 0.22,
+                }}
+                style={skipHandoff ? undefined : { opacity: ctaOpacity }}
+              >
+                <SectionContact className="abertura__contact" />
               </motion.div>
             </div>
           </Container>

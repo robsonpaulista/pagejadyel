@@ -8,8 +8,6 @@ import { MutiraoCatarata } from "./components/sections/MutiraoCatarata";
 import { Infraestrutura } from "./components/sections/Infraestrutura";
 import { CallFinal } from "./components/sections/CallFinal";
 import { BottomBar } from "./components/sections/BottomBar";
-import { BeatSplash } from "./components/BeatSplash";
-import { PageNav } from "./components/PageNav";
 import { Mensagem } from "./components/sections/Mensagem";
 import { MandatoAposMensagem } from "./components/sections/MandatoAposMensagem";
 import { JinglePlayer } from "./components/JinglePlayer";
@@ -34,9 +32,7 @@ function OfficialHome() {
     <SmoothScroll>
       <JinglePlayer>
         <div className="page">
-          <BeatSplash />
           <BottomBar />
-          <PageNav />
           <main>
             <Abertura />
             <NumerosDoMandato />

@@ -6,7 +6,9 @@ type NameLockupProps = {
   subline?: boolean;
 };
 
-/** Assinatura do candidato: chip, nome e subline opcional. */
+const OFFICE_LABEL = "DEPUTADO FEDERAL";
+
+/** Assinatura do candidato: cargo, nome e subline opcional. */
 export function NameLockup({
   className,
   compact = false,
@@ -22,8 +24,19 @@ export function NameLockup({
         .filter(Boolean)
         .join(" ")}
     >
-      <p className="name-lockup__chip">
-        <span className="name-lockup__chip-badge">Deputado Federal</span>
+      <p className="name-lockup__chip" aria-label="Deputado Federal">
+        <span className="name-lockup__chip-badge" aria-hidden="true">
+          {Array.from(OFFICE_LABEL).map((char, index) => (
+            <span
+              key={`${char}-${index}`}
+              className={
+                char === " " ? "name-lockup__chip-space" : undefined
+              }
+            >
+              {char === " " ? "\u00A0" : char}
+            </span>
+          ))}
+        </span>
       </p>
 
       <p className="name-lockup__name">

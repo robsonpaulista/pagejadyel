@@ -120,7 +120,11 @@ function formatTime(totalSeconds: number): string {
 }
 
 /** Convite na home — renderizado no fluxo da Abertura (sem portal). */
-export function JingleInvite() {
+export function JingleInvite({
+  label = "Ouvir os jingles",
+}: {
+  label?: string;
+}) {
   const ctx = useContext(JingleContext);
   if (!ctx || ctx.engaged) return null;
 
@@ -131,13 +135,13 @@ export function JingleInvite() {
         className="jingle-invite__btn"
         onClick={ctx.start}
         disabled={!ctx.ready}
-        aria-label="Ouvir os jingles da campanha"
+        aria-label={label}
       >
         <span className="jingle-invite__icon" aria-hidden="true">
           <PlayIcon />
         </span>
         <span className="jingle-invite__copy">
-          <strong>Ouvir os jingles</strong>
+          <strong>{label}</strong>
         </span>
       </button>
     </div>

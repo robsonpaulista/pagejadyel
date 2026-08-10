@@ -1,7 +1,8 @@
 /* Página da bandeira Mutirões de Catarata — 3 blocos */
 
 .catarata-page {
-  background: var(--cream);
+  --catarata-bg: #f7f5f0;
+  background: var(--catarata-bg);
 }
 
 .catarata-page > .section,
@@ -37,7 +38,7 @@
 }
 
 .catarata-hero.mini-handoff__pin {
-  background: var(--white);
+  background: var(--catarata-bg);
   overflow: hidden;
   padding: 0;
 }
@@ -48,7 +49,7 @@
 }
 
 .catarata-practice.mini-handoff__pin {
-  background: var(--white);
+  background: var(--catarata-bg);
   padding: 0;
   justify-content: stretch;
 }
@@ -148,12 +149,17 @@
   }
 }
 
-/* ---- 1. Capa ---- */
+/* ---- 1. Capa editorial ---- */
 
 .catarata-hero {
+  --catarata-bg: #f7f5f0;
+  --catarata-ink: #1a1815;
+  --catarata-muted: #57534d;
+  --catarata-purple: #8a4bd6;
+  --catarata-purple-deep: #6f3aad;
   padding-inline: 0;
   padding-block: 0;
-  background: var(--white);
+  background: var(--catarata-bg);
   justify-content: stretch;
   overflow: hidden;
 }
@@ -162,13 +168,17 @@
   overflow: hidden;
 }
 
+.catarata-hero .highlight--purple {
+  color: var(--catarata-purple);
+}
+
 .catarata-hero__stage {
   position: relative;
   flex: 1;
   overflow: hidden;
   min-height: 0;
   height: 100%;
-  background: var(--white);
+  background: var(--catarata-bg);
 }
 
 .catarata-hero__photo {
@@ -179,7 +189,7 @@
   height: 100%;
   max-width: none !important;
   object-fit: cover;
-  object-position: 55% 22%;
+  object-position: 52% 28%;
   border: 0;
 }
 
@@ -190,21 +200,9 @@
   pointer-events: none;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(255, 255, 255, 0.78) 40%,
-    #ffffff 72%
-  );
-}
-
-.catarata-hero__glow {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 42% 48% at 68% 48%,
-    rgba(138, 75, 214, 0.1) 0%,
-    transparent 70%
+    rgba(247, 245, 240, 0.2) 0%,
+    rgba(247, 245, 240, 0.78) 42%,
+    #f7f5f0 74%
   );
 }
 
@@ -212,24 +210,52 @@
   position: relative;
   z-index: 2;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   height: 100%;
+  min-height: 0;
   max-width: calc(var(--max-width) + 2 * var(--gutter));
-  padding-block: clamp(1.5rem, 4svh, 2.75rem);
+  padding-block: clamp(1.25rem, 3.5svh, 2.25rem);
 }
 
 .catarata-hero__copy {
   max-width: 34rem;
 }
 
-.catarata-hero__tag .section-tag__label {
-  color: var(--purple);
+.catarata-hero__meta {
+  margin: 0;
 }
 
-.catarata-hero__headline {
-  margin-top: var(--sp-4);
-  max-width: 12ch;
-  font-size: clamp(1.65rem, 1.2rem + 1.5vw, 2.35rem);
+.catarata-hero__index {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--catarata-ink);
+}
+
+.catarata-hero__index-num {
+  color: var(--catarata-purple);
+}
+
+.catarata-hero__index-sep {
+  color: rgba(26, 24, 21, 0.42);
+  font-weight: 600;
+}
+
+.catarata-hero .catarata-hero__headline {
+  margin-top: var(--sp-3);
+  max-width: 16ch;
+  font-size: var(--text-headline);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: var(--catarata-ink);
 }
 
 .catarata-hero__line {
@@ -238,47 +264,140 @@
 
 .catarata-hero__lede {
   max-width: 40ch;
-  margin-top: var(--sp-4);
+  margin-top: var(--sp-3);
+  color: var(--catarata-muted);
 }
 
-.catarata-hero .catarata-continue-wrap {
-  margin-top: clamp(1.15rem, 2.8svh, 1.65rem);
+.catarata-hero__proof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem 0.65rem;
+  margin: clamp(1.1rem, 2.6svh, 1.45rem) 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(26, 24, 21, 0.1);
+  max-width: 28rem;
+}
+
+.catarata-hero__proof-value {
+  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--catarata-purple);
+}
+
+.catarata-hero__proof-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--catarata-muted);
+}
+
+.catarata-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: clamp(1.15rem, 2.8svh, 1.55rem);
+  padding-bottom: 0.18rem;
+  border-bottom: 1.5px solid var(--catarata-purple);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--catarata-ink);
+  text-decoration: none;
+  transition: color 0.25s var(--ease);
+}
+
+.catarata-hero__cta-arrow {
+  display: inline-block;
+  transition: transform 0.35s var(--ease);
+}
+
+.catarata-hero__cta:hover,
+.catarata-hero__cta:focus-visible {
+  color: var(--catarata-purple-deep);
+}
+
+.catarata-hero__cta:hover .catarata-hero__cta-arrow,
+.catarata-hero__cta:focus-visible .catarata-hero__cta-arrow {
+  transform: translateX(4px);
+}
+
+.catarata-hero__contact.section-contact {
+  margin-top: clamp(1.35rem, 3.2svh, 2rem);
+  padding-top: 1rem;
+  border-top-color: rgba(26, 24, 21, 0.08);
+  gap: 0.5rem 0.95rem;
+}
+
+.catarata-hero__contact .section-contact__link {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(87, 83, 77, 0.88);
+}
+
+.catarata-hero__contact .section-contact__whatsapp {
+  width: 1.85rem;
+  height: 1.85rem;
+  color: rgba(87, 83, 77, 0.7);
 }
 
 @media (min-width: 960px) {
   .catarata-hero__photo {
-    left: 36%;
-    width: 64%;
-    object-position: 48% 18%;
+    left: 42%;
+    width: 58%;
+    object-position: 48% 24%;
   }
 
   .catarata-hero__fade {
     background: linear-gradient(
       90deg,
-      #ffffff 0%,
-      #ffffff 34%,
-      rgba(255, 255, 255, 0.97) 42%,
-      rgba(255, 255, 255, 0.55) 54%,
-      rgba(255, 255, 255, 0.14) 64%,
-      rgba(255, 255, 255, 0) 74%
-    );
-  }
-
-  .catarata-hero__glow {
-    background: radial-gradient(
-      ellipse 30% 65% at 68% 48%,
-      rgba(138, 75, 214, 0.1) 0%,
-      transparent 72%
+      #f7f5f0 0%,
+      #f7f5f0 38%,
+      rgba(247, 245, 240, 0.97) 44%,
+      rgba(247, 245, 240, 0.7) 54%,
+      rgba(247, 245, 240, 0.28) 62%,
+      rgba(247, 245, 240, 0.06) 70%,
+      transparent 78%
     );
   }
 
   .catarata-hero__copy {
-    width: min(30rem, 46%);
-    max-width: 46%;
+    width: min(32rem, 44%);
+    max-width: 44%;
+  }
+
+  .catarata-hero .catarata-hero__headline {
+    max-width: 16ch;
   }
 }
 
-/* Mobile: imagem no topo, texto em seguida (sem overlay) */
+@media (min-width: 1180px) {
+  .catarata-hero__photo {
+    left: 40%;
+    width: 60%;
+    object-position: 46% 22%;
+  }
+
+  .catarata-hero__copy {
+    width: min(34rem, 42%);
+    max-width: 42%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catarata-hero__cta,
+  .catarata-hero__cta-arrow {
+    transition: none;
+  }
+
+  .catarata-hero__cta:hover .catarata-hero__cta-arrow,
+  .catarata-hero__cta:focus-visible .catarata-hero__cta-arrow {
+    transform: none;
+  }
+}
+
+/* Mobile: texto primeiro, foto abaixo */
 @media (max-width: 767px) {
   .catarata-hero.mini-handoff__pin,
   .catarata-hero.section {
@@ -297,28 +416,29 @@
   .catarata-hero__photo {
     position: relative;
     inset: auto;
+    order: 2;
     z-index: 0;
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 3;
-    max-height: min(42svh, 20rem);
+    max-height: min(44svh, 22rem);
     object-fit: cover;
-    object-position: 55% 22%;
+    object-position: 50% 28%;
     flex-shrink: 0;
     transform: none !important;
   }
 
-  .catarata-hero__fade,
-  .catarata-hero__glow {
+  .catarata-hero__fade {
     display: none;
   }
 
   .catarata-hero-track .catarata-hero__shell,
   .catarata-hero__shell {
+    order: 1;
     height: auto;
     min-height: 0;
-    align-items: flex-start;
-    padding-block: 1.25rem 1.75rem;
+    justify-content: flex-start;
+    padding-block: 1.25rem 1.1rem;
   }
 
   .catarata-hero__copy {
@@ -326,15 +446,19 @@
     width: 100%;
   }
 
-  .catarata-hero__headline {
-    max-width: none;
+  .catarata-hero .catarata-hero__headline {
+    max-width: 16ch;
+  }
+
+  .catarata-hero__contact.section-contact {
+    margin-top: 1.5rem;
   }
 }
 
 /* ---- 2. Na prática (branco) ---- */
 
 .catarata-practice {
-  background: var(--white);
+  background: var(--catarata-bg, #f7f5f0);
   color: var(--ink);
   justify-content: center;
   padding-block: clamp(1.15rem, 3svh, 2rem);

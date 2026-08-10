@@ -1,10 +1,9 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "../Reveal";
 import { Button, Container, NameLockup, Section, SectionTag } from "../ui";
+import { SectionContact } from "../SectionContact";
 import jadyelPhoto from "../../assets/jadyel.png";
 import "./CallFinal.css";
-
-const SOCIAL = ["WhatsApp", "Instagram", "Facebook", "Link"];
 
 export function CallFinal() {
   const reduceMotion = useReducedMotion();
@@ -34,18 +33,7 @@ export function CallFinal() {
               </Button>
             </div>
 
-            <div className="call-final__share">
-              <span className="cue">Compartilhe essa missão</span>
-              <ul className="call-final__social">
-                {SOCIAL.map((network) => (
-                  <li key={network}>
-                    <a href="#social" aria-label={network}>
-                      <span aria-hidden="true">{network.charAt(0)}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <SectionContact className="call-final__contact" />
           </Reveal>
         </div>
 
