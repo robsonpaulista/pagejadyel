@@ -1,0 +1,138 @@
+/* Home — Ativo 25 + Ativo 36 + rodapé legal */
+
+.home-capas {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background:
+    radial-gradient(
+      ellipse 90% 70% at 50% 110%,
+      #ffbe00 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      165deg,
+      #ffc933 0%,
+      #f0932b 42%,
+      #e07a12 100%
+    );
+}
+
+.home-capas__badge {
+  position: absolute;
+  top: clamp(0.85rem, 2.5vw, 1.75rem);
+  right: clamp(0.85rem, 2.5vw, 1.75rem);
+  z-index: 2;
+  width: auto;
+  height: auto;
+  max-width: min(28vw, 11rem);
+  max-height: min(12svh, 4.5rem);
+  object-fit: contain;
+  object-position: right top;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.home-capas__stage {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: clamp(1.25rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3rem) 0.75rem;
+}
+
+.home-capas__photo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(92vw, 42rem);
+  max-height: min(62svh, 100%);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  object-fit: contain;
+  object-position: center center;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.home-capas__legal {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0.85rem clamp(0.85rem, 2.5vw, 1.75rem) clamp(1rem, 2.5vw, 1.5rem);
+  text-align: right;
+  color: rgba(26, 24, 21, 0.88);
+}
+
+.home-capas__legal-line {
+  margin: 0 0 0.35rem;
+  font-size: clamp(0.62rem, 1.25vw, 0.74rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.45;
+}
+
+.home-capas__legal-line--strong {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.home-capas__legal-links {
+  margin: 0.45rem 0;
+  font-size: clamp(0.62rem, 1.25vw, 0.74rem);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.home-capas__legal-link {
+  color: rgba(26, 24, 21, 0.92);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.home-capas__legal-link:hover,
+.home-capas__legal-link:focus-visible {
+  color: #1a1815;
+}
+
+.home-capas__legal-mail {
+  font-weight: 700;
+  color: #1a1815;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  word-break: break-word;
+}
+
+.home-capas__legal-copy {
+  margin-top: 0.55rem;
+  margin-bottom: 0;
+  opacity: 0.9;
+}
+
+@media (max-width: 719px) {
+  .home-capas__legal {
+    text-align: left;
+  }
+
+  .home-capas__photo {
+    max-height: min(48svh, 100%);
+  }
+
+  .home-capas__badge {
+    max-width: min(42vw, 9rem);
+  }
+}

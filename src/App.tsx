@@ -10,6 +10,7 @@ import { CallFinal } from "./components/sections/CallFinal";
 import { BottomBar } from "./components/sections/BottomBar";
 import { Mensagem } from "./components/sections/Mensagem";
 import { MandatoAposMensagem } from "./components/sections/MandatoAposMensagem";
+import { HomeCapas } from "./components/sections/HomeCapas";
 import { JinglePlayer } from "./components/JinglePlayer";
 import { SmoothScroll } from "./components/SmoothScroll";
 import "./App.css";
@@ -26,8 +27,17 @@ function usePathname(): string {
   return pathname;
 }
 
-/** Home oficial (campanha completa). */
-function OfficialHome() {
+/** Home — apenas as três capas em carrossel (sem links externos). */
+function CapasHome() {
+  return (
+    <div className="page page--capas">
+      <HomeCapas />
+    </div>
+  );
+}
+
+/** Campanha completa (conteúdo anterior da home). Rota: /campanha */
+function CampanhaHome() {
   return (
     <SmoothScroll>
       <JinglePlayer>
@@ -49,7 +59,7 @@ function OfficialHome() {
   );
 }
 
-/** Home narrativa (envelope → comprovação → É Pra Já Pet). Rota: /historia */
+/** Home narrativa. Rota: /historia */
 function HistoriaHome() {
   return (
     <SmoothScroll>
@@ -67,10 +77,16 @@ function HistoriaHome() {
 
 function App() {
   const pathname = usePathname();
-  const isHistoria =
-    pathname === "/historia" || pathname.startsWith("/historia/");
 
-  return isHistoria ? <HistoriaHome /> : <OfficialHome />;
+  if (pathname === "/historia" || pathname.startsWith("/historia/")) {
+    return <HistoriaHome />;
+  }
+
+  if (pathname === "/campanha" || pathname.startsWith("/campanha/")) {
+    return <CampanhaHome />;
+  }
+
+  return <CapasHome />;
 }
 
 export default App;

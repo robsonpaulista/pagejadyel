@@ -4,6 +4,14 @@
   overflow-x: clip;
 }
 
+.page--capas {
+  min-height: 100svh;
+  padding-top: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #f0932b;
+}
+
 .page--envelope {
   padding-top: 0;
   min-height: 100svh;
